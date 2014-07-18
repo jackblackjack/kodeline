@@ -1,0 +1,4 @@
+Host: ifabrik.ru
+
+User-agent: *
+Disallow: /backend.php/*

@@ -1,0 +1,6 @@
+all:
+  ap_widgets_plugin:
+    ckeditor:
+      ckfinder_enable:  false
+      ckeditor_path:    /ckeditor/
+      ckfinder_path:    /ckfinder/

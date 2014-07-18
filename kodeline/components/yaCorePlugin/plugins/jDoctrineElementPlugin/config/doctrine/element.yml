@@ -1,0 +1,51 @@
+# Какой-то элемент системы.
+jElement:
+  actAs:
+    FlexibleTree:
+      hasManyRoots: true
+      rootColumnName: root_id
+    Commentable: ~
+    Complaintable: ~
+    Ignoreable: ~
+    Rateable: ~
+    Restrictable: ~
+    Reviewable: ~
+    Watchable: ~
+    Sortable: ~
+    Taggable: ~
+    Sluggable:
+      unique: true
+      fields: [title]
+      builder: [klSluggableBuilder, translit]
+      canUpdate: true
+    Timestampable: ~
+    jFileAttachable: ~
+    Watchdogable: ~
+    Parameterable:
+      versionable_value: 'base-element'
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    title:          { type: clob(16777215), notnull: true }
+    annotation:     { type: clob, notnull: false, default: null }
+    detail:         { type: clob, notnull: false, default: null }
+    note:           { type: clob, notnull: false, default: null }
+    is_active:      { type: integer(1), notnull: true, default: 1 }
+  relations:
+    Creator:
+      class: klUser
+      type: one
+      local: created_by
+      foreign: id
+      foreignType: many
+      foreignAlias: ElementsCreated
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Updater:
+      class: klUser
+      type: one
+      local: updated_by
+      foreign: id
+      foreignType: many
+      foreignAlias: ElementsUpdated
+      onDelete: RESTRICT
+      onUpdate: CASCADE

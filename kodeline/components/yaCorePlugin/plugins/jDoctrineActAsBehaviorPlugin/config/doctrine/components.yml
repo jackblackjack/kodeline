@@ -1,0 +1,6 @@
+# Модель списка компонентов,
+# используемых при работе с расширениями.
+jBehaviorComponent:
+  columns:
+    id:     { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    name:   { type: string(255), notnull: true, unique: true }

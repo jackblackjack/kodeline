@@ -1,0 +1,99 @@
+# Товар или услуга или что-либо еще.
+FxShopItem:
+  actAs:
+    FlexibleTree:
+      hasManyRoots: true
+    Commentable: ~
+    Complaintable: ~
+    Ignoreable: ~
+    Rateable: ~
+    Restrictable: ~
+    Reviewable: ~
+    Watchable: ~
+    Sortable: ~
+    Taggable: ~
+    Sluggable:
+      unique: true
+      fields: [title]
+      builder: [klSluggableBuilder, translit]
+      canUpdate: true
+    Timestampable: ~
+    jFileAttachable: ~
+    Watchdogable: ~
+    Parameterable:
+      versionable_value: 'fxshopitem'
+      param_value_col: id
+  columns:
+    id:           { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    ident:        { type: string(255), notnull: false }
+    label:        { type: string(255), notnull: false }
+    title:        { type: clob(16777215), notnull: true }
+    annotation:   { type: clob, notnull: false, default: null }
+    detail:       { type: clob, notnull: false, default: null }
+    note:         { type: clob, notnull: false, default: null }
+    is_active:    { type: integer(1), notnull: true, default: 1 }
+    is_category:  { type: integer(1), notnull: true, default: 0 }
+  relations:
+    Schema:
+      class: jParameterableSchema
+      local: id
+      type: one
+      foreign: object_id
+      foreignType: many
+      foreignAlias: FxShopItems
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    StringValues:
+      class: jParameterableStringValue
+      local: id
+      type: one
+      foreign: object_id
+      foreignType: many
+      foreignAlias: FxShopItems
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    IntegerValues:
+      class: jParameterableIntegerValue
+      local: id
+      type: one
+      foreign: object_id
+      foreignType: many
+      foreignAlias: FxShopItems
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    DecimalValues:
+      class: jParameterableDecimalValue
+      local: id
+      type: one
+      foreign: object_id
+      foreignType: many
+      foreignAlias: FxShopItems
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    DateValues:
+      class: jParameterableDateValue
+      local: id
+      type: one
+      foreign: object_id
+      foreignType: many
+      foreignAlias: FxShopItems
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    TimeValues:
+      class: jParameterableTimeValue
+      local: id
+      type: one
+      foreign: object_id
+      foreignType: many
+      foreignAlias: FxShopItems
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    TimestampValues:
+      class: jParameterableTimestampValue
+      local: id
+      type: one
+      foreign: object_id
+      foreignType: many
+      foreignAlias: FxShopItems
+      onDelete: CASCADE
+      onUpdate: RESTRICT

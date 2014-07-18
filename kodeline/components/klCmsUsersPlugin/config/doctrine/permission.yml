@@ -1,0 +1,9 @@
+# User permissions
+klPermission:
+  actAs:
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true }
+    name:           { type: string(255), notnull: true, unique: true }
+    description:    { type: clob(16777215), notnull: false, default: null }

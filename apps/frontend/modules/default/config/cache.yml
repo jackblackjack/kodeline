@@ -1,0 +1,5 @@
+index:
+ enabled: false
+
+all:
+  with_layout: false

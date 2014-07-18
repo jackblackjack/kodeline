@@ -1,0 +1,24 @@
+rendering:
+  class: sfRenderingFilter
+  param: { type: rendering }
+coreAsset:
+  enabled: true
+  class: klCoreAssetFilter
+ssl:
+  enabled: false
+  class: sfSslRequirementFilter
+spaceless:
+  enabled: true
+  class: sfFrontendSpacelessFilter
+security:
+  class: sfBasicSecurityFilter
+  param: { type: security }
+cache:
+  class: sfCacheFilter
+  param: { condition: '' }
+execution:
+  class: klExecutionFilter
+  param: { type: execution }
+site_plugin_filter:
+  enabled: true
+  class: klCmsSiteFilter

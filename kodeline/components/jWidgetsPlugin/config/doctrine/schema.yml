@@ -1,0 +1,12 @@
+options:
+  collate: utf8_unicode_ci
+  charset: utf8
+  type: INNODB
+
+# Заказ книиги.
+#jWidgetsPhoneCodes:
+#  columns:
+#    id:     { type: integer(3), notnull: true, primary: true, autoincrement: true }
+#    iso2:   { type: varchar(2), notnull: true }
+#    iso3:   { type: varchar(3), notnull: true }
+#    code:   { type: varchar(10), notnull: true }

@@ -1,0 +1,12 @@
+# Layouts list.
+klLayout:
+  actAs:
+    Watchdogable: ~
+    Parameterable:
+      versionable_value: 'kodeline-layout'
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    title:          { type: clob(16777215), notnull: true }
+    annotation:     { type: clob, notnull: false, default: null }
+    width:          { type: decimal, length: 10, scale: 8, notnull: false, default: 0 }
+    height:         { type: decimal, length: 10, scale: 8, notnull: false, default: 0 }

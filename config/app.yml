@@ -1,0 +1,110 @@
+all:
+  # yaCorePlugin.
+  #----------------------------------------------------------------------------    
+  ya_core_plugin:
+    orm_cache:
+      enabled:          false
+      result_lifespan:  3600
+      query_lifespan:   86400
+      class:            Doctrine_Cache_Memcache
+      param:
+        servers:
+          local:
+            host: localhost
+            port: 11211
+            compression: false
+            persistent: false
+            prefix: <?php echo yaProject::getNormalizedRootDir().'/doctrine/' ?>
+
+  # jDoctrineProfilePlugin.
+  #----------------------------------------------------------------------------
+  jDoctrineProfilePlugin:
+    component_name: jProfile
+
+  # jDoctrineActAsBehaviorPlugin.
+  #----------------------------------------------------------------------------
+  jDoctrineActAsBehaviorPlugin:
+    behaviorParameterable:
+      Product:
+        forms:
+          new: FxShopParameterableForm
+          edit: FxShopParameterableForm
+
+  # isicsWidgetFormTinyMCEPlugin
+  #----------------------------------------------------------------------------------------------
+  tiny_mce:
+    backend_simple:
+      plugins:   'style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras'
+      language: 'ru'
+      convert_urls: false
+      relative_urls: false
+      remove_script_host: false
+      force_br_newlines: true
+      mode: 'exact'
+      apply_source_formatting: "true"
+      remove_linebreaks: "false"
+      theme_advanced_path: "false"
+      forced_root_block: false
+      editor_selector: 'mce'
+      add_form_submit_trigger: true
+      theme: advanced
+      theme_advanced_language: 'ru'
+      theme_advanced_buttons1: 'bold,italic,underline,strikethrough,pasteword,|,justifyleft,justifycenter,justifyright,justifyfull,anchor,|,code'
+      theme_advanced_buttons2: ''
+      theme_advanced_buttons3: ''
+      theme_advanced_toolbar_location: 'top'
+      theme_advanced_statusbar_location: 'bottom'
+      theme_advanced_resizing: false
+    default:
+      width: 100%
+      height: 400
+      theme: advanced
+      plugins:   'style'
+      languages: 'ru'
+      themes:    'simple,advanced'
+
+  # Content storages configuration.
+  #----------------------------------------------------------------------------------------------
+  content_storages:
+    # Титульные изображения для страниц.
+    page_title_image:
+      autocreate: true
+      types:
+        default:
+          path: '%SF_WEB_DIR%/images/pages/title'
+          height: 560
+          width: 192
+    # Беки изображений для страниц.
+    page_back_image:
+      autocreate: true
+      types:
+        default:
+          path: '%SF_WEB_DIR%/images/pages/back'
+          height: 560
+          width: 778
+    # Беки изображений для страниц.
+    page_image:
+      autocreate: true
+      types:
+        default:
+          path: '%SF_WEB_DIR%/images/pages'
+          height: 167
+          width: 318
+    # Изображения для акций.
+    stock_image:
+      autocreate: true
+      types:
+        big:
+          path: '%SF_WEB_DIR%/images/stock/big'
+          height: 220
+          width: 220
+        small:
+          path: '%SF_WEB_DIR%/images/stock/small'
+          height: 91
+          width: 91
+    # Изображения для визуального редактора
+    wysiwyg_attachment:
+      autocreate: true
+      types:
+        draft:
+          path: '%SF_WEB_DIR%/images/wysiwyg/draft'

@@ -1,0 +1,42 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/04-Settings
+
+all:
+  .actions:
+    error_404_module:       default
+    error_404_action:       error404
+    login_module:           klCmsUserCommon
+    login_action:           signin
+    secure_module:          klCmsUserCommon
+    secure_action:          secure
+    module_disabled_module: default
+    module_disabled_action: disabled
+  .settings:
+    csrf_secret:            false
+    escaping_strategy:      true
+    escaping_method:        ESC_SPECIALCHARS
+    use_database:           true
+    logging_enabled:        true
+    cache:                  false
+    no_script_name:         false
+    etag:                   false
+    web_debug:              false
+    i18n:                   true
+    default_culture:        "en"
+    default_timezone:       "GMT"
+    enabled_modules:        [ default, klCmsUserCommon ]
+    standard_helpers:       [ Partial, Cache, I18N, Escaping ]
+
+prod:
+  .settings:
+    etag:                   true
+    cache:                  true
+
+dev:
+  .settings:
+    error_reporting:        <?php echo (E_ALL)."\n" ?>
+    web_debug:              true
+
+test:
+  .settings:
+    error_reporting:        <?php echo (E_ALL)."\n" ?>

@@ -1,0 +1,46 @@
+# Расширение, используемое для 
+# отзывов для любой записи в таблице.
+jReviewableRecord:
+  actAs:
+    jFileAttachable: ~
+    Credentialable: ~
+    Timestampable: ~
+    Rateable: ~
+    SoftDelete: ~
+    Commentable: ~
+  columns:
+    id:                 { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:       { type: integer, primary: true, unsigned: true, notnull: true }
+    record_id:          { type: integer, unsigned: true, notnull: true }
+    sender_id:          { type: integer, notnull: true }
+    title:              { type: clob(16777215), notnull: false, default: null }
+    body:               { type: clob, notnull: true }
+    is_positive:        { type: integer(1), notnull: true, default: 1 }
+    is_active:          { type: integer(1), notnull: true, default: 1 }
+    is_published:       { type: integer(1), notnull: true, default: 0 }
+  indexes:
+    j_reviewable_record_search_index:
+      fields: [ component_id, record_id, sender_id, is_active, is_positive, is_published ]
+    j_reviewable_record_active_index:
+      fields: [ component_id, is_active, is_positive ]
+    j_reviewable_record_published_index:
+      fields: [ component_id, is_published, is_positive ]
+  relations:
+    Sender:
+      class: klUser
+      type: one
+      local: sender_id
+      foreign: id
+      foreignType: many
+      foreignAlias: Reviewables
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Reviewables
+      onDelete: CASCADE
+      onUpdate: RESTRICT

@@ -1,0 +1,57 @@
+# Модель запрета записи.
+jRestrictableRecord:
+  actAs:
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:   { type: integer, unsigned: true, notnull: true }
+    record_id:      { type: integer, unsigned: true, notnull: true }
+    note:           { type: clob(16777215), notnull: false, default: null }
+    is_expired:     { type: integer(1), notnull: true, default: 0 }
+    expire_at:      { type: timestamp, notnull: true }
+  indexes:
+    j_restrictable_record_search_index:
+      fields: [ component_id, record_id, is_expired ]
+    j_restrictable_record_expired_index:
+      fields: [ component_id, is_expired ]
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Restrictables
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Reasons:
+      class: jRestrictableReason
+      local: restrict_id
+      foreign: reason_id
+      refClass: jRestrictableRecordReasons
+      foreignAlias: Restricts
+
+# Модель причины для запрета.
+jRestrictableReason:
+  columns:
+    id:               { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    title:            { type: string(255), notnull: false }
+    detail:           { type: clob(16777215), notnull: true }
+    duration:         { type: integer(4), notnull: false }
+
+# Связка запрета и причин для него.
+jRestrictableRecordReasons:
+  options: { symfony: { form: false, filter: false } }
+  columns:
+    restrict_id:  { type: integer(5), primary: true, unsigned: true }
+    reason_id:    { type: integer(5), primary: true, unsigned: true }
+  relations:
+    Reason:
+      class: jRestrictableReason
+      local: reason_id
+    Restrict:
+      class: jRestrictableRecord
+      local: restrict_id
+
+

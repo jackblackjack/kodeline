@@ -1,0 +1,4 @@
+index:
+ enabled: true
+all:
+  with_layout: true

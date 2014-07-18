@@ -1,0 +1,70 @@
+# User activate keys.
+klUserActivateKey:
+  options: { symfony: { form: false, filter: false } }
+  actAs: [Timestampable]
+  columns:
+    user_id:      { type: integer(5), notnull: true }
+    key_value:    { type: string(255), notnull: true }
+    expire_time:  { type: integer(5), notnull: true, default: 86400 }
+  relations:
+    User:
+      class: klUser
+      local: user_id
+      foreignAlias: ActivateKeys
+      foreignType: one
+      onDelete: CASCADE
+
+# User remember keys.
+klUserRememberKey:
+  options: { symfony: { form: false, filter: false } }
+  actAs: [Timestampable]
+  columns:
+    user_id:      { type: integer(5), notnull: true }
+    key_value:    { type: string(255), notnull: true }
+    ip_address:   { type: string(50), notnull: true }
+  relations:
+    User:
+      class: klUser
+      local: user_id
+      foreignAlias: RememberKeys
+      foreignType: one
+      onDelete: CASCADE
+
+# User password keys.
+klUserPasswordKey:
+  options: { symfony: { form: false, filter: false } }
+  actAs: [Timestampable]
+  columns:
+    user_id:      { type: integer(5), notnull: true }
+    key_value:    { type: string(255), notnull: true }
+    expire_time:  { type: integer(5), notnull: true, default: 86400 }
+  relations:
+    User:
+      class: klUser
+      local: user_id
+      foreignAlias: PasswordKeys
+      foreignType: one
+      onDelete: CASCADE
+
+# User tokens.
+klUserToken:
+  options: { symfony: { form: false, filter: false } }
+  actAs: [Timestampable]
+  columns:
+    user_id:        { type: integer(5), notnull: true }
+    name:           { type: string(127) }
+    token_key:      { type: clob }
+    token_secret:   { type: clob }
+    expire:         { type: integer(11) }
+    params:         { type: clob }
+    identifier:     { type: string(255) }
+    status:         { type: string(127) }
+    o_auth_version: { type: string(15) }
+  relations: 
+    User:
+      class: klUser
+      type: one
+      foreignType: many
+      local: user_id
+      foreign: id
+      foreignAlias: Tokens

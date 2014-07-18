@@ -1,0 +1,68 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/11-App
+prod:
+  # sfFrontendOptimizerPlugin
+  #---------------------------------------------------------------------------- 
+  frontend_optimizer_plugin:
+    enabled: true
+    use_spaceless_filter: true
+    warm_cache: []
+
+all:
+  translation:
+    format:  <?php echo sfConfig::get('sf_i18n') == true ? 'xliff' : 'none' ?>
+
+  # Loaded helpers.
+  #----------------------------------------------------------------------------    
+  helpers:
+    js: yaJavascript
+    cstore: yaContentStorage
+
+  # yaCorePlugin.
+  #----------------------------------------------------------------------------    
+  ya_core_plugin:
+    guest_username: guest
+    guest_group:    guest
+    orm_cache:
+      enabled:          false
+      result_lifespan:  3600
+      query_lifespan:   86400
+      class:            Doctrine_Cache_Apc
+      param:
+        prefix: <?php echo yaProject::getNormalizedRootDir().'/doctrine/' ?>
+
+  # jDoctrineProfilePlugin.
+  #----------------------------------------------------------------------------
+  jDoctrineProfilePlugin:
+    listener: jProfileListener
+    routes_register: true
+    actions:
+      signup:
+        autosignin: true
+        form: jProfileSignUpForm
+        xhr_form: jProfileSignUpXhrForm
+        confirmation:
+          enabled: false
+          subject: 'Signup confirmation'
+        default_group: user
+      password:
+        form: jProfileForgotPasswordForm
+      confirmation:
+        form: jProfileSignConfirmForm
+    component_name: jProfileExtension
+    process_class: jProfileProcess
+
+  # sfGuardPlugin
+  #----------------------------------------------------------------------------    
+  sf_guard_plugin:
+    routes_register:              true
+    remember_key_expiration_age:  2592000
+    remember_cookie_name:         RememberMe
+    allow_login_with_email:       false
+
+  # sfFrontendOptimizerPlugin
+  #----------------------------------------------------------------------------    
+  frontend_optimizer_plugin:
+    enabled: false
+    use_spaceless_filter: false
+

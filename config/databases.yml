@@ -1,0 +1,25 @@
+all:
+  default:
+    class: sfDoctrineDatabase
+    param:
+      default: true
+      dsn: pgsql://pgsql:@127.0.0.1/ifabrik_dev_db
+      encoding: utf8
+      auto_shutdown: false
+      other:
+        persistent: true
+    attributes:
+      default_identifier_options: 
+        type: integer
+        length: 8
+        autoincrement: true
+        primary: true
+      use_dql_callbacks: true
+      use_native_enum: true
+      quote_identifier: false
+      validate: all
+      default_table_type: INNODB
+      default_table_collate: utf8_unicode_ci
+      idxname_format: %s_idx
+      seqname_format: %s_seq
+      tblname_format: %s

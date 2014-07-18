@@ -1,0 +1,14 @@
+# Sites list.
+klSite:
+  actAs:
+    FlexibleTree:
+      hasManyRoots: true
+      rootColumnName: root_id
+    Watchdogable: ~
+    Parameterable:
+      versionable_value: 'kodeline-site'
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    name:           { type: clob(16777215), notnull: true }
+    annotation:     { type: clob, notnull: false, default: null }
+    is_active:      { type: integer(1), notnull: true, default: 1 }

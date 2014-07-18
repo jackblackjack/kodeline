@@ -1,0 +1,6 @@
+backend.menu.build:
+  layer: 'application'
+  subscribers:
+    backend.menu.builder:
+      class: 'klCmsLayoutManagerPluginMenu'
+      method: 'getBackendMenu'

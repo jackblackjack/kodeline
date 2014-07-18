@@ -1,0 +1,11 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/10-Routing
+
+# default rules
+homepage:
+  url:    /:sf_culture
+  param:  { module: default, action: index, sf_culture: en }
+
+localized_homepage:
+  url:    /:sf_culture/
+  param:  { module: default, action: index, sf_culture: en }

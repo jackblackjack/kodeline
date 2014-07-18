@@ -1,0 +1,31 @@
+# Layout style list.
+klLayoutStyle:
+  actAs:
+    Watchdogable: ~
+    Sortable: ~
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    title:          { type: clob(16777215), notnull: false, default: null }
+    annotation:     { type: clob(16777215), notnull: false, default: null }
+    path:           { type: clob, notnull: false, default: null }
+    type:           { type: string(255), notnull: true, default: 'text/css' }
+    content:        { type: clob, notnull: false, default: null }
+  relations:
+    Layouts:
+      class: klLayout
+      local: style_id
+      type: many
+      foreign: layout_id
+      foreignType: many
+      refClass: klLayoutStyles
+      foreignAlias: Styles
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Layout styles many to many.
+klLayoutStyles:
+  options: { symfony: { form: false, filter: false } }
+  columns:
+    layout_id:  { type: integer(5), primary: true, unsigned: true }
+    style_id:   { type: integer(5), primary: true, unsigned: true }
+

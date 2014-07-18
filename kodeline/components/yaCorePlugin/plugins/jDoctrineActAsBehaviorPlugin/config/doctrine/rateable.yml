@@ -1,0 +1,23 @@
+# Список оценок.
+jRateableRecord:
+  actAs:
+    Timestampable: ~
+    Watchdogable: { updater: { disabled: true } }
+  columns:
+    id:                 { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:       { type: integer, primary: true, unsigned: true, notnull: true }
+    record_id:          { type: integer, unsigned: true, notnull: false }
+    value:              { type: "decimal(14,2)", notnull: true, default: 0 }
+  indexes:
+    j_rateable_record_value_index:
+      fields: [ component_id, value ]
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Rateables
+      onDelete: CASCADE
+      onUpdate: RESTRICT

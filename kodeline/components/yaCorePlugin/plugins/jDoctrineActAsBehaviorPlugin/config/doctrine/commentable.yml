@@ -1,0 +1,49 @@
+# Расширение, используемое для 
+# комментирования любых записей в таблице.
+jCommentableRecord:
+  actAs:
+    FlexibleTree:
+      hasManyRoots: true
+      rootColumnName: record_id
+    jFileAttachable: ~
+    Timestampable: ~
+    Credentialable: ~
+    Complaintable: ~
+    Rateable: ~
+    SoftDelete: ~
+    Restrictable: ~
+  columns:
+    id:                 { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:       { type: integer, unsigned: true }
+    record_id:          { type: integer, unsigned: true, notnull: true }
+    sender_id:          { type: integer, notnull: true }
+    title:              { type: clob(16777215), notnull: false }
+    body:               { type: clob, notnull: true }
+    is_active:          { type: integer(1), notnull: true, default: 1 }
+    is_published:       { type: integer(1), notnull: true, default: 0 }
+  indexes:
+    j_commentable_record_search_index:
+      fields: [ component_id, record_id, sender_id, is_active, is_published ]
+    j_commentable_record_active_index:
+      fields: [ component_id, is_active ]
+    j_commentable_record_published_index:
+      fields: [ component_id, is_published ]
+  relations:
+    Sender:
+      class: klUser
+      type: one
+      local: sender_id
+      foreign: id
+      foreignType: many
+      foreignAlias: Commentables
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Commentables
+      onDelete: CASCADE
+      onUpdate: RESTRICT

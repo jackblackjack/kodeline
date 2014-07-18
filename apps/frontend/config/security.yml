@@ -1,0 +1,7 @@
+all:
+  is_secure:    false
+  allow_ssl:    false
+  require_ssl:  false
+
+default:
+  credentials:  administrator

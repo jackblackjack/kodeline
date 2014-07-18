@@ -1,0 +1,21 @@
+# Список подписей и данных к ним.
+jSignableRecord:
+  actAs:
+    Timestampable: ~
+    Watchdogable: ~
+    jFileAttachable: ~
+  columns:
+    id:                 { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:       { type: integer, primary: true, unsigned: true, notnull: true }
+    record_id:          { type: integer, unsigned: true, notnull: false }
+    is_confirmed:       { type: integer(1), notnull: true, default: 0 }
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Signables
+      onDelete: CASCADE
+      onUpdate: RESTRICT

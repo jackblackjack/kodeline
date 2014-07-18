@@ -1,0 +1,35 @@
+# behaviorParameterable routes
+#------------------------------------------------------------------------------
+parameterable_components:
+  url:    /parameterable/components/
+  param:  { module: behaviorParameterable, action: components }
+
+parameterable_component:
+  url:    /parameterable/component/:model/
+  param:  { module: behaviorParameterable, action: component }
+  requirements: { model: \w+ }
+
+parameterable_component_parameter_new:
+  url:    /parameterable/component/:model/new/
+  param:  { module: behaviorParameterable, action: new }
+  requirements: { model: \w+ }
+
+parameterable_component_parameter_edit:
+  url:    /parameterable/component/:component_id/parameter/:param_id/edit/
+  param:  { module: behaviorParameterable, action: edit }
+  requirements: { component_id: \d+, param_id: \d+ }
+
+parameterable_component_parameter_delete:
+  url:    /parameterable/component/:component_id/parameter/:param_id/delete/
+  param:  { module: behaviorParameterable, action: delete }
+  requirements: { component_id: \d+, param_id: \d+ }
+
+parameterable_component_parameters:
+  url:    /parameterable/component/:model/:object_id/parameters/
+  param:  { module: behaviorParameterable, action: parameters }
+  requirements: { model: \w+, object_id: \d+ }
+
+parameterable_component_parameter_value_edit:
+  url:    /parameterable/component/:model/:object_id/:param_id/value/
+  param:  { module: behaviorParameterable, action: parameterValue }
+  requirements: { model: \w+, object_id: \d+, param_id: \d+ }

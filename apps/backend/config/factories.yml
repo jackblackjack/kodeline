@@ -1,0 +1,33 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/05-Factories
+all:
+  user:
+    class: klCmsUser
+    
+prod:
+  logger:
+    class:   sfNoLogger
+    param:
+      level:   err
+      loggers: ~
+
+  routing:
+    class: klPatternRouting
+    param:
+      default_module:                   klCmsBackendPlugin
+      default_action:                   index
+
+test:
+  storage:
+    class: sfSessionTestStorage
+    param:
+      session_path: %SF_TEST_CACHE_DIR%/sessions
+
+  mailer:
+    param:
+      delivery_strategy: none
+
+dev:
+  mailer:
+    param:
+      delivery_strategy: none

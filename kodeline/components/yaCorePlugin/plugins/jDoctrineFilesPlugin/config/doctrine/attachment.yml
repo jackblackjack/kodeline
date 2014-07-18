@@ -1,0 +1,25 @@
+# Тип файлов: приложенные файлы к чему-либо.
+jFileAttachment:
+  options: { symfony: { form: false, filter: false } }
+  columns:
+    component_id: { type: integer, primary: true, unsigned: true }
+    record_id:    { type: integer, primary: true, unsigned: true }
+    file_id:      { type: integer, primary: true, unsigned: true }
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Complaints
+      onUpdate: CASCADE
+      onDelete: RESTRICT
+    File:
+      class: jFile
+      type: one
+      local: file_id
+      foreign: id
+      foreignType: one
+      onDelete: RESTRICT
+      onUpdate: CASCADE

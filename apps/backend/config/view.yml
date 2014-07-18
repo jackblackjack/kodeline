@@ -1,0 +1,32 @@
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    title:        Панель управления
+    description:  Панель управления
+    language:     ru
+    robots:       noindex, nofollow
+    viewport:     width=device-width,initial-scale=1.0
+
+  stylesheets:
+    - /backend/css/bootstrap/css/bootstrap.min.css:   { media: 'screen' }
+    - /backend/css/fonts/ptsans/stylesheet.css:       { media: 'screen' }
+    - /backend/css/fonts/icomoon/style.css:           { media: 'screen' }
+    - /backend/css/mws-theme.css:                     { media: 'screen' }
+    - /backend/css/mws-style.min.css:                 { media: 'screen' }
+    - /backend/css/icons/icol16.css:                  { media: 'screen' }
+    - /backend/css/icons/icol32.css:                  { media: 'screen' }
+
+  javascripts:
+    - //yandex.st/jquery/2.0.3/jquery.min.js
+    - //yandex.st/jquery-ui/1.10.3/jquery-ui.min.js
+    - /backend/js/ddaccordion.js
+    - /jDoctrineFBSuggestPlugin/js/jquery.fcbkcomplete.min.js
+    - /backend/js/jconfirmaction.jquery.js:             { method: async, group: tools, callback: initPage }
+    - /backend/js/niceforms.js:                         { method: async, group: tools }
+    - /backend/js/jquery/jquery.placeholder.min.js:     { method: async, group: simple }
+    - /backend/js/jquery/jquery-ui-effects.min.js:      { method: async, group: simple }
+
+  has_layout:     true
+  layout:         default

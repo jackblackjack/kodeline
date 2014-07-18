@@ -1,0 +1,5 @@
+default:
+  enabled:     false
+  with_layout: false
+  contextual:  true
+  lifetime:    86400

@@ -1,0 +1,25 @@
+all:
+
+  ya_multipage_plugin:
+    session:
+      session_name:   ya_multipage
+      user_attribute: ya_multipage
+      timeout:        3600
+      limit:          5
+      storage:
+        class: yaMultipageCacheSessionStorage
+        param:
+          cache:
+            class: sfFileCache
+            param:
+              cache_dir: '%SF_ROOT_DIR%/tmp/multipage'
+              lifetime:  86400
+    handler:
+      page_name_param:  ya_multipage_page
+      walk_route:       ya_multipage_walk
+      auth_page:        { class: yaMultipageAuthPage, name: auth, title: Authentication, brief: Auth }
+      pages:            ~
+    action:
+      format_parameter: mpf
+      start_route:      ya_multipage_start
+      final_route:      ya_multipage_final

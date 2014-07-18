@@ -1,0 +1,33 @@
+# Расширение, используемое для 
+# "игнорирования" одного компонента другим.
+jIgnoreableRecord:
+  options: { symfony: { form: false, filter: false } }
+  actAs:
+    Timestampable: ~
+  columns:
+    # which ignore component.
+    component_id:           { type: integer, primary: true, unsigned: true, notnull: true }
+    record_id:              { type: integer, primary: true, unsigned: true, notnull: true }
+    # who ignore component.
+    ignored_component_id:   { type: integer, primary: true, unsigned: true, notnull: true }
+    ignored_record_id:      { type: integer, primary: true, unsigned: true, notnull: true }
+    note:                   { type: clob(16777215), notnull: false }
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Ignoreables
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Ignored:
+      class: jBehaviorComponent
+      type: many
+      local: ignored_component_id
+      foreign: id
+      foreignType: one
+      foreignAlias: Ignored
+      onDelete: CASCADE
+      onUpdate: RESTRICT

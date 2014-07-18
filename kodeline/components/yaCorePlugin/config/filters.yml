@@ -1,0 +1,24 @@
+# You can find more information about this file on the symfony website:
+# http://www.symfony-project.org/reference/1_4/en/12-Filters
+
+rendering: ~
+
+coreAsset:
+  enabled: true
+  class: yaCoreAssetFilter
+
+ssl:
+  enabled: false
+  class: sfSslRequirementFilter
+
+spaceless:
+  enabled: true
+  class: sfFrontendSpacelessFilter
+
+security:  ~
+cache:     ~
+
+execution:
+  class:  klExecutionFilter
+  param:
+    type: execution

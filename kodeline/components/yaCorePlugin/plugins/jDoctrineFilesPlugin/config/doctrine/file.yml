@@ -1,0 +1,69 @@
+# Модель файла.
+jFile:
+  actAs:
+    Timestampable: ~
+    Taggable: ~
+    Watchable: ~
+    Complaintable: ~
+    Commentable: ~
+    yaVersionable:
+      version: { name: typeof, type: string, length: 100, notnull: true }
+      auditLog: false
+  columns:
+    id:               { type: integer, primary: true, autoincrement: true, unsigned: true }
+    directory_id:     { type: integer, notnull: false, unsigned: true }
+    mime_type_id:     { type: integer, unsigned: true, notnull: true }
+    creator_id:       { type: integer, notnull: false }
+    path:             { type: clob, notnull: false }
+    fname:            { type: clob(16777215), notnull: true }
+    original_name:    { type: clob(16777215), notnull: true }
+    size:             { type: integer, notnull: true, default: 0 }
+    extension:        { type: string(50), notnull: false }
+    title:            { type: clob(16777215), notnull: false }
+    definition:       { type: clob(16777215), notnull: false }
+    flabel:           { type: clob(16777215), notnull: false }
+    fkey:             { type: string(255), notnull: false }
+    url:              { type: clob(16777215), notnull: false }
+    meta:             { type: clob(16777215), notnull: false }
+    is_required:      { type: integer(1), notnull: true, default: 0 }
+    is_active:        { type: integer(1), notnull: true, default: 1 }
+  relations:
+    Directory:
+      class: jFileDirectory
+      local: directory_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Files
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    MimeType:
+      class: jFileMimeType
+      local: mime_type_id
+      type: many
+      foreign: id
+      foreignType: one
+      owningSide: false
+      foreignAlias: Files
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Creator:
+      class: klCmsUser
+      local: creator_id
+      type: many
+      foreign: id
+      foreignType: one
+      owningSide: false
+      foreignAlias: Files
+      onDelete: CASCADE
+      onUpdate: CASCADE
+    Attachments:
+      class: jFileAttachment
+      local: id
+      type: one
+      foreign: file_id
+      foreignType: many
+      owningSide: false
+      foreignAlias: Files
+      onDelete: CASCADE
+      onUpdate: RESTRICT

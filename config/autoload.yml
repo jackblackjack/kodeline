@@ -1,0 +1,65 @@
+autoload:
+  # kodeline-core
+  kodeline-core:
+    name:           kodeline
+    path:           %SF_PLUGINS_DIR%/yaCorePlugin/lib/
+    recursive:      true
+
+  # kodeline
+  project:
+    name:           kodeline
+    path:           %SF_LIB_DIR%
+    recursive:      true
+    exclude:        [vendor, data, symfony, model, filters]
+
+  # symfony
+  project_vendor:
+    name:           project vendors
+    path:           %SF_LIB_DIR%/*/symfony/lib/vendor
+    recursive:      true
+
+  # application library dir.
+  application:
+    name:           application
+    path:           %SF_APP_LIB_DIR%
+    recursive:      true
+
+  # modules library dir.
+  modules:
+    name:           module
+    path:           %SF_APP_DIR%/modules/*/lib
+    prefix:         0
+    recursive:      true
+
+  # application tasks
+  application_lib_task:
+    name:           application lib task
+    path:           %SF_APP_LIB_DIR%/task
+    prefix:         0
+    recursive:      true
+
+  # Core plugin libs
+  application_lib_task:
+    name:           application lib task
+    path:           %SF_PLUGINS_DIR%/yaCorePlugin/plugins/*/modules/*/lib
+    prefix:         0
+    recursive:      true
+
+  # plugins
+  plugins_module_lib:
+    name:           plugins module lib
+    path:           %SF_PLUGINS_DIR%/*/modules/*/lib
+    recursive:      true
+    exclude:        [model, symfony, vendor]
+
+  # plugins libraries
+  plugins_lib:
+    name:           plugins lib
+    path:           %SF_PLUGINS_DIR%/*/lib
+    recursive:      true
+
+  # plugins actions
+  plugins_module_actions:
+    name:           plugins module actions
+    path:           %SF_PLUGINS_DIR%/*/modules/*/actions
+    recursive:      true

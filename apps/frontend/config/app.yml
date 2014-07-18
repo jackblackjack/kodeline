@@ -1,0 +1,14 @@
+# default values
+all:
+  .localization:
+    languages: [ru, en]
+
+  # jDoctrineProfilePlugin
+  #-----------------------------------------------------------------------------
+  jDoctrineProfilePlugin:
+    routes_register:          true
+    signup_with_confirmation: false
+    signup_form:              signUpForm
+    signup_xhr_form:          signUpXhrForm
+    password_form:            yaAccountForgotPasswordForm
+

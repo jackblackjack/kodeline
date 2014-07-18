@@ -1,0 +1,331 @@
+# Наименование заголовков расширеных параметров:
+# позволяет создавать и привязывать расширенные параметры к объектам различных компонентов (моделей).
+jParameterableSchema:
+  actAs:
+    FlexibleTree:
+      hasManyRoots: true
+      rootColumnName: component_id
+    yaVersionable:
+      version: { name: typeof, type: string, length: 100, notnull: true }
+      auditLog: false
+      disable_versioning: false
+    Rateable: ~
+    Sortable: ~
+    I18n:
+      fields: [title, hint]
+  columns:
+    id:                 { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:       { type: integer, unsigned: true, notnull: true }
+    name:               { type: string(255), notnull: true }
+    belong:             { type: string(255), notnull: false, default: null }
+    hint:               { type: clob(16777215), notnull: false }
+    out_format:         { type: string(255), notnull: false, default: null }
+    type:               { type: string(255), notnull: true }
+    length:             { type: integer(3), notnull: true, default: 0 }
+    scale:              { type: integer(3), notnull: true, default: 0 }
+    is_null:            { type: integer(1), notnull: true, default: 1 }
+    title:              { type: clob(16777215), notnull: false }
+    default_value:      { type: clob(16777215), notnull: false, default: null }
+    is_hidden:          { type: integer(1), notnull: true, default: 0 }
+    is_group:           { type: integer(1), notnull: true, default: 0 }
+    is_many:            { type: integer(1), notnull: true, default: 0 }
+    is_dynamic:         { type: integer(1), notnull: true, default: 0 }
+    is_require:         { type: integer(1), notnull: true, default: 0 }
+  indexes:
+    parameterable_schema_uniq_cols:
+      fields: [ component_id, name ]
+      type: unique
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: Parameterables
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Опции расширенных параметров.
+jParameterableOption:
+  actAs:
+    I18n:
+      fields: [value]
+  columns:
+    parameter_id: { type: integer, unsigned: true, notnull: true }
+    name:         { type: string(100), notnull: true }
+    value:        { type: string(255), notnull: true }
+  indexes:
+    parameterable_option_uniq_cols:
+      fields: [ parameter_id, name ]
+      type: unique
+  relations:
+    Parameter:
+      class: jParameterableSchema
+      local: parameter_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: ParameterableOptions
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Значения параметров в виде текста.
+jParameterableStringValue:
+  actAs:
+    Commentable: ~
+    Complaintable: ~
+    Ignoreable: ~
+    Rateable: ~
+    Restrictable: ~
+    Watchable: ~
+    Sortable:
+      unique: false
+    Taggable: ~
+    Timestampable: ~
+    Watchdogable: ~
+    I18n:
+      fields: [value]
+  columns:
+    id:               { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:     { type: integer, unsigned: true, notnull: true }
+    object_id:        { type: integer, unsigned: true, notnull: true }
+    parameter_id:     { type: integer, unsigned: true, notnull: true }
+    value:            { type: clob, notnull: false }
+  indexes:
+    parameterable_string_values_search_index:
+      fields: [ component_id, object_id, parameter_id ]
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: ParameterableStrings
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Parameter:
+      class: jParameterableSchema
+      local: parameter_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: StringValues
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Значения параметров в виде целых чисел.
+jParameterableIntegerValue:
+  actAs:
+    Commentable: ~
+    Complaintable: ~
+    Ignoreable: ~
+    Rateable: ~
+    Restrictable: ~
+    Watchable: ~
+    Sortable:
+      unique: false
+    Taggable: ~
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    id:               { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:     { type: integer, unsigned: true, notnull: true }
+    object_id:        { type: integer, unsigned: true, notnull: true }
+    parameter_id:     { type: integer, unsigned: true, notnull: true }
+    value:            { type: integer, unsigned: true, notnull: false }
+  indexes:
+    parameterable_integer_values_search_index:
+      fields: [ component_id, object_id, parameter_id, value ]
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: ParameterableIntegers
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Parameter:
+      class: jParameterableSchema
+      local: parameter_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: IntegerValues
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Значения параметров в виде чисел с плавающей точкой.
+jParameterableDecimalValue:
+  actAs:
+    Commentable: ~
+    Complaintable: ~
+    Ignoreable: ~
+    Rateable: ~
+    Restrictable: ~
+    Watchable: ~
+    Sortable:
+      unique: false
+    Taggable: ~
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    id:               { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:     { type: integer, unsigned: true, notnull: true }
+    object_id:        { type: integer, unsigned: true, notnull: true }
+    parameter_id:     { type: integer, unsigned: true, notnull: true }
+    value:            { type: decimal, length: 65, scale: 25, notnull: false }
+  indexes:
+    parameterable_decimal_values_search_index:
+      fields: [ component_id, object_id, parameter_id, value ]
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: ParameterableDecimals
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Parameter:
+      class: jParameterableSchema
+      local: parameter_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: DecimalValues
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Значения параметров в виде дат.
+jParameterableDateValue:
+  actAs:
+    Commentable: ~
+    Complaintable: ~
+    Ignoreable: ~
+    Rateable: ~
+    Restrictable: ~
+    Watchable: ~
+    Sortable:
+      unique: false
+    Taggable: ~
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    id:               { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:     { type: integer, unsigned: true, notnull: true }
+    object_id:        { type: integer, unsigned: true, notnull: true }
+    parameter_id:     { type: integer, unsigned: true, notnull: true }
+    value:            { type: date, notnull: false }
+  indexes:
+    parameterable_date_values_search_index:
+      fields: [ component_id, object_id, parameter_id, value ]
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: ParameterableDates
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Parameter:
+      class: jParameterableSchema
+      local: parameter_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: DateValues
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Значения параметров в виде времени.
+jParameterableTimeValue:
+  actAs:
+    Commentable: ~
+    Complaintable: ~
+    Ignoreable: ~
+    Rateable: ~
+    Restrictable: ~
+    Watchable: ~
+    Sortable:
+      unique: false
+    Taggable: ~
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    id:               { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:     { type: integer, unsigned: true, notnull: true }
+    object_id:        { type: integer, unsigned: true, notnull: true }
+    parameter_id:     { type: integer, unsigned: true, notnull: true }
+    value:            { type: time, notnull: false }
+  indexes:
+    parameterable_time_values_search_index:
+      fields: [ component_id, object_id, parameter_id, value ]
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: ParameterableTimes
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Parameter:
+      class: jParameterableSchema
+      local: parameter_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: TimeValues
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Значения параметров в виде даты и времени.
+jParameterableTimestampValue:
+  actAs:
+    Commentable: ~
+    Complaintable: ~
+    Ignoreable: ~
+    Rateable: ~
+    Restrictable: ~
+    Watchable: ~
+    Sortable:
+      unique: false
+    Taggable: ~
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    id:               { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:     { type: integer, unsigned: true, notnull: true }
+    object_id:        { type: integer, unsigned: true, notnull: true }
+    parameter_id:     { type: integer, unsigned: true, notnull: true }
+    value:            { type: timestamp, notnull: false }
+  indexes:
+    parameterable_timestamp_values_search_index:
+      fields: [ component_id, object_id, parameter_id, value ]
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: ParameterableTimestamps
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Parameter:
+      class: jParameterableSchema
+      local: parameter_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: TimestampValues
+      onDelete: CASCADE
+      onUpdate: RESTRICT

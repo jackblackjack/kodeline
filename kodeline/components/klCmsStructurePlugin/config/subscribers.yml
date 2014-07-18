@@ -1,0 +1,6 @@
+backend.menu.build:
+  layer: 'plugin'
+  subscribers:
+    backend.menu.builder:
+      class: 'klCmsStructureMenu'
+      method: 'getBackendMenu'

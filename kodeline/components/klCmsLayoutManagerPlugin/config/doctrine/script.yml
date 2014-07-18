@@ -1,0 +1,35 @@
+# Layout script list.
+klLayoutScript:
+  actAs:
+    FlexibleTree:
+      hasManyRoots: true
+      rootColumnName: root_id
+    Watchdogable: ~
+    Sortable: ~
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    title:          { type: clob(16777215), notnull: false, default: null }
+    annotation:     { type: clob(16777215), notnull: false, default: null }
+    path:           { type: clob, notnull: false, default: null }
+    type:           { type: string(255), notnull: true, default: 'text/javascript' }
+    content:        { type: clob, notnull: false, default: null }
+    group_name:     { type: string(255), notnull: false, default: null }
+    is_async:       { type: integer(1), notnull: true, default: 0 }
+  relations:
+    Layouts:
+      class: klLayout
+      local: script_id
+      type: many
+      foreign: layout_id
+      foreignType: many
+      refClass: klLayoutScripts
+      foreignAlias: Scripts
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Layout script many to many.
+klLayoutScripts:
+  options: { symfony: { form: false, filter: false } }
+  columns:
+    layout_id:  { type: integer(5), primary: true, unsigned: true }
+    script_id:  { type: integer(5), primary: true, unsigned: true }

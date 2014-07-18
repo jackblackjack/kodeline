@@ -1,0 +1,22 @@
+# Шаблоны слов для товаров.
+WordTemplate:
+  actAs:
+    Watchdogable: ~
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    title:          { type: clob(16777215), notnull: true }
+  relations:
+    Items:
+      class: FxShopItem
+      local: word_id
+      foreign: product_id
+      refClass: ItemsWordsRef
+      foreignAlias: WordTemplates
+
+
+# Шаблоны слов для товаров.
+ItemsWordsRef:
+  options: { symfony: { form: false, filter: false } }
+  columns:
+    product_id: { type: integer, primary: true, unsigned: true }
+    word_id:    { type: integer, primary: true, unsigned: true }

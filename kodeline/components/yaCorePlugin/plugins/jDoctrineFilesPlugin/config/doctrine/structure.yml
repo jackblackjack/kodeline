@@ -1,0 +1,12 @@
+# Дерево категорий (директорий) файлов.
+jFileDirectory:
+  actAs:
+    Timestampable: ~
+    FlexibleTree: ~
+    yaVersionable:
+      version: { name: ver, type: integer, length: 4, notnull: true }
+      auditLog: false
+  columns:
+    id:           { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    title:        { type: clob(16777215), notnull: true }
+    is_active:    { type: boolean, notnull: true, default: true }

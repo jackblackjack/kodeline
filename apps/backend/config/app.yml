@@ -1,0 +1,52 @@
+all:
+  version: 1.0
+
+  # Multipage params.
+  #----------------------------------------------------------------------------
+  ya_multipage_plugin:
+    parameterable:
+      session:
+        session_name:   parameterable_session_name
+        user_attribute: parameterable_sessions
+        timeout:        31556926
+        limit:          15
+        storage:
+          class: yaMultipageCacheSessionStorage
+          param:
+            cache:
+              class: sfFileCache
+              param:
+                cache_dir: '%SF_ROOT_DIR%/tmp/multipage/parameterable'
+                lifetime:  86400
+      handler:
+        page_name_param:  page
+        walk_route:       parameterable_component_parameter_new_multipage
+        pages:
+            - { class: ParameterablePageStep1, name: step1, default: true }
+            - { class: ParameterablePageStep2, name: step2 }
+            - { class: ParameterablePageStep3, name: step3 }
+            - { class: ParameterablePageLast, name: last }
+      action:
+        format_parameter: mpf
+        start_route: parameterable_component_parameter_new
+        final_route: parameterable_components
+
+  # sfGuardPlugin
+  #----------------------------------------------------------------------------     
+  sf_guard_plugin:
+    allow_login_with_email:       true
+    routes_register:              true
+    allow_login_with_email:       false
+#    signin_form:                  signInForm
+#    register_form:                signUpForm
+
+  # isicsWidgetFormTinyMCEPlugin
+  #----------------------------------------------------------------------------------------------
+  tiny_mce:
+    default:
+      width: 100%
+      height: 400
+      theme: advanced
+      plugins:   'style,layer,table,save,advhr,advimage,advlink,emotions,iespell,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras'
+      languages: 'ru'
+      themes:    'simple,advanced'

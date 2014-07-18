@@ -1,0 +1,23 @@
+# Тип файлов: изображения.
+jFileImage:
+  inheritance:
+    extends: jFile
+    type: column_aggregation
+    keyField: typeof
+    keyValue: 'image'
+
+# Тип файлов: документы.
+jFileDocument:
+  inheritance:
+    extends: jFile
+    type: column_aggregation
+    keyField: typeof
+    keyValue: 'document'
+
+# Тип файлов: ссылки.
+jFileExternal:
+  inheritance:
+    extends: jFile
+    type: column_aggregation
+    keyField: typeof
+    keyValue: 'external'

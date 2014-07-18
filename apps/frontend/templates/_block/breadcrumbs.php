@@ -1,0 +1,1 @@
+<?php isicsBreadcrumbs::getInstance()->setRoot(null, url_for('@homepage')); ?>

@@ -1,0 +1,20 @@
+users:
+  name:  Пользователи
+  url:   ~
+  submenu:
+    user_guard:
+      name:  "Администрирование"
+      url:   ~
+      submenu:
+        user_adm:
+          name:  "Список пользователей"
+          url:   @sf_guard_user
+        group_list:
+          name:  "Список групп"
+          url:   @sf_guard_group
+        permission_list:
+          name:  "Список разрешений"
+          url:   @sf_guard_permission
+exit:
+  name:  "<strong style=\"color:red\">Выход</strong>"
+  url:   @sf_guard_signout

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.9.4" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0     http://pear.php.net/dtd/tasks-1.0.xsd     http://pear.php.net/dtd/package-2.0     http://pear.php.net/dtd/package-2.0.xsd">
+ <name>sfFrontendOptimizerPlugin</name>
+ <uri>pear.symfony-project.com</uri>
+ <summary>Combines multiple JavaScript and CSS files into one JavaScript and one CSS file at runtime</summary>
+ <description>Combines multiple JavaScript and CSS files into one JavaScript and one CSS file at runtime, in order to 
+        minimize the number of HTTP requests required to render a given page. Also delete spaces in html output.</description>
+ <lead>
+  <name>Yaroslav M.</name>
+  <user>yaroslav</user>
+  <email>al_chelnok@mail.ru</email>
+  <active>yes</active>
+ </lead>
+ <date>2012-04-16</date>
+ <time>05:58:23</time>
+ <version>
+  <release>0.0.3</release>
+  <api>0.0.2</api>
+ </version>
+ <stability>
+  <release>stable</release>
+  <api>stable</api>
+ </stability>
+ <license uri="http://www.symfony-project.org/license">MIT</license>
+ <notes>
+* rename space less filter
+ </notes>
+ <contents>
+  <dir name="/">
+   <file md5sum="2438f6bf31de4ca1e7d4ceca52cf8156" name="config/app.yml" role="data"/>
+   <file md5sum="4c9ba4cfa177fa4f55be3fce4c201973" name="config/sfFrontendOptimizerPluginConfiguration.class.php" role="php"/>
+   <file md5sum="42bc15aa39fa0517a5bd59599f68ec83" name="lib/sfFrontendOptimizer.class.php" role="php"/>
+   <file md5sum="d07ce692d02a1a263797940404acca83" name="lib/filter/sfFrontendSpacelessFilter.class.php" role="php"/>
+   <file md5sum="cf12378d6264a988c11ef08041c9f29b" name="lib/helper/FrontendOptimizerHelper.php" role="php"/>
+   <file md5sum="7a934de16d934ec8852cc472232fb01d" name="lib/minifier/sfFrontendMinifier.class.php" role="php"/>
+   <file md5sum="3b081c7a3cf04820375a9150498103e3" name="lib/minifier/sfFrontendMinifierAbstractYui.class.php" role="php"/>
+   <file md5sum="98993673c3829d87d064a484b510378d" name="lib/minifier/sfFrontendMinifierCssYui.class.php" role="php"/>
+   <file md5sum="d74a74ae8a69362e13eed220e17c8203" name="lib/minifier/sfFrontendMinifierJsYui.class.php" role="php"/>
+   <file md5sum="18fdae117785f6cb67c80352642d526b" name="lib/minifier/sfFrontendMinifierJsMin.class.php" role="php"/>
+   <file md5sum="43ce54ca0ac83cb97bfef064536c97f6" name="lib/minifier/sfFrontendMinifierCssMin.class.php" role="php"/>
+   <file md5sum="aca3e3ed457b09d98a635acc8968b121" name="lib/task/sfFrontendWarmCacheTask.class.php" role="php"/>
+   <file md5sum="de7f9bf5ecb82166493ba7839f62a73e" name="lib/vendor/yuicompressor/yuicompressor-2.4.2.jar" role="data"/>
+   <file md5sum="d31e0576bce403d4c498863e4f2120c1" name="LICENSE" role="data"/>
+   <file md5sum="78d93279c48056e6663a39e33078eb60" name="README" role="data"/>
+  </dir>
+ </contents>
+ <dependencies>
+  <required>
+   <php>
+    <min>5.2.4</min>
+   </php>
+   <pearinstaller>
+    <min>1.4.0</min>
+   </pearinstaller>
+   
+  </required>
+ </dependencies>
+ <phprelease/>
+ <changelog>
+  <release>
+   <version>
+    <release>0.0.3</release>
+    <api>0.0.3</api>
+   </version>
+   <stability>
+    <release>stable</release>
+    <api>stable</api>
+   </stability>
+   <date>2012-04-16</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+* rename space less filter
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.0.2</release>
+    <api>0.0.2</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2012-04-13</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+* add jsmin and cssmin support
+   </notes>
+  </release>
+  <release>
+   <version>
+    <release>0.0.1</release>
+    <api>0.0.1</api>
+   </version>
+   <stability>
+    <release>beta</release>
+    <api>beta</api>
+   </stability>
+   <date>2012-04-13</date>
+   <license uri="http://www.opensource.org/licenses/mit-license.html">MIT</license>
+   <notes>
+initial release
+   </notes>
+  </release>
+ </changelog>
+</package>

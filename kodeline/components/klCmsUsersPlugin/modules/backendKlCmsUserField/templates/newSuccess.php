@@ -1,0 +1,1 @@
+<?php include_partial('global/block/metas', array('metas' => array('title' => "Новое поле для пользователя"))); ?>

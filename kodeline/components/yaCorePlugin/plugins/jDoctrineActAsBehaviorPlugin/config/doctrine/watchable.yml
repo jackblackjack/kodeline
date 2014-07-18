@@ -1,0 +1,31 @@
+# Список наблюдаемых объектов.
+jWatchableRecord:
+  options: { symfony: { form: false, filter: false } }
+  actAs:
+    Timestampable: ~
+  columns:
+    # which component is watched.
+    component_id:           { type: integer, primary: true, unsigned: true, notnull: true }
+    record_id:              { type: integer, primary: true, unsigned: true, notnull: true }
+    # who watching.
+    watched_component_id:   { type: integer, primary: true, unsigned: true, notnull: true }
+    watched_record_id:      { type: integer, primary: true, unsigned: true, notnull: true }
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Watchables
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    WatchedComponent:
+      class: jBehaviorComponent
+      local: watched_component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Watchers
+      onDelete: CASCADE
+      onUpdate: RESTRICT

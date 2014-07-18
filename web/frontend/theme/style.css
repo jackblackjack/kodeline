@@ -1,0 +1,23 @@
+@import url("main-style.css");
+
+h1 { font: normal 44px/55px 'Open Sans', sans-serif;  color:#ffffff; }
+h2 { font: normal 35px/45px 'Open Sans', sans-serif;  color:#ffffff; }
+h3 { font: normal 25px/25px 'Open Sans', sans-serif;  color:#ffffff; }
+h4 { font: normal 25px/25px 'Open Sans', sans-serif;  color:#ff00ae; }
+h5 { font: normal 12px/22px Arial, Helvetica, sans-serif;  color:#f76f02; }
+h6 { font: normal 12px/18px Arial, Helvetica, sans-serif;  color:#333333; }
+.main-holder { font: normal 12px/22px Arial, Helvetica, sans-serif;  color:#ECD0F0; }
+.logo_h__txt, .logo_link { font: normal 70px/70px 'Open Sans', sans-serif;  color:#ffffff; }
+.breadcrumb a { color: #FF00AE; }
+.sf-menu > li > a { font: normal 18px/36px 'Open Sans', sans-serif; color:#ffffff; }
+.nav.footer-nav a { font: normal 20px/20px 'Open Sans', sans-serif; color:#ffffff; }
+
+ul.big-bullet {
+  margin-left: 0px;
+}
+ul.big-bullet li {
+  list-style-type: none;
+}
+ul.big-bullet li h5 {
+  font: normal 14px/16px 'Open Sans', sans-serif;
+}

@@ -1,0 +1,22 @@
+rendering: ~
+
+coreAsset:
+  class: klCoreAssetFilter
+
+ssl: ~
+
+#rememberMe:
+#  class: sfGuardRememberMeFilter
+
+spaceless:
+  enabled: false
+  class: sfFrontendSpacelessFilter
+
+attachable:
+  enabled: true
+  class: jFileAttachableDataFilter
+
+security: ~
+
+cache:     ~
+execution: ~

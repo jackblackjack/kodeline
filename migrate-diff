@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Definition current execution dir.
+EXEC_DIR=$(cd $(dirname "$0"); pwd)
+
+# Definition path to php.
+PHP_CMD=`which php`
+
+echo "Do you changes .yml files?"
+read -p " Yes / No ?" answer
+if [ "${answer}" != "yes" -a "${answer}" != "y" ] ; then
+	echo "Bye"
+	exit
+fi
+                
+echo "Generating migrations diff..."                
+${PHP_CMD} ${EXEC_DIR}/symfony cc
+${PHP_CMD} ${EXEC_DIR}/symfony doctrine:generate-migrations-diff
+${PHP_CMD} ${EXEC_DIR}/symfony doctrine:migrate
+${PHP_CMD} ${EXEC_DIR}/symfony doctrine:build --model

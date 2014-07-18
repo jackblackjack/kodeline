@@ -1,0 +1,42 @@
+# Cms usergroup.
+klUserGroup:
+  actAs:
+    Timestampable: ~
+    Watchdogable: ~
+    Parameterable:
+      versionable_value: 'kodeline-usergroup'
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true }
+    name:           { type: string(255), notnull: true, unique: true }
+    description:    { type: clob(16777215), notnull: false, default: null }
+  relations:
+    Users:
+      class: klUser
+      refClass: klUserUserGroup
+      local: group_id
+      foreign: user_id
+      foreignAlias: Groups
+    Permissions:
+      class: klPermission
+      local: group_id
+      foreign: permission_id
+      refClass: klUserGroupPermission
+      foreignAlias: Groups
+
+klUserGroupPermission:
+  options: { symfony: { form: false, filter: false } }
+  actAs:
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    group_id:       { type: integer(5), primary: true }
+    permission_id:  { type: integer(5), primary: true }
+  relations:
+    Group:
+      class: klUserGroup
+      local: group_id
+      onDelete: CASCADE
+    Permission:
+      class: klPermission
+      local: permission_id
+      onDelete: CASCADE

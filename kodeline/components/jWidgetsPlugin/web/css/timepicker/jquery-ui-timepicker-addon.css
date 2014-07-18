@@ -1,0 +1,23 @@
+/* Changed style: http://trentrichardson.com/examples/timepicker/jquery-ui-timepicker-addon.css */
+
+/* Timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; width: 100%; }
+.ui-timepicker-div dl { text-align: left; width: auto; }
+.ui-timepicker-div dl dt { float: left; clear:left; padding: 0px 0px 0px 5px; text-align: left; width: 60px; margin: 0px; }
+.ui-timepicker-div .ui_tpicker_time { padding-top: 7px; }
+.ui-timepicker-div dl dd { margin: 0px 10px 10px 2%; padding: 0px; clear: right; width: 60%; }
+
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; padding: 0 5px 0 0; }
+.ui-timepicker-rtl dl dt{ float: right; clear: right; }
+.ui-timepicker-rtl dl dd { margin: 0 45% 10px 10px; }
+
+/* Global */
+.ui-datepicker .ui-datepicker-buttonpane { clear: both; }
+.ui-timepicker-button { margin: 0em 0em .0em .4em; cursor: pointer; padding: 0em .6em 0em .6em;  overflow:visible; }
+.ui-timepicker-imgbutton { border:none; height:32px; width:32px; }
+.ui-timepicker-defaultbutton {}
+.ui-timepicker-uibutton {}

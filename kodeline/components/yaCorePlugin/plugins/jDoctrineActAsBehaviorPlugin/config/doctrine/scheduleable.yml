@@ -1,0 +1,43 @@
+# Расписание.
+jScheduleableRecord:
+  columns:
+    id:                 { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:       { type: integer, unsigned: true, notnull: true }
+    record_id:          { type: integer, unsigned: true, notnull: true }
+    date:               { type: timestamp, notnull: true }
+    time:               { type: timestamp, notnull: false, default: null }
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: Scheduleables
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+
+# Шаблон расписания.
+jScheduledTemplateRecord:
+  columns:
+    id:                 { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    component_id:       { type: integer, unsigned: true, notnull: true }
+    record_id:          { type: integer, unsigned: true, notnull: true }
+    # Порядковый номер месяца при повторении (при подсчетах счтается относительно первой даты события).
+    month:              { type: integer(1), notnull: true }
+    # Флаг недельного подсчета (днями недели).
+    is_weekly:          { type: integer(1), notnull: true, default: 1 }
+    # При активации флага недельного подсчета: день недели, в ином случае - день месяца.
+    day:                { type: integer(1), unsigned: true, notnull: true }
+    # Время.
+    time:               { type: timestamp, notnull: false, default: null }
+  relations:
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: ScheduleTemplates
+      onDelete: CASCADE
+      onUpdate: RESTRICT

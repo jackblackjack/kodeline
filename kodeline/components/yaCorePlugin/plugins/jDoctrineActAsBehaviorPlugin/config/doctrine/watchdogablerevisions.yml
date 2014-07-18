@@ -1,0 +1,31 @@
+# Revisions of the object's changes.
+jWatchdogableRevisions:
+  actAs:
+    Timestampable: ~
+  columns:
+    component_id:           { type: integer, unsigned: true, notnull: true }
+    record_id:              { type: integer, unsigned: true, notnull: true }
+    updater_id:             { type: integer, unsigned: true, notnull: true }
+    column_name:            { type: string(255), notnull: true }
+    column_value_old:       { type: clob, notnull: true }
+    column_value_new:       { type: clob, notnull: true }
+    column_diff:            { type: clob, notnull: false }
+  relations:
+    Updater:
+      class: klUser
+      type: one
+      local: updater_id
+      foreign: id
+      foreignType: many
+      foreignAlias: WatchdogRevisions
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    Component:
+      class: jBehaviorComponent
+      local: component_id
+      type: many
+      foreign: id
+      foreignType: one
+      foreignAlias: WatchdogRevisions
+      onDelete: CASCADE
+      onUpdate: RESTRICT

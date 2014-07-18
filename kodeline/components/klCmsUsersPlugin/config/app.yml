@@ -1,0 +1,21 @@
+all:
+  # jDoctrineProfilePlugin.
+  #----------------------------------------------------------------------------
+  jDoctrineProfilePlugin:
+    listener: jProfileListener
+    routes_register: true
+    actions:
+      signup:
+        autosignin: true
+        form: jProfileSignUpForm
+        xhr_form: jProfileSignUpXhrForm
+        confirmation:
+          enabled: false
+          subject: 'Signup confirmation'
+        default_group: user
+      password:
+        form: jProfileForgotPasswordForm
+      confirmation:
+        form: jProfileSignConfirmForm
+    component_name: jProfileExtension
+    process_class: jProfileProcess

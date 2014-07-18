@@ -1,0 +1,38 @@
+# Список MIME-типов файлов, используемых на сайте.
+jFileMimeType:
+  columns:
+    id:     { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    name:   { type: clob(16777215), notnull: true }
+    title:  { type: clob(16777215), notnull: false }
+
+# Группы типов файлов, используемых на сайте
+# (например: изображения, видео и т.п.)
+jFileMimeTypeGroup:
+  actAs:
+    Timestampable: ~
+  columns:
+    id:           { type: integer(5), primary: true, autoincrement: true }
+    title:        { type: clob(16777215), notnull: true }
+  relations:
+    Types:
+      class: jFileMimeType
+      local: group_id
+      foreign: type_id
+      refClass: jFileMimeTypeGroupRef
+      foreignAlias: Groups
+
+# Вхождение типов файлов в группы.
+jFileMimeTypeGroupRef:
+  options: { symfony: { form: false, filter: false } }
+  columns:
+    type_id:   { type: integer, primary: true, unsigned: true }
+    group_id:  { type: integer, primary: true }
+  relations:
+    MimeType:
+      class: jFileMimeType
+      local: type_id
+      onDelete: CASCADE
+    Group:
+      class: jFileMimeTypeGroup
+      local: group_id
+      onDelete: CASCADE

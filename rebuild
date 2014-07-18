@@ -1,0 +1,39 @@
+#!/bin/sh
+
+# Definition current execution dir.
+EXEC_DIR=$(cd $(dirname "$0"); pwd)
+
+# Definition path to php.
+PHP_CMD=`which php`
+RM_CMD=`which rm`
+SVN_CMD=`which svn`
+
+${PHP_CMD} ${EXEC_DIR}/symfony cc
+
+echo "Remove all files from lib and plugins?"
+read -p " Yes / No ?" answer
+if [ "${answer}" = "yes" -o "${answer}" = "y" ] ; then
+	echo "Cleaning all libraries..."
+	${RM_CMD} -drf ${EXEC_DIR}/plugins/*
+fi
+
+echo "Cleaning all libraries..."
+${RM_CMD} -drf ${EXEC_DIR}/lib/filter
+${RM_CMD} -drf ${EXEC_DIR}/lib/form
+${RM_CMD} -drf ${EXEC_DIR}/lib/model
+${RM_CMD} -drf ${EXEC_DIR}/lib/migration
+${RM_CMD} -drf ${EXEC_DIR}/plugins/*/lib/filter
+${RM_CMD} -drf ${EXEC_DIR}/plugins/*/lib/form
+${RM_CMD} -drf ${EXEC_DIR}/plugins/*/lib/model
+
+echo "Subversion update..."
+${SVN_CMD} update ${EXEC_DIR}
+
+${PHP_CMD} ${EXEC_DIR}/symfony doctrine:build --all-classes
+${PHP_CMD} ${EXEC_DIR}/symfony doctrine:build-sql
+
+echo "Build database?"
+read -p " Yes / No ?" answer
+if [ "${answer}" = "yes" -o "${answer}" = "y" ] ; then
+	${PHP_CMD} ${EXEC_DIR}/symfony doctrine:build --db --no-confirmation
+fi

@@ -1,0 +1,59 @@
+prod:
+  .settings:
+    cache:                  true
+    no_script_name:         false
+    logging_enabled:        false
+
+dev:
+  .settings:
+    error_reporting:        <?php echo (E_ALL | E_STRICT)."\n" ?>
+    web_debug:              true
+    cache:                  false
+    no_script_name:         false
+    etag:                   false
+
+test:
+  .settings:
+    error_reporting:        <?php echo ((E_ALL | E_STRICT) ^ E_NOTICE)."\n" ?>
+    cache:                  false
+    web_debug:              false
+    no_script_name:         false
+    etag:                   false
+
+all:
+  .actions:
+    error_404_module:       default   # To be called when a 404 error is raised
+    error_404_action:       error404  # Or when the requested URL doesn't match any route
+
+    login_module:           klCmsUserCommon   # To be called when a non-authenticated user
+    login_action:           login             # Tries to access a secure page
+    
+  .settings:
+    # Form security secret (CSRF protection)
+    csrf_secret:            true
+
+    # Output escaping settings
+    escaping_strategy:      true
+    escaping_method:        ESC_SPECIALCHARS
+
+    # Enable the database manager
+    use_database:           true
+    
+    # Activated modules from plugins or from the symfony core
+    enabled_modules:
+      - default
+      - backendjProfile
+      - backendjProfileGuardGroup
+      - backendjProfileGuardPermission
+      - sfGuardAuth
+      - sfGuardUser
+      - sfGuardGroup
+      - sfGuardPermission
+      - jFileAttachable
+      - backendFxShopJson
+      - backendDishSeason
+      - backendDishNutrition
+      - backendDishNutritionCategory
+      - backendDishCategory
+      - backendDish
+

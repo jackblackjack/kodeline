@@ -1,0 +1,225 @@
+# backendFxShopJson routes
+#------------------------------------------------------------------------------
+backend_fxshop_json_get_parameters:
+  url:    /fxshop/json/get/parameters/
+  param:  { module: backendFxShopJson, action: getParameters }
+
+backend_fxshop_ajax_get_valuefield:
+  url:    /fxshop/ajax/get/valuefield/
+  param:  { module: backendFxShopJson, action: getValueField }
+
+
+# backendFxShopFilter routes
+#------------------------------------------------------------------------------
+backend_fxshop_filter_nodes:
+  url:    /fxshop/filters/
+  param:  { module: backendFxShopFilter, action: nodeDetail }
+
+backend_fxshop_filter_node:
+  url:    /fxshop/filter/:id/
+  param:  { module: backendFxShopFilter, action: nodeDetail }
+  requirements: { id: \d+ }
+
+backend_fxshop_filter_node_new:
+  url:    /fxshop/filter/new/
+  param:  { module: backendFxShopFilter, action: nodeNew }
+
+backend_fxshop_filter_node_edit:
+  url:    /fxshop/filter/:id/edit/
+  param:  { module: backendFxShopFilter, action: nodeEdit }
+  requirements: { id: \d+ }
+
+backend_fxshop_filter_node_delete:
+  url:    /fxshop/filter/:id/delete/
+  param:  { module: backendFxShopFilter, action: nodeDelete }
+  requirements: { id: \d+ }
+
+# backendFxShopItem routes
+#------------------------------------------------------------------------------
+backend_product_item_nodes:
+  url:    /fxshop/nodes/
+  param:  { module: backendFxShopItem, action: nodeDetail }
+
+backend_product_item_node:
+  url:    /fxshop/node/:id/
+  param:  { module: backendFxShopItem, action: nodeDetail }
+  requirements: { id: \d+ }
+
+backend_product_ajax_categories:
+  url:    /fxshop/ajax/categories/
+  param:  { module: backendFxShopItem, action: ajaxCategories }
+  requirements: { id: \d+ }
+
+backend_product_item_node_new:
+  url:    /fxshop/node/new/
+  param:  { module: backendFxShopItem, action: nodeNew }
+
+backend_product_item_node_edit:
+  url:    /fxshop/node/:id/edit/
+  param:  { module: backendFxShopItem, action: nodeEdit }
+  requirements: { id: \d+ }
+
+backend_product_item_node_delete:
+  url:    /fxshop/node/:id/delete/
+  param:  { module: backendFxShopItem, action: nodeDelete }
+  requirements: { id: \d+ }
+
+backend_product_item_node_position:
+  url:    /fxshop/node/:id/position/:motion/
+  param:  { module: backendFxShopItem, action: nodePosition }
+  requirements: { id: \d+, motion: \w+ }
+
+backend_product_category_new:
+  url:    /fxshop/category/new/
+  param:  { module: backendFxShopItem, action: categoryNew }
+
+backend_product_category_edit:
+  url:    /fxshop/category/:id/edit/
+  param:  { module: backendFxShopItem, action: categoryEdit }
+
+# backendFxShopList routes
+#------------------------------------------------------------------------------
+backend_fxshop_list_nodes:
+  url:    /fxshop/lists/
+  param:  { module: backendFxShopList, action: nodeDetail }
+
+backend_fxshop_list_node:
+  url:    /fxshop/list/:id/
+  param:  { module: backendFxShopList, action: nodeDetail }
+  requirements: { id: \d+ }
+
+backend_fxshop_list_node_new:
+  url:    /fxshop/list/new/
+  param:  { module: backendFxShopList, action: nodeNew }
+
+backend_fxshop_list_node_edit:
+  url:    /fxshop/list/:id/edit/
+  param:  { module: backendFxShopList, action: nodeEdit }
+  requirements: { id: \d+ }
+
+backend_fxshop_list_node_delete:
+  url:    /fxshop/list/:id/delete/
+  param:  { module: backendFxShopList, action: nodeDelete }
+  requirements: { id: \d+ }
+
+backend_fxshop_list_node_position:
+  url:    /fxshop/list/:id/position/:motion/
+  param:  { module: backendFxShopList, action: nodePosition }
+  requirements: { id: \d+, motion: \w+ }
+
+backend_fxshop_list_category_new:
+  url:    /fxshop/list/category/new/
+  param:  { module: backendFxShopList, action: categoryNew }
+
+backend_fxshop_list_category_edit:
+  url:    /fxshop/list/category/:id/edit/
+  param:  { module: backendFxShopList, action: categoryEdit }
+
+backend_fxshop_list_node_new:
+  url:    /fxshop/parameter/value/add/:parameter_id/:value/
+  param:  { module: backendFxShopList, action: nodeNew }
+
+
+# behaviorParameterable routes
+#------------------------------------------------------------------------------
+parameterable_components:
+  url:    /parameterable/components/
+  param:  { module: behaviorParameterable, action: components }
+
+parameterable_component:
+  url:    /parameterable/component/:model/
+  param:  { module: behaviorParameterable, action: component }
+  requirements: { model: \w+ }
+
+parameterable_component_parameter_new:
+  url:    /parameterable/component/:model/new/
+  param:  { module: behaviorParameterable, action: process }
+  requirements: { model: \w+ }
+
+parameterable_component_parameter_new_multipage:
+  url:    /parameterable/component/:model/new/:parameterable_session_name/:page/
+  param:  { module: behaviorParameterable, action: process }
+  requirements: { model: \w+, parameterable_session_name: \w+, page: \w+ }
+
+parameterable_component_parameter_edit:
+  url:    /parameterable/component/:component_id/parameter/:param_id/edit/
+  param:  { module: behaviorParameterable, action: edit }
+  requirements: { component_id: \d+, param_id: \d+ }
+
+parameterable_component_parameter_delete:
+  url:    /parameterable/component/:component_id/parameter/:param_id/delete/
+  param:  { module: behaviorParameterable, action: delete }
+  requirements: { component_id: \d+, param_id: \d+ }
+
+parameterable_component_parameters:
+  url:    /parameterable/component/:model/:object_id/parameters/
+  param:  { module: behaviorParameterable, action: parameters }
+  requirements: { model: \w+, object_id: \d+ }
+
+parameterable_component_parameter_value_edit:
+  url:    /parameterable/component/:model/:object_id/:param_id/value/
+  param:  { module: behaviorParameterable, action: parameterValue }
+  requirements: { model: \w+, object_id: \d+, param_id: \d+ }
+
+# sf_method = POST
+parameterable_component_parameter_value_add:
+  url:    /component/parameterable/value/add/:component_name/:belong_by/:parameter_id/
+  param:  { module: behaviorParameterable, action: parameterAddValue }
+  requirements: { component_name: \w+, belong_by: \d+, parameter_id: \d+ }
+
+parameterable_component_parameter_value_get:
+  url:    /component/parameterable/value/get/:component_name/:belong_by/:parameter_id/
+  param:  { module: behaviorParameterable, action: parameterGetValues }
+  requirements: { component_name: \w+, belong_by: \d+, parameter_id: \d+, sf_culture: (?:ru) }
+  
+# backendWordTemplate routes
+#------------------------------------------------------------------------------
+backend_wordt_list:
+  url:    /json/wordt/list/
+  param:  { module: backendWordTemplate, action: list, sf_format: json }
+
+backend_wordt_new:
+  url:    /json/wordt/new/
+  param:  { module: backendWordTemplate, action: new, sf_format: json }
+
+backend_wordt_link:
+  url:    /json/wordt/link/
+  param:  { module: backendWordTemplate, action: link, sf_format: json }
+
+backend_wordt_node:
+  url:    /wordt/node/:id/
+  param:  { module: backendWordTemplate, action: nodeIndex }
+  requirements: { id: \d+ }
+
+backend_wordt_node_new:
+  url:    /wordt/node/new/
+  param:  { module: backendWordTemplate, action: nodeNew }
+
+backend_wordt_node_edit:
+  url:    /wordt/node/:id/edit/
+  param:  { module: backendWordTemplate, action: nodeEdit }
+  requirements: { id: \d+ }
+
+backend_wordt_node_delete:
+  url:    /wordt/node/:id/delete/
+  param:  { module: backendWordTemplate, action: nodeDelete }
+  requirements: { id: \d+ }
+
+backend_wordt_node_position:
+  url:    /wordt/node/:id/position/:motion/
+  param:  { module: backendWordTemplate, action: nodePosition }
+  requirements: { id: \d+, motion: \w+ }
+
+# default rules
+homepage:
+  url:   /
+  param: { module: klCmsBackend, action: index }
+
+# generic rules
+# please, remove them by adding more specific rules
+default_index:
+  url:   /:module/
+  param: { action: index }
+
+default:
+  url:   /:module/:action/*

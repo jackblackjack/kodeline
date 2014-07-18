@@ -1,0 +1,69 @@
+# System user.
+klUser:
+  actAs:
+    Timestampable: ~
+    Parameterable:
+      versionable_value: 'kodeline-user'
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true }
+    username:       { type: string(255), notnull: true, unique: true }
+    algorithm:      { type: string(25), default: sha1, notnull: true }
+    salt:           { type: string(255), notnull: false, default: null }
+    password:       { type: string(255), notnull: false, default: null }
+    is_active:      { type: integer(1), notnull: true, default: 1 }
+    is_super_admin: { type: integer(1), notnull: true, default: 1 }
+    last_login:     { type: timestamp, notnull: false }
+  indexes:
+    is_active_admin_idx:
+      fields: [is_active, is_super_admin]
+  relations:
+    Groups:
+      class: klUserGroup
+      local: user_id
+      foreign: group_id
+      refClass: klUserUserGroup
+      foreignAlias: Users
+    Permissions:
+      class: klPermission
+      local: user_id
+      foreign: permission_id
+      refClass: klUserPermission
+      foreignAlias: Users
+
+# User permission
+klUserPermission:
+  options: { symfony: { form: false, filter: false } }
+  actAs:
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    user_id:        { type: integer, primary: true }
+    permission_id:  { type: integer, primary: true }
+  relations:
+    User:
+      class: klUser
+      local: user_id
+      onDelete: CASCADE
+    Permission:
+      class: klPermission
+      local: permission_id
+      onDelete: CASCADE
+
+# User's group
+klUserUserGroup:
+  options: { symfony: { form: false, filter: false } }
+  actAs:
+    Timestampable: ~
+    Watchdogable: ~
+  columns:
+    user_id:  { type: integer, primary: true }
+    group_id: { type: integer, primary: true }
+  relations:
+    User:
+      class: klUser
+      local: user_id
+      onDelete: CASCADE
+    Group:
+      class: klUserGroup
+      local: group_id
+      onDelete: CASCADE

@@ -1,0 +1,47 @@
+default:
+  http_metas:
+    content-type: text/html
+
+  metas:
+    title:        "Ай Фабрик - Правильные решения"
+    description:  'Компания "Ай Фабрик!" Создание сайтов в Жуковском, создание сайтов в Раменском, создание сайтов в Люберцах. Наполнение сайта контентом, продвижение сайтов, редизайн сайтов, создание баннеров на сайт, рекламные услуги в сети Интернет.'
+    keywords:     "создание сайтов жуковский, создание сайтов раменское, техническая поддержка сайтов, редизайн сайта, наполнение сайта контентом, новости на сайт, написание статей для сайта, продвижение сайтов, баннерная реклама, дизайн сайтов"
+    language:     ru
+    robots:       index, follow
+
+  stylesheets:
+    - //netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css
+    - //netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css
+#    - /frontend/theme/bootstrap/css/bootstrap.css
+    - /frontend/theme/bootstrap/css/responsive.css
+    - /frontend/style.css
+    - /frontend/css/camera.css
+    - /frontend/theme/style.css
+    - /frontend/contact-form-7/includes/css/styles.css
+#    - //netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css
+    - /frontend/css/magnific-popup.css
+    - "//fonts.googleapis.com/css?family=Open+Sans&subset=cyrillic-ext,latin,cyrillic,latin-ext"
+
+  javascripts:
+    - //yandex.st/jquery/1.7.2/jquery.min.js:                       { method: async, group: init, callback: initPage }
+    - /frontend/bootstrap/js/bootstrap.min.js:                      { method: async, group: init }
+    - /frontend/js/modernizr.js:                                    { method: async, group: init }
+    - /frontend/js/jquery.elastislide.js:                           { method: async, group: init }
+    - /frontend/js/jflickrfeed.js:                                  { method: async, group: init }
+    - /frontend/js/jquery.prettyPhoto.js:                           { method: async, group: init }
+    - /frontend/js/custom.js:                                       { method: async, group: init }
+    - /frontend/js/superfish.js:                                    { method: async, group: init }
+    - /frontend/js/jquery.mobilemenu.js:                            { method: async, group: init }
+    - /frontend/js/jquery.mobile.customized.min.js:                 { condition: "(gt IE 9)|!(IE)" }
+    - /frontend/js/jquery.easing.1.3.js:                            { method: async, group: init }
+    - /frontend/js/jquery.magnific-popup.min.js:                    { method: async, group: init }
+    - /frontend/js/jquery.flexslider.js:                            { method: async, group: init }
+    - /frontend/js/jplayer.playlist.min.js:                         { method: async, group: init }
+    - /frontend/js/jquery.jplayer.min.js:                           { method: async, group: init }
+    - /frontend/js/camera.min.js:                                   { method: async, group: init }
+    - /frontend/contact-form-7/includes/js/jquery.form.min.js:      { method: async, group: init }
+    - /frontend/contact-form-7/includes/js/scripts.js:              { method: async, group: init }
+    - /js/hyphenator/hyphenator.js:                                 { method: async, group: initHyph }
+
+  has_layout:     true
+  layout:         _layout/default

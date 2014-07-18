@@ -1,0 +1,54 @@
+# frontendFShopFilter routes
+#------------------------------------------------------------------------------
+frontend_fxshop_filter_fetch:
+  url:    /fetch/filter/:filter_id/
+  param:  { module: frontendFShopFilter, action: fetch }
+
+
+# default module routes
+#------------------------------------------------------------------------------
+frontend_contacts:
+  url:    /contacts/
+  param:  { module: default, action: contacts }
+
+# frontendService module routes
+#------------------------------------------------------------------------------
+frontend_service:
+  url:    /service/
+  param:  { module: frontendService, action: index }
+
+# frontendClient module routes
+#------------------------------------------------------------------------------
+frontend_client_blog:
+  url:    /blog/
+  param:  { module: frontendClient, action: article }
+
+# frontendClient module routes
+#------------------------------------------------------------------------------
+frontend_client_faq:
+  url:    /clientsfaq/
+  param:  { module: frontendClient, action: faq }
+
+# frontendMorphoReq module routes
+#------------------------------------------------------------------------------
+frontend_morpho_mladenec:
+  url:    /morpho/mladenec/
+  param:  { module: frontendMorphoReq, action: mlanal }
+
+# Default rules
+# ------------------------------------------------------------------------------
+homepage:
+  url:    /
+  param:  { module: default, action: index }
+
+localized_homepage:
+  url:    /:sf_culture/
+  param:  { module: default, action: index }
+  requirements:
+    sf_culture: (?:ru)
+
+default:
+  url:   /:module/:action/*
+
+default_index:
+  url:   /:module/

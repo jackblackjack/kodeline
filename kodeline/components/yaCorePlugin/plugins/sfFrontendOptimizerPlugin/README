@@ -1,0 +1,162 @@
+sfFrontendOptimizerPlugin 
+=======================
+Combines multiple JavaScript and CSS files into one JavaScript and one CSS file at runtime, in order to 
+minimize the number of HTTP requests required to render a given page. Also delete spaces in html output.
+
+
+Without sfFrontendOptimizerPlugin, a typical page requires many HTTP requests to get JavaScript and CSS files:
+
+    [html]
+    <head>
+      ...
+      <script type="text/javascript" src="/js/jquery.js"></script>
+      <script type="text/javascript" src="/sf/jquery-ui.js"></script>
+      <script type="text/javascript" src="/sf/jquery.slider.js"></script>     
+      <link rel="stylesheet" type="text/css" media="screen" href="/css/main.css" />
+      <link rel="stylesheet" type="text/css" media="screen" href="/css/layout.css" />
+      <link rel="stylesheet" type="text/css" media="screen" href="/css/typo.css" />    
+    </head>
+
+With sfFrontendOptimizerPlugin, every page needs far fewer HTTP requests for all JavaScript code and style rules:
+
+    [html]
+    <head>
+      ...
+      <script type="text/javascript" src="/build/all-fa85b641ddfa951e57ba96bf990d76c4-1.js"></script>
+      <link rel="stylesheet" type="text/css" media="screen" href="/build/all-21cf49fc13ba26430c5779c431e68995-1.css">   
+    </head>
+
+The JavaScript and CSS files will be build at runtime and save into static files. 
+
+Installation
+------------
+
+
+1. Download the plugin and copy to plugins folder.
+2. Activate the plugin in the config/ProjectConfiguration.class.php
+
+        [php]
+        class ProjectConfiguration extends sfProjectConfiguration
+        {
+            public function setup()
+            {
+              $this->enablePlugins(array(
+                  '...'
+                  'sfFrontendOptimizerPlugin',            
+                  '...'
+              ));
+            }
+        }
+
+3.  Since symfony 1.3, the layout uses the regular `include_javascripts()` and `include_stylesheets()` helpers to output calls
+    to the JavaScript and CSS files.
+
+    Replace them with the `include_m_optimized_javascripts()` and the `include_m_optimized_stylesheets()` helpers.
+
+        [php]
+        // in apps/frontend/templates/layout.php
+        <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+        <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+        <head>
+        <?php include_http_metas() ?>
+        <?php include_metas() ?>
+        <?php include_title() ?>
+        <link rel="shortcut icon" href="/favicon.ico" />
+        <?php include_m_optimized_stylesheets() ?>
+        <?php include_m_optimized_javascripts() ?>
+        </head>
+        <body>
+        <?php echo $sf_flash->getRaw('notice') ?>
+        </body>
+
+4.  Clear the cache to enable the autoloading to find the new classes
+
+
+Basic configuration
+-------------------
+
+Basic configuration of frontend optimization is done in the `frontend_optimizer_plugin` section of a standard `app.yml` configuration file. 
+
+
+    [yaml]
+    prod:
+    frontend_optimizer_plugin:
+        enabled: true                           # status of the plugin
+        use_spaceless_filter: true              # use sfFrontendSacelessFilter
+        warm_cache: []
+
+
+    all:
+    frontend_optimizer_plugin:
+        enabled: false                          # status of the plugin
+        use_spaceless_filter: false             # use sfFrontendSacelessFilter
+        configuration:                          # optimization service configuration
+          version: 2                            # assets version
+          javascript:                         
+            enabled: true                     
+            destination: /build/all-:tag-:v.js  # destination path for optimized .js files
+            driver: yui                         # optimization driver name (yui, jsmin)
+            driver_params: []                   # optimization driver params
+          stylesheet:                         
+            enabled: true                     
+            destination: /build/all-:tag-:v.css  # destination path for optimized .css files    
+            driver: yui                          # optimization driver name (yui, cssmin)
+            driver_params: []                    # optimization driver params
+        warm_cache:                              # config uses sfFrontendWarmCacheTask
+          auth:
+            username: ~                          # base auth username
+            password: ~                          # base auth password
+          links:                                 # links to warm up cache
+            - http://dev.example.ru/
+            - http://dev.example.ru/page1/
+            - http://dev.example.ru/page2/
+            - http://dev.example.ru/page3/
+            - http://dev.example.ru/page4/    
+
+
+Caching
+-------
+
+When the page is load plugin detect all uses js and css files and make hash from file names. 
+If file with hash already generated and saved in folder, plugin add html code.
+
+Because combine and minify files take time you can use warm up cache task to generate optimized files 
+in dev enviroment and copy them in production.
+
+    [php]
+    php symfony wc
+    // or 
+    php symfony frontend:warm-cache
+
+
+Saceless Filter
+---------------
+
+Also plugin can delete spaces from html output.
+
+    [yaml]
+    # in apps/frontend/config/filters.yml
+    rendering: ~
+
+    spaceless:
+      class: sfFrontendSpacelessFilter
+
+    #...
+
+
+Before
+
+    [html]
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+    </head>
+    <body>
+    <p>...</p>
+    </body>
+
+After
+
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head></head><body><p>...</p></body>

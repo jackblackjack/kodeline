@@ -1,0 +1,33 @@
+prod:
+  frontend_optimizer_plugin:
+    enabled: false                         # status of the plugin
+    use_spaceless_filter: false            # use filter
+    warm_cache: []
+      
+
+all:
+  frontend_optimizer_plugin:
+    enabled: false                        # status of the plugin
+#    use_spaceless_filter: false           
+#    configuration:                        # optimization service configuration
+#      version: 2
+#      javascript:                         
+#        enabled: true                     
+#        destination: /build/all-:tag-:v.js
+#        driver: yui
+#        driver_params: []
+#      stylesheet:                         
+#        enabled: true                     
+#        destination: /build/all-:tag-:v.css      
+#        driver: yui
+#        driver_params: []        
+#    warm_cache:
+#      auth:
+#        username: ~                       # base auth username
+#        password: ~                       # base auth password
+#      links: 
+#        - http://dev.example.ru/
+#        - http://dev.example.ru/page1/
+#        - http://dev.example.ru/page2/
+#        - http://dev.example.ru/page3/
+#        - http://dev.example.ru/page4/        

@@ -1,0 +1,53 @@
+# Event table list.
+klEvent:
+  actAs:
+    FlexibleTree:
+      hasManyRoots: true
+      rootColumnName: root_id
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    name:           { type: string(255), notnull: true, unique: true }
+    layer:          { type: string(255), notnull: true }
+    title:          { type: clob(16777215), notnull: false, default: null }
+    annotation:     { type: clob, notnull: false, default: null }
+    is_active:      { type: integer(1), notnull: true, default: 1 }
+  relations:
+    Subscribers:
+      class: klEventSubscriber
+      local: event_id
+      foreign: subscriber_id
+      refClass: klEventSubscribers
+      foreignAlias: Events
+
+# Event subscriber names table list.
+klEventSubscriber:
+  actAs:
+    Timestampable: ~
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    method:         { type: string(255), notnull: true }
+    class:          { type: string(255), notnull: false, default: null }
+    path:           { type: clob, notnull: false, default: null }
+  indexes:
+    ix_class_mathod_uniq:
+      fields: [method, class]
+      type: unique
+
+# Event's subscriber table list.
+klEventSubscribers:
+  options: { symfony: { form: false, filter: false } }
+  actAs:
+    Timestampable: ~
+  columns:
+    event_id:       { type: integer, primary: true }
+    subscriber_id:  { type: integer, primary: true }
+    params:         { type: clob, notnull: false, default: null }
+  relations:
+    Subscriber:
+      class: klEventSubscriber
+      local: subscriber_id
+      onDelete: CASCADE
+    Event:
+      class: klEvent
+      local: event_id
+      onDelete: CASCADE

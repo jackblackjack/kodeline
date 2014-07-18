@@ -1,0 +1,35 @@
+# Список присоединенных объектов.
+# Используется например при заключении дружбы между пользователями.
+# Присоединяться могут только объекты одного типа (request_component_id = response_component_id)
+jJoinedRecord:
+  options: { symfony: { form: false, filter: false } }
+  actAs:
+    Timestampable: ~
+  columns:
+    # какой компонент и запись был инициатором соединения.
+    request_component_id:   { type: integer, primary: true, unsigned: true, notnull: true }
+    request_record_id:      { type: integer, primary: true, unsigned: true, notnull: true }
+    # к какому компоненту и записи был запрос на соединение.
+    response_component_id:  { type: integer, primary: true, unsigned: true, notnull: true }
+    response_record_id:     { type: integer, primary: true, unsigned: true, notnull: true }
+    # Флаг успешного соединения.
+    response_success:       { type: integer(1), primary: true, notnull: true, default: 0 }
+  relations:
+    RequestComponent:
+      class: jBehaviorComponent
+      local: request_component_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: Joins
+      onDelete: CASCADE
+      onUpdate: RESTRICT
+    ResponseComponent:
+      class: jBehaviorComponent
+      local: response_component_id
+      type: one
+      foreign: id
+      foreignType: many
+      foreignAlias: Joins
+      onDelete: CASCADE
+      onUpdate: RESTRICT
