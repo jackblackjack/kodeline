@@ -3,7 +3,7 @@ all:
     class: sfDoctrineDatabase
     param:
       default: true
-      dsn: pgsql://pgsql:@127.0.0.1/ifabrik_dev_db
+      dsn: pgsql://postgres:Csu19hJQntfus6hBHSc5@127.0.0.1/kodeline_dev
       encoding: utf8
       auto_shutdown: false
       other:
