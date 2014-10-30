@@ -54,8 +54,8 @@ class yaProjectConfiguration extends sfProjectConfiguration
       PATH_SEPARATOR . ini_get('include_path')
     );
 
-    require_once(sfConfig::get('sf_plugins_dir') . '/yaCorePlugin/lib/config/klPluginConfiguration.class.php');
-    require_once(sfConfig::get('sf_plugins_dir') . '/klCmsEventPlugin/lib/klEventToolkit.class.php');
+    //require_once(sfConfig::get('sf_plugins_dir') . '/yaCorePlugin/lib/config/klPluginConfiguration.class.php');
+    //require_once(sfConfig::get('sf_plugins_dir') . '/klCmsEventPlugin/lib/klEventToolkit.class.php');
     //die($sBundledPluginsPath);
     //echo ini_get('include_path'); die;
 
@@ -78,12 +78,13 @@ class yaProjectConfiguration extends sfProjectConfiguration
    */
   public function setupPlugins()
   {
+    // Get list of all plugins.
     $arPlugins = $this->getPlugins();
-
     $arPluginsKeys = array_keys($arPlugins);
     $szPlugins = count($arPluginsKeys);
-    for ($i = 0; $i < $szPlugins; $i++)
-    {
+
+    // If plugin has method connectTests - call it.
+    for ($i = 0; $i < $szPlugins; $i++) {
       $pluginCall = new sfCallable(array($arPlugins[$arPluginsKeys[$i]], 'connectTests'));
 
       if (is_callable($pluginCall->getCallable())) {
@@ -102,8 +103,7 @@ class yaProjectConfiguration extends sfProjectConfiguration
     //array_map(function($pluginPath) use ($sBundledPluginsPath) { $this->setPluginPath($pluginPath, $sBundledPluginsPath . $pluginPath); }, $bundledPlugins);
     
     $szPlugins = count($arPlugins);
-    for ($i = 0; $i < $szPlugins; $i++)
-    { 
+    for ($i = 0; $i < $szPlugins; $i++) {
       $this->setPluginPath(basename($arPlugins[$i]), $sBundledPluginsPath . $arPlugins[$i]);
     }
   }
@@ -116,16 +116,16 @@ class yaProjectConfiguration extends sfProjectConfiguration
     $this->rootDir = $rootDir;
 
     sfConfig::add(array(
-      'sf_root_dir' => $rootDir,
+      'sf_root_dir'     => $rootDir,
 
       // global directory structure
-      'sf_apps_dir'    => $rootDir.DIRECTORY_SEPARATOR.'apps',
-      'sf_lib_dir'     => $rootDir.DIRECTORY_SEPARATOR.'kodeline',
-      'sf_log_dir'     => $rootDir.DIRECTORY_SEPARATOR.'log',
-      'sf_data_dir'    => $rootDir.DIRECTORY_SEPARATOR.'data',
-      'sf_config_dir'  => $rootDir.DIRECTORY_SEPARATOR.'config',
-      'sf_test_dir'    => $rootDir.DIRECTORY_SEPARATOR.'test',
-      'sf_plugins_dir' => $rootDir.DIRECTORY_SEPARATOR.'kodeline'.DIRECTORY_SEPARATOR.'components',
+      'sf_apps_dir'     => $rootDir.DIRECTORY_SEPARATOR.'apps',
+      'sf_lib_dir'      => $rootDir.DIRECTORY_SEPARATOR.'kodeline',
+      'sf_log_dir'      => $rootDir.DIRECTORY_SEPARATOR.'log',
+      'sf_data_dir'     => $rootDir.DIRECTORY_SEPARATOR.'data',
+      'sf_config_dir'   => $rootDir.DIRECTORY_SEPARATOR.'config',
+      'sf_test_dir'     => $rootDir.DIRECTORY_SEPARATOR.'test',
+      'sf_plugins_dir'  => $rootDir.DIRECTORY_SEPARATOR.'kodeline'.DIRECTORY_SEPARATOR.'components',
     ));
 
     $this->setWebDir($rootDir.DIRECTORY_SEPARATOR.'web');
@@ -141,6 +141,7 @@ class yaProjectConfiguration extends sfProjectConfiguration
  
     $task = new sfDoctrineBuildTask($this->dispatcher, new sfFormatter());
     $task->setConfiguration($this);
+    
     $task->run(array(), array(
       'no-confirmation' => true,
       'db'              => true,
@@ -171,7 +172,7 @@ class yaProjectConfiguration extends sfProjectConfiguration
   public function configureDoctrine(Doctrine_Manager $manager)
   {
     // Setup debug mode for ORM.
-    Doctrine_Core::debug(sfConfig::get('app_ya_core_plugin_orm_debug', null));
+    Doctrine_Core::debug(sfConfig::get('app_ya_core_plugin_orm_debug', false));
 
     // Set up doctrine extensions dir.
     Doctrine_Core::setExtensionsPath(dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'doctrine' . DIRECTORY_SEPARATOR . 'extension');
@@ -231,28 +232,23 @@ class yaProjectConfiguration extends sfProjectConfiguration
     $driver = null;
 
     // If set specific cache class.
-    if (isset($config['class']))
-    {
+    if (isset($config['class'])) {
       $arCacheParams = ((! isset($config['param'])) ? array() : $config['param']);
       $cacheClassname = $config['class'];
       $driver = new $cacheClassname($arCacheParams);
     }
+
     // If apc plugin loaded cache queries by apc.
-    else if (extension_loaded('apc'))
-    {
+    else if (extension_loaded('apc')) {
       $driver = new Doctrine_Cache_Apc(array('prefix' => yaProject::getNormalizedRootDir() . '/doctrine/'));
     }
+
     // If memcached plugin loaded cache queries by apc.
-    else if (extension_loaded('memcache') && sfConfig::get('app_database_memcache_enabled', false))
-    {
+    else if (extension_loaded('memcache') && sfConfig::get('app_database_memcache_enabled', false)) {
       $driver = new Doctrine_Cache_Memcache(array(
         'prefix'      => yaProject::getNormalizedRootDir() . '/doctrine/',
         'compression' => sfConfig::get('app_database_memcache_compression', false),
-        'servers'     => sfConfig::get('app_database_memcache_servers', array(
-                          'host' => 'localhost',
-                          'port' => 11211,
-                          'persistent' => false
-                         ))
+        'servers'     => sfConfig::get('app_database_memcache_servers', array('host' => 'localhost', 'port' => 11211, 'persistent' => false))
       ));
     }
 
@@ -272,25 +268,24 @@ class yaProjectConfiguration extends sfProjectConfiguration
   }
 
   /**
-   * Возвращает класс роутинга для активной конфигурации.
+   * Возвращает класс работы с 
+   * роутингом относительно текущей конфигурации.
    */
   static public function getRouting()
   {
-    if (null !== self::$routing)
-    {
+    if (null !== self::$routing) {
       return self::$routing;
     }
  
     // If sfContext has an instance, returns the loaded routing resource
-    if (sfContext::hasInstance() && sfContext::getInstance()->getRouting())
-    {
+    if (sfContext::hasInstance() && sfContext::getInstance()->getRouting()) {
       self::$routing = sfContext::getInstance()->getRouting();
     }
-    else
-    {
+
+    else {
+      
       // Initialization
-      if (!self::hasActive())
-      {
+      if (!self::hasActive()) {
         throw new sfException('No sfApplicationConfiguration loaded');
       }
 
