@@ -1,5 +1,22 @@
 {
-    "require": {
-        "phalcon/incubator": "v1.2.6"
+  "config": {
+      "vendor-dir": "kodeline/vendor"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "symfony",
+        "version": "1.4",
+        "dist": {
+          "url": "https://github.com/symfony/symfony1/zipball/1.4",
+          "type": "zip"
+        }
+      }
     }
+  ],
+  "require": {
+    "composer/installers": "dev-master",
+    "symfony": "1.4"
+  }
 }
