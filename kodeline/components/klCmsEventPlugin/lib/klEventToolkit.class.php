@@ -27,7 +27,10 @@ class klEventToolkit
   {
     if (null === self::$eventsInstance)
     {
-      self::$eventsInstance = Doctrine_Core::getTable('klEvent');
+      self::$eventsInstance = new self;
+      
+      // Iz-ia etoi herni kodeline ne inicializuruetsya
+      //self::$eventsInstance = Doctrine_Core::getTable('klEvent');
     }
 
     return self::$eventsInstance;
