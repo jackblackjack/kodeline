@@ -20,9 +20,11 @@ class klCmsEventPluginConfiguration extends klPluginConfiguration
    */
   public function eventsApplicationRegister(sfEvent $event)
   {
+    return true;
+    
     /*
     Iz-ia etoi herni kodeline ne inicializuruetsya.
-    
+
     // Initialize database connection.
     $databaseManager = new sfDatabaseManager($event->getSubject());
 

@@ -23,6 +23,13 @@ abstract class yaBaseActions extends sfActions
           $this->renderText(json_encode(array('id' => $this->object['id'], )));
 */
 
+/*
+before action!:
+        // if we have been forwarded, then the referer is the current URL
+        // if not, this is the referer of the current request
+        $user->setReferer($this->getContext()->getActionStack()->getSize() > 1 ? $request->getUri() : $request->getReferer());
+*/
+
     protected function setTitle($string)
     {
         $this->getResponse()->setTitle($string . sfConfig::get('app_title_separator') . sfConfig::get('app_title_default'));

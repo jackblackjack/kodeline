@@ -54,7 +54,7 @@ class yaProjectConfiguration extends sfProjectConfiguration
       PATH_SEPARATOR . ini_get('include_path')
     );
 
-    //require_once(sfConfig::get('sf_plugins_dir') . '/yaCorePlugin/lib/config/klPluginConfiguration.class.php');
+    require_once(sfConfig::get('sf_plugins_dir') . '/yaCorePlugin/lib/config/klPluginConfiguration.class.php');
     //require_once(sfConfig::get('sf_plugins_dir') . '/klCmsEventPlugin/lib/klEventToolkit.class.php');
     //die($sBundledPluginsPath);
     //echo ini_get('include_path'); die;

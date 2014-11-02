@@ -371,4 +371,28 @@ class klCmsUser extends klCoreUser
   {
     return $this->getKlUser()->addPermissionByName($name, $con);
   }
+
+  /**
+   * Return url for redirect user.
+   */
+  public function getRedirectUrl() {
+    // Redirect to referer or success_signin_url from app.yml or homepage.
+    // переместить этот код в модель пользователя.
+    $redirectUrl = '@homepage';
+
+    if (null === sfConfig::get('app_klCmsUsersPlugin_redirect_url', null))
+    {
+      $sReferer = $this->getReferer(sfContext::getInstance()->getRequest()->getReferer());
+      $sServerName = sfContext::getInstance()->getRequest()->getHost();
+
+      if (preg_match("~(ht|f)tp(s?)://$sServerName(/|$|\s)~i", $sReferer)) {
+        $redirectUrl = $sReferer;
+      }
+    }
+    else {
+      return sfConfig::get('app_klCmsUsersPlugin_redirect_url');  
+    }
+
+    return $redirectUrl;
+  }
 }
