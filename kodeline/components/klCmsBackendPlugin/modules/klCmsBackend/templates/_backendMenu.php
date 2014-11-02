@@ -1,18 +1,44 @@
 <div id="mws-navigation">
-<?php if ($menu->count()): ?>
   <ul>
-  <?php foreach($menu as $section => $sectionMenu): ?>
+    <li><a href="<?php echo url_for('@homepage') ?>"><i class="icon-home"></i> Главная</a></li>
     <li>
-      <a><i class="icon-home"></i> <?php echo $section ?></a>
+      <a href="<?php echo url_for('@backend_product_item_nodes') ?>">
+        <i class="icon-delicious"></i> Типы содержания
+      </a>
+    </li>
+    <li>
+      <a href="<?php echo url_for('@backend_fxshop_list_nodes') ?>">
+        <i class="icon-list-2"></i> Словари содержания
+      </a>
+    </li>
+    <li>
+      <a href="<?php echo url_for('@backend_fxshop_filter_nodes') ?>">
+        <i class="icon-network"></i> Фильтры содержания
+      </a>
       <ul>
-      <?php foreach($sectionMenu as $listMenu): ?>
-        <?php foreach($listMenu as $menu): ?>
-          <li><a href="<?php echo url_for($menu['url']) ?>"><?php echo $menu['name'] ?></a></li>
-        <?php endforeach ?>
-      <?php endforeach ?>
+        <li><a href="<?php echo url_for('@backend_fxshop_filter_nodes') ?>">Готовые фильтры</a></li>
       </ul>
     </li>
-  <?php endforeach ?>
+
+  <?php if ($menu->count()): ?>
+    <?php foreach($menu as $section => $sectionMenu): ?>
+      <li>
+        <a>
+          <i class="icon-home"></i> <?php echo $section ?>
+        </a>
+
+        <?php if (0 < ($szCount = count($sectionMenu))): ?>
+        <ul>
+          <?php foreach($sectionMenu as $listMenu): ?>
+            <?php foreach($listMenu as $menu): ?>
+            <li><a href="<?php echo url_for($menu['url']) ?>"><?php echo $menu['name'] ?></a></li>
+            <?php endforeach ?>
+          <?php endforeach ?>
+        </ul>
+        <?php endif ?>
+        
+      </li>
+    <?php endforeach ?>
+  <?php endif ?>
   </ul>
-<?php endif ?>
 </div>

@@ -111,7 +111,11 @@ EOF
     });
 
     // Convert array to compatible javascript json configuration.
-    return '{' . implode(',', array_map(function($k, $v) { return sprintf('"%s":%s', $k, self::jsonEscape($v)); }, array_keys($options), array_values($options))) . '}';
+    $_self = &$this;
+    return '{' . implode(',', array_map(function($k, $v) use($_self) { 
+                                return sprintf('"%s":%s', $k, $_self->jsonEscape($v)); 
+                              }, 
+            array_keys($options), array_values($options))) . '}';
   }
 
   /**
@@ -124,7 +128,7 @@ EOF
   {
     // Recursive call if preparing value its array.
     if (is_array($value)) { 
-      return '{' . implode(',', array_map(function($k, $v) { return sprintf('"%s":%s', $k, self::jsonEscape($v)); }, array_keys($value), array_values($value))) . '}';
+      return '{' . implode(',', array_map(function($k, $v) { return sprintf('"%s":%s', $k, static::jsonEscape($v)); }, array_keys($value), array_values($value))) . '}';
     }
 
     // Boolean php-values to boolean javascript-values.

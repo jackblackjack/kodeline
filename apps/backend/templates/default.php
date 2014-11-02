@@ -20,7 +20,7 @@
         
           <!-- Logo Wrapper, images put within this wrapper will always be vertically centered -->
           <div id="mws-logo-wrap">
-              <img src="images\mws-logo.png" alt="mws admin">
+              <img src="\images\mws-logo.png" alt="mws admin">
       </div>
         </div>
         
@@ -154,7 +154,7 @@
             
               <!-- User Photo -->
               <div id="mws-user-photo">
-                  <img src="example\profile.jpg" alt="User Photo">
+                  <img src="\example\profile.jpg" alt="User Photo">
                 </div>
                 
                 <!-- Username and Functions -->
@@ -165,7 +165,7 @@
                     <ul>
                       <li><a href="#">Profile</a></li>
                         <li><a href="#">Change Password</a></li>
-                        <li><a href="index.html">Logout</a></li>
+                        <li><a href="<?php echo url_for('@user_logout') ?>">Выйти</a></li>
                     </ul>
                 </div>
             </div>
@@ -192,7 +192,7 @@
           <!-- Searchbox -->
           <div id="mws-searchbox" class="mws-inset">
               <form action="typography.html">
-                  <input type="text" class="mws-search-input" placeholder="Search...">
+                  <input type="text" class="mws-search-input" placeholder="Найти...">
                     <button type="submit" class="mws-search-submit"><i class="icon-search"></i></button>
                 </form>
             </div>
@@ -203,39 +203,20 @@
         
         <!-- Main Container Start -->
         <div id="mws-container" class="clearfix">
+
           <!-- Inner Container Start -->
           <div class="container">
             <?php include_partial('global/layout/flash') ?>
+
             <?php echo $sf_content ?>
-          <ul>
-            <li>
-              <a href="<?php echo url_for('@homepage') ?>">Главная</a>
-            </li>
-            <li>
-              <a href="<?php echo url_for('@backend_product_item_nodes') ?>">Типы содержания</a>
-            </li>
-            <li>
-              <a href="<?php echo url_for('@backend_fxshop_list_nodes') ?>">Словари</a>
-            </li>
-            <li>
-              <a href="<?php echo url_for('@backend_fxshop_filter_nodes') ?>">Фильтры<!--[if IE 7]><!--></a><!--<![endif]-->
-              <!--[if lte IE 6]><table><tr><td><![endif]-->
-              <ul>
-                <li>
-                  <a href="<?php echo url_for('@backend_fxshop_filter_nodes') ?>" title="">Список фильтров</a>
-                </li>
-              </ul>
-              <!--[if lte IE 6]></td></tr></table></a><![endif]-->
-            </li>
-          </ul>
           </div>
           <!-- Inner Container End -->
+
           <!-- Footer -->
-          <div id="mws-footer">
-            Copyright Your Website 2012. All Rights Reserved.
-          </div>
+          <div id="mws-footer">KodeLine engine <?php echo date('Y') ?>.</div>
         </div>
         <!-- Main Container End -->
+
     </div>
       <?php $hlpBroker->js->beginInlineJavascript(yaWebResponse::LOCATION_BODY) ?>
         function initPage() {
@@ -244,5 +225,5 @@
           });
         }
       <?php $hlpBroker->js->endInlineJavascript() ?>
-</body>
+  </body>
 </html>
