@@ -38,7 +38,7 @@ backend_fxshop_filter_node_delete:
 #------------------------------------------------------------------------------
 backend_product_item_nodes:
   url:    /fxshop/nodes/
-  param:  { module: backendFxShopItem, action: nodeDetail }
+  param:  { module: backendFxShopItem, action: nodeRootList }
 
 backend_product_item_node:
   url:    /fxshop/node/:id/

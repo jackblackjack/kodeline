@@ -452,14 +452,14 @@ abstract class BaseBackendElementActions extends yaBaseActions
   }
 
   /**
-   * Подробный вывод всех элементов дерева.
+   * Вывод родительских элементов дерева.
    * 
    * @param sfWebRequest $request Web request.
    */
-  public function executeNodeDetail(sfWebRequest $request)
+  public function executeNodeRootList(sfWebRequest $request)
   {
     try {
-      // Save class name.
+      // Define model name for works.
       $this->modelName = $this->objectClassName;
 
       // Check exists id of the node for view.
@@ -479,6 +479,49 @@ abstract class BaseBackendElementActions extends yaBaseActions
     catch(Exception $exception)
     {
       $this->getUser()->setFlash('error', $exception->getMessage());
+      return sfView::ERROR;
+    }
+
+    return sfView::SUCCESS;
+  }
+
+  /**
+   * Вывод дочерних элементов первого уровня от текущего.
+   * 
+   * @param integer id Уникальный ключ для выбора элемента дерева.
+   * @param sfWebRequest $request Web request.
+   */
+  public function executeNodeDetail(sfWebRequest $request)
+  {
+    try {
+      // Save class name.
+      $this->modelName = $this->objectClassName;
+
+      // Check exists id of the node for view.
+      if (null === ($this->id = $request->getParameter('id', null))) {
+        throw new sfException(sprintf("Cannot find node unique id."));
+      }
+
+      // Fetch data of the root tree node.
+      $this->rootNode = Doctrine::getTable($this->modelName)->getTree()->fetchRoot($this->id);
+
+      // Fetch data of the node.
+      $this->node = Doctrine::getTable($this->modelName)
+                      ->createQuery()->where('id = ?', $this->id)->fetchOne();
+
+      //var_dump($this->node->getNode()->getRecord()->toArray());
+
+      // Set the flag by result of compare nodes.
+      $this->bSameNodes = ($this->rootNode === $this->node);
+
+      // Fetch first level children of the current node.
+      $this->list = Doctrine::getTable($this->modelName)
+                      ->getTree()->fetchBranch($this->id, array('depth' => 1));
+    }
+    // Catch any exceptions.
+    catch(Exception $exception) {
+      $this->getUser()->setFlash('error', $exception->getMessage());
+
       return sfView::ERROR;
     }
 

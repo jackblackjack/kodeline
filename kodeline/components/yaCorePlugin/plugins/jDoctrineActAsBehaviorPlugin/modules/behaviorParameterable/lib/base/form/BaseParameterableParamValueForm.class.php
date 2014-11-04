@@ -25,9 +25,11 @@ abstract class BaseParameterableParamValueForm extends yaForm
     $this->setWidget('parameter_id', new sfWidgetFormInputHidden());
     $this->setValidator('parameter_id', new sfValidatorInteger(array('required' => true)));
 
+    $parameter = $this->getOption('parameter');
+
     $this->setDefaults(array(
       'component'     => $this->getOption('component'),
-      'parameter_id'  => $this->getOption('parameter')['id']
+      'parameter_id'  => $parameter['id']
     ));
 
     $object = $this->getOption('object', null);
