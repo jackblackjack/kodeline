@@ -78,6 +78,7 @@ abstract class BaseParameterableParamValueEnumForm extends BaseParameterablePara
    */
   protected function getChoices($sComponent, $iParameter, $iObject = null)
   {
+    die(__METHOD__);
     /*
     var_dump($sComponent); var_dump($iParameter); var_dump($iObject); die;
     echo Doctrine_Core::getTable('jParameterableStringValue')

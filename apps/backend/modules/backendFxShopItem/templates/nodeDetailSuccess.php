@@ -161,7 +161,7 @@
     </div>
 
     <div class="mws-panel-header">
-      <span><i class="icon-table"></i> Все элементы</span>
+      <span><i class="icon-table"></i> Фильтр: Все элементы</span>
     </div>
 
     <div class="mws-panel-toolbar">

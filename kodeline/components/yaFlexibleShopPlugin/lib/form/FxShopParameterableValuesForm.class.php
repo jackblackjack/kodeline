@@ -22,50 +22,57 @@ class FxShopParameterableValuesForm extends yaForm
    */
   public function configure()
   {
-    // Call parent form method.
+    // Call parent form method before.
     parent::configure();
 
-    if (null !== $this->getOption('component', null) && null !== $this->getOption('object_id', null))
-    {
-      // Fetch object of the component.
-      $object = Doctrine_Core::getTable($this->getOption('component'))->createQuery()
-                  ->andWhere('id = ?', $this->getOption('object_id'))->fetchOne();
+    // 
+    if (null === $this->getOption('component', null)) {
+      throw new sfException(sfContext::getInstance()->getI18N()->__('Наименование компонента не указано!', null, 'flexible-tree'));
+    }
 
-      // Check object if exists.
-      if (! $object)
-      {
-        throw new sfException(sprintf(sfContext::getInstance()
-            ->getI18N()->__('Объект с ID %d не найден!', null, 'flexible-tree'), $this->getOption('object_id')));
-      }
+    //
+    if (null === $this->getOption('object_id', null)) {
+      throw new sfException(sfContext::getInstance()->getI18N()->__('Уникальный номер элемента не найден!', null, 'flexible-tree'));
+    }
 
-      // Fetch schema of the parameters.
-      $parametersSchema = $object->fetchExtendedParametersSchema();
+    // Fetch object of the component.
+    $object = Doctrine_Core::getTable($this->getOption('component'))
+                ->createQuery()
+                ->andWhere('id = ?', $this->getOption('object_id'))
+                ->fetchOne();
 
-      // Build embeded forms for each parameter.
-      foreach($parametersSchema as $parameter)
-      {
-        //echo '<pre>'; var_dump($parameter->toArray()); die;
+    // Check object if exists.
+    if (! $object) {
+      throw new sfException(sprintf(sfContext::getInstance()
+          ->getI18N()->__('Объект с ID %d не найден!', null, 'flexible-tree'), $this->getOption('object_id')));
+    }
 
-        // Define form class name for parameter.
-        $parameterFormClassName = 'ParameterableParamValue' . sfInflector::camelize($parameter['type']) . 'Form';
+    // Fetch schema of the parameters.
+    $parametersSchema = $object->fetchExtendedParametersSchema();
 
-        //@todo: добавить обработку require.
-        $parameterFormClassName = new $parameterFormClassName(
-          array(
-            'value'         => ($this->getOption('set_values', false) ? $object->fetchExtendedParameterValue($parameter['id'], $parameter['type']) : null),
-            'parameter_id'  => $parameter['id'],
-            'component'     => $this->getOption('component'),
-            'object_id'     => $this->getOption('object_id')
-          ),
-          $parameter->toArray()
-        );
+    // Build embeded forms for each parameter.
+    foreach($parametersSchema as $parameter) {
+      //echo '<pre>'; var_dump($parameter->toArray()); die;
 
-        //$parameterFormClassName->getWidgetSchema()->addFormFormatter('embeddedForm', new sfWidgetFormSchemaFormatterBehaviorParameterableEmbedForm($parameterFormClassName->getWidgetSchema()));
-        //$parameterFormClassName->getWidgetSchema()->setFormFormatterName('embeddedForm');
+      // Define form class name for parameter.
+      $parameterFormClassName = 'ParameterableParamValue' . sfInflector::camelize($parameter['type']) . 'Form';
 
-        // Embed current form by parameterable form value.
-        $this->embedForm($parameter['name'], $parameterFormClassName);
-      }
+      //@todo: добавить обработку require.
+      $parameterFormClassName = new $parameterFormClassName(
+        array(
+          'value'         => ($this->getOption('set_values', false) ? $object->fetchExtendedParameterValue($parameter['id'], $parameter['type']) : null),
+          'parameter_id'  => $parameter['id'],
+          'component'     => $this->getOption('component'),
+          'object_id'     => $this->getOption('object_id')
+        ),
+        $parameter->toArray()
+      );
+
+      //$parameterFormClassName->getWidgetSchema()->addFormFormatter('embeddedForm', new sfWidgetFormSchemaFormatterBehaviorParameterableEmbedForm($parameterFormClassName->getWidgetSchema()));
+      //$parameterFormClassName->getWidgetSchema()->setFormFormatterName('embeddedForm');
+
+      // Embed current form by parameterable form value.
+      $this->embedForm($parameter['name'], $parameterFormClassName);
     }
   }
 

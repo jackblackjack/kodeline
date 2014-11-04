@@ -16,7 +16,17 @@ abstract class BaseParameterableParamValueIntegerForm extends PluginjParameterab
    * {@inheritDoc}
    */
   public function configure()
+  { 
+    parent::configure();
+    
+    // Redefine title field.
+    $this->setWidget('value', new sfWidgetFormTextarea());
+    $this->setValidator('value', new sfValidatorString(array('required' => false)));
+  }
+  
+  public function configure1()
   {
+    // Call the parent method.
     parent::configure();
 
     // Fetch options for form.

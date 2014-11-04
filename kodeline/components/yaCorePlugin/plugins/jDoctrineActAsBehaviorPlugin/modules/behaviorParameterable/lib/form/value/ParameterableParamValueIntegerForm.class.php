@@ -15,7 +15,7 @@ class ParameterableParamValueIntegerForm extends BaseParameterableParamValueInte
   /**
    * {@inheritDoc}
    */
-  public function configure()
+  public function configure2()
   {
     // Call parent configure.
     parent::configure();

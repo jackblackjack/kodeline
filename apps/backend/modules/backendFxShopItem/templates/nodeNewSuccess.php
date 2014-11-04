@@ -1,47 +1,56 @@
 <?php use_stylesheets_for_form($form) ?>
 <?php use_javascripts_for_form($form) ?>
 
-<h2>Новый объект</h2>
+<div class="mws-panel grid_4">
+  <div class="mws-panel-header">
+    <span>Новый элемент: Свойства</span>
+  </div>
 
-<div class="form">
-  <?php echo $form->renderFormTag(null, array('method' => 'POST')) ?>         
+  <div class="mws-panel-body no-padding">
+    <?php echo $form->renderFormTag(null, array('method' => 'POST', 'class' => 'mws-form')) ?>
     <?php echo $form->renderHiddenFields() ?>
-    <fieldset>
-      <dl>
-        <dt><?php echo $form['title']->renderLabel() ?>:</dt>
-        <dd>
+    <fieldset class="mws-form-inline">
+      <legend>Основные параметры</legend>
+
+      <div class="mws-form-row bordered">
+        <label class="mws-form-label"><?php echo $form['title']->renderLabel() ?></label>
+        <div class="mws-form-item">
           <?php echo $form['title']->render() ?>
-          <span class="hint"><?php echo $form['title']->renderHelp() ?></span>
-
+          <div class="mws-hint"><?php echo $form['title']->renderHelp() ?></div>
+          
           <?php if ($form['title']->hasError()): ?>
-          <span><?php echo $form['title']->renderError() ?></span>
+          <div class="mws-error"><?php echo $form['title']->renderError() ?></div>
           <?php endif ?>
-        </dd>
-      </dl>
+        </div>
+      </div>
 
-      <dl>
-        <dt><?php echo $form['annotation']->renderLabel() ?>:</dt>
-        <dd>
+      <div class="mws-form-row bordered">
+        <label class="mws-form-label"><?php echo $form['annotation']->renderLabel() ?></label>
+        <div class="mws-form-item">
           <?php echo $form['annotation']->render() ?>
-          <span class="hint"><?php echo $form['annotation']->renderHelp() ?></span>
-
+          <div class="mws-hint"><?php echo $form['annotation']->renderHelp() ?></div>
+          
           <?php if ($form['annotation']->hasError()): ?>
-          <span><?php echo $form['annotation']->renderError() ?></span>
+          <div class="mws-error"><?php echo $form['annotation']->renderError() ?></div>
           <?php endif ?>
-        </dd>
-      </dl>
+        </div>
+      </div>
 
-      <dl>
-        <dt><?php echo $form['detail']->renderLabel() ?>:</dt>
-        <dd>
+      <div class="mws-form-row bordered">
+        <label class="mws-form-label"><?php echo $form['detail']->renderLabel() ?></label>
+        <div class="mws-form-item">
           <?php echo $form['detail']->render() ?>
-          <span class="hint"><?php echo $form['detail']->renderHelp() ?></span>
-
+          <div class="mws-hint"><?php echo $form['detail']->renderHelp() ?></div>
+          
           <?php if ($form['detail']->hasError()): ?>
-          <span><?php echo $form['detail']->renderError() ?></span>
+          <div class="mws-error"><?php echo $form['detail']->renderError() ?></div>
           <?php endif ?>
-        </dd>
-      </dl>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset class="mws-form-inline">
+      <legend>Расширенные параметры</legend>
 
       <?php if ($paramsForm = $form->getEmbeddedForm('parameters')): ?>
         <?php echo $form['parameters']->renderHiddenFields() ?>
@@ -49,25 +58,30 @@
         <?php $arParamForms = $paramsForm->getEmbeddedForms(); ?>
         <?php foreach ($arParamForms as $pname => $pform): ?>
           <?php echo $form['parameters'][$pname]->renderHiddenFields() ?>
-        <dl>
-          <dt>
-            <label for="<?php echo $form['parameters'][$pname]['value']->renderId() ?>">
-              <?php echo $pform->getOption('Translation')['ru']['title'] ?>
-            </label>:
-          </dt>
-          <dd>
-            <?php echo $form['parameters'][$pname]['value']->render() ?>
-            <span class="hint"><?php echo $pform->getOption('Translation')['ru']['hint'] ?></span>
-          </dd>
-        </dl>
+          <div class="mws-form-row bordered">
+            <?php $translation = $pform->getOption('Translation'); ?>
+            <label class="mws-form-label" for="<?php echo $form['parameters'][$pname]['value']->renderId() ?>"><?php echo $translation['ru']['title'] ?></label>
+            <div class="mws-form-item">
+              <?php echo $form['parameters'][$pname]['value']->render() ?>
+              <div class="mws-hint">
+                <?php echo $translation['ru']['hint'] ?>
+                <?php echo $form['parameters'][$pname]['value']->renderHelp() ?>
+              </div>
+
+              <?php if ($form['parameters'][$pname]['value']->hasError()): ?>
+              <div class="mws-error"><?php echo $form['parameters'][$pname]['value']->renderError() ?></div>
+              <?php endif ?>
+            </div>
+          </div>
         <?php endforeach ?>
       <?php endif ?>
-
-      <dl class="submit">
-        <input type="submit" value="Добавить" />
-      </dl>                    
     </fieldset>
-  </form>
-</div>
 
+    <div class="mws-button-row">
+      <input type="submit" value="Создать" class="btn btn-danger">
+      <input type="reset" value="Сбросить" class="btn ">
+    </div>
+  </form>
+  </div>      
+</div>
 

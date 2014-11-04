@@ -1,7 +1,7 @@
 <?php
 /**
  * Базовая форма добавления значения 
- * расширенного параметра для конкретного объекта.
+ * расширенного параметра для элемента типа.
  * 
  * @package     jDoctrineActAsBehaviorPlugin
  * @subpackage  behaviorParameterable
@@ -16,21 +16,16 @@ abstract class BaseParameterableParamValueForm extends yaForm
    */
   public function configure()
   {
+    // Call the parent method.
     parent::configure();
 
-    // Define model_name field.
+    // Define field "component".
     $this->setWidget('component', new sfWidgetFormInputHidden());
     $this->setValidator('component', new sfValidatorString(array('required' => true)));
 
+    // Define field "parameter_id".
     $this->setWidget('parameter_id', new sfWidgetFormInputHidden());
     $this->setValidator('parameter_id', new sfValidatorInteger(array('required' => true)));
-
-    $parameter = $this->getOption('parameter');
-
-    $this->setDefaults(array(
-      'component'     => $this->getOption('component'),
-      'parameter_id'  => $parameter['id']
-    ));
 
     $object = $this->getOption('object', null);
     if ($object)

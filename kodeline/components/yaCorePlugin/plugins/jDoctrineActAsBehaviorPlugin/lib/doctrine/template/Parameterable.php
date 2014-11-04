@@ -92,6 +92,8 @@ class Doctrine_Template_Parameterable extends Behavior_Template
    */
   public function fetchExtendedParameterValues($iParameterId, $sCulture = null, $iLimit = null, $iOffset = null, $iBelongBy = null, $sComponentName = null)
   {
+    die(__METHOD__);
+
     // Initiate new object record instance.
     $invoker = (empty($sComponentName) ? $this->getInvoker() : new $sComponentName());
 
@@ -124,6 +126,7 @@ class Doctrine_Template_Parameterable extends Behavior_Template
         && $parameterData['type'] !== PluginjParameterableSchema::ENUM_TYPE_NAME) ? $parameterData['type'] : 'string');
 
     // Fetch predefined values for enum list.
+    die('asd');
     $query = Doctrine_Core::getTable('jParameterable' . ucfirst($sComponentValuesType). 'Value')
                 ->createQuery('prevals')
                 ->select('prevals.id')
