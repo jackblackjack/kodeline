@@ -230,53 +230,42 @@ abstract class BaseBackendElementActions extends yaBaseActions
    */
   public function executeNodeEdit(sfWebRequest $request)
   {
-    try {
-      // Check exists id of the object.
-      if (null == ($this->id = $request->getParameter('id', null))) {
-        throw new sfException($this->getContext()->getI18N()->__('ID категории не был указан!', null, 'flexible-tree'));
-      }
-
-      // Fetch object by id.
-      $this->object = Doctrine::getTable($this->objectClassName)->createQuery()->where('id = ?', $this->id)->fetchOne();
-
-      // Throw exception if object is not found.
-      if (! $this->object)
-      {
-        throw new sfException(sprintf($this->getContext()
-          ->getI18N()->__('Объект с ID %d не найден!', null, 'flexible-tree'), $this->id));
-      }
-    }
-    // Catch any exceptions.
-    catch(Exception $exception)
-    {
-      $this->getUser()->setFlash('error', $exception->getMessage());
-      return sfView::ERROR;
+    // Check exists id of the object.
+    if (null === ($this->id = $request->getParameter('id', null))) {
+      throw new sfException($this->getContext()
+        ->getI18N()->__('ID категории не был указан!', null, 'flexible-tree'));
     }
 
-    // Initiate form object.
+    // Fetch object by id.
+    $this->object = Doctrine::getTable($this->objectClassName)
+                      ->createQuery()->where('id = ?', $this->id)->fetchOne();
+
+    // Throw exception if object is not found.
+    if (! $this->object) {
+      throw new sfException(sprintf($this->getContext()
+        ->getI18N()->__('Объект с ID %d не найден!', null, 'flexible-tree'), $this->id));
+    }
+
+    // Initiate form object instance.
+    // FxShopItemEditNodeForm
     $this->form = new $this->formClassEdit($this->object);
 
-    // Check requested method.
-    if ($request->isMethod(sfRequest::POST) && $request->hasParameter($this->form->getName()))
-    {
-      // Bind request parameters for form.
-      $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+    // Check if request method is POST.
+    if ($request->isMethod(sfRequest::POST) && $request->hasParameter($this->form->getName())) {
+      
+      // Bind parameters for form.
+      $this->form->bind(
+        $request->getParameter($this->form->getName()), 
+        $request->getFiles($this->form->getName())
+      );
 
-      // Validation form.
-      if ($this->form->isValid())
-      {
+      // Validate form.
+      if ($this->form->isValid()) {
+       
         // If form is instanceof sfFormObject - save it.
-        if ($this->form instanceof sfFormObject)
-        {
-          try {
-            $this->form->save();
-          }
-          // Catch any exceptions.
-          catch(Exception $exception)
-          {
-            $this->getUser()->setFlash('error', $exception->getMessage());
-            return sfView::ERROR;
-          }
+        if ($this->form instanceof sfFormObject) {
+          // Save the form.
+          $this->form->save();
 
           // Fetch saved object form.
           $this->object = $this->form->getObject();
@@ -286,14 +275,14 @@ abstract class BaseBackendElementActions extends yaBaseActions
                   ->notify(new sfEvent(null, 'attachable.autolinkage', array('object' => $this->object)));
 
           // Message after saving.
-          if (method_exists($this->object, 'getMessageAfterCategoryEdit'))
-          {
-            $this->getUser()->setFlash('success', call_user_func(array($this->object, 'getMessageAfterCategoryEdit'), $this->object));
+          if (method_exists($this->object, 'getMessageAfterCategoryEdit')) {
+
+            $this->getUser()->setFlash('success', call_user_func(
+              array($this->object, 'getMessageAfterCategoryEdit'), $this->object));
           }
 
           // Redirect after saving.
-          if (method_exists($this->object, 'getUrlAfterCategoryEdit'))
-          {
+          if (method_exists($this->object, 'getUrlAfterCategoryEdit')) {
             $this->redirect(call_user_func(array($this->object, 'getUrlAfterCategoryEdit')));
           }
 

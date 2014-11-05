@@ -41,12 +41,14 @@ class ParameterableToolkit
       // Fetch id keys for object's parameters.
       $arParametersId = array_keys($arParameters);
 
-      // Fetch parameters schema.
+      // Fetch parameters schema by all parameters for save.
       $arParametersSchema =  Doctrine_Core::getTable('jParameterableSchema')->createQuery()
-                                ->whereIn('id', $arParametersId)->indexBy('id')->fetchArray();
+                                ->whereIn('id', $arParametersId)
+                                ->indexBy('id')
+                                ->fetchArray();
 
-      
       $szParametersId = count($arParametersId);
+
       for ($i = 0; $i < $szParametersId; $i++)
       {
         $iParameter = $arParametersId[$i];
@@ -63,49 +65,60 @@ class ParameterableToolkit
           case PluginjParameterableSchema::RADIO_TYPE_NAME:
           case PluginjParameterableSchema::LIBLINK_TYPE_NAME:
           case PluginjParameterableSchema::CHECKBOX_TYPE_NAME:
+
             // Convert values to array.
             if (! is_array($mValue)) $mValue = array($mValue);
 
             try {
-              // Begin transaction for database changes.
-              Doctrine::getTable(self::COMPLEX_TYPE_COMPONENT_NAME)->getConnection()->beginTransaction();
+
+              // Write info to log.
+              sfContext::getInstance()->getLogger()->info("Create transaction for complex values.");
+
+              // Create a transaction.
+              $connection = Doctrine_Manager::getInstance()->getCurrentConnection();
+              $connection->beginTransaction();
 
               // Remove previous saved parameter's values.
-              Doctrine::getTable(self::COMPLEX_TYPE_COMPONENT_NAME)
-                  ->createQuery()
-                  ->delete()
+              $values = Doctrine::getTable(self::COMPLEX_TYPE_COMPONENT_NAME)->createQuery()
                   ->where('component_id = ?', $iComponentId)
-                  //->where('component_name = ?', $sComponentName)
                   ->andWhere('object_id = ?', $iObject)
                   ->andWhere('parameter_id = ?', $iParameter)
                   ->execute();
 
               // Create collection for save values.
-              $componentCollection = new Doctrine_Collection(self::COMPLEX_TYPE_COMPONENT_NAME);
+              $collection = new Doctrine_Collection(self::COMPLEX_TYPE_COMPONENT_NAME);
 
-              foreach($mValue as $mValue)
-              {
-                $valueSchema = new ${self::COMPLEX_TYPE_COMPONENT_NAME}();
+              // Save each value for type.
+              foreach($mValue as $mValue) {
+                
+                $valueSchema = new jParameterableIntegerValue();
                 $valueSchema['component_id'] = $iComponentId;
-                //$valueSchema['component_name'] = $sComponentName;
                 $valueSchema['object_id'] = $iObject;
                 $valueSchema['parameter_id'] = $iParameter;
                 $valueSchema['value'] = (int) $mValue;
-                $componentCollection->add($valueSchema);
+
+                $collection->add($valueSchema);
               }
 
+              //$values->replace($collection);
+              $values->delete();
+
               // Save new collection values for list.
-              $componentCollection->save();
+              //$values->save();
+              $collection->save();
 
               // Commit transaction for save new values.
-              Doctrine::getTable(self::COMPLEX_TYPE_COMPONENT_NAME)->getConnection()->commit();
-
-              die('ok!');
+              $connection->commit();
             }
             // Catch any exceptions.
             catch(Exception $exception) {
+
+              // Write info to log.
+              sfContext::getInstance()->getLogger()
+                    ->err(sprintf("Cannot create complex type values. Error: %s", $exception->getMessage()));
+
               // Rollback current transaction.
-              Doctrine::getTable(self::COMPLEX_TYPE_COMPONENT_NAME)->getConnection()->rollback();
+              $connection->rollback();
 
               // Rethrow exception.
               throw $exception;
@@ -124,12 +137,12 @@ class ParameterableToolkit
             $sComponentValueName = 'jParameterable' . sfInflector::camelize($arParametersSchema[$iParameter]['type']) . 'Value';
 
             // Write info to log.
-            sfContext::getInstance()->getLogger()->info(sprintf("Selected component for save value: %s", $sComponentValueName));
+            sfContext::getInstance()->getLogger()
+                  ->info(sprintf("Selected component for save value: %s", $sComponentValueName));
 
             // Fetch exists values for object's parameter.
             $recordExists = Doctrine::getTable($sComponentValueName)->createQuery()
                                 ->where('component_id = ?', $iComponentId)
-                                //->where('component_name = ?', $sComponentName)
                                 ->andWhere('object_id = ?', $iObject)
                                 ->andWhere('parameter_id = ?', $iParameter)
                                 ->fetchOne();
@@ -138,7 +151,8 @@ class ParameterableToolkit
             if ($recordExists) {
 
               // Write info to log.
-              sfContext::getInstance()->getLogger()->info(sprintf("Prevoius value is: %s, new set: %s", $recordExists->get('value'), $mValue));
+              sfContext::getInstance()->getLogger()
+                  ->info(sprintf("Prevoius value is: %s, new set: %s", $recordExists->get('value'), $mValue));
 
               // Save new value in the exists record.
               $recordExists->set('value', $mValue);
@@ -147,12 +161,12 @@ class ParameterableToolkit
             else {
 
               // Write info to log.
-              sfContext::getInstance()->getLogger()->info(sprintf("Create new value: %s", $mValue));
+              sfContext::getInstance()->getLogger()
+                  ->info(sprintf("Create new value: %s", $mValue));
 
               // Create new parameter's value.
               $newValue = new $sComponentValueName();
               $newValue['component_id'] = $iComponentId;
-              //$newValue['component_name'] = $sComponentName;
               $newValue['object_id'] = $iObject;
               $newValue['parameter_id'] = $iParameter;
               $newValue['value'] = $mValue;

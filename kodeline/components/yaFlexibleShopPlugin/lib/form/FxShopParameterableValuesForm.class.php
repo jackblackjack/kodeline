@@ -81,10 +81,11 @@ class FxShopParameterableValuesForm extends yaForm
    */
   public function saveFormValues($con, sfFormObject $objectForm)
   {
+    // Fetch form values as array.
     $arValues = $objectForm->getValues();
 
-    if (! array_key_exists(self::FORM_IDENT, $arValues))
-    {
+    // Check parameters has been sent by form.
+    if (! array_key_exists(self::FORM_IDENT, $arValues)) {
       return false;
     }
 
@@ -97,8 +98,8 @@ class FxShopParameterableValuesForm extends yaForm
         $form->bind($arValues[self::FORM_IDENT][$fname]);
       }
 
-      if ($form->isValid())
-      {
+      if ($form->isValid()) {
+
         $formValues = $form->getValues();
 
         // Throw exception if array values has not exists required parameters.
@@ -107,7 +108,10 @@ class FxShopParameterableValuesForm extends yaForm
             ->getI18N()->__('Параметер не указан для поля "%s"!', null, 'flexible-tree'), $fname));
         }
 
+        die('ok!');
         $arFormsValues[$objectForm->getObject()->getId()][$formValues['parameter_id']] = $formValues['value'];
+
+        var_dump($arFormsValues); die;
         //$arFormsValues[$this->getOption('component')][$objectForm->getObject()->getId()][$fname] = $form->getValues();
       }
     }
@@ -120,15 +124,15 @@ class FxShopParameterableValuesForm extends yaForm
     // Save values for object.
     return ParameterableToolkit::setExtendedParametersValues($this->getOption('component'), $arFormsValues);
     
-      /*
-      $updateQuery = Doctrine_Core::getTable($this->getOption('component'))->createQuery()->update();
+    /*
+    $updateQuery = Doctrine_Core::getTable($this->getOption('component'))->createQuery()->update();
 
-      foreach ($arFormsValues as $field => $values)
-      {
-        $updateQuery->set($field, '?', $values['value']);
-      }
+    foreach ($arFormsValues as $field => $values)
+    {
+      $updateQuery->set($field, '?', $values['value']);
+    }
 
-      $updateQuery->andWhere('id = ?', $objectForm->getObject()->getId())->execute();
-      */
+    $updateQuery->andWhere('id = ?', $objectForm->getObject()->getId())->execute();
+    */
   }
 }

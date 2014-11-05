@@ -15,7 +15,7 @@ class ParameterableParamValueIntegerForm extends BaseParameterableParamValueInte
   /**
    * {@inheritDoc}
    */
-  public function configure2()
+  public function configure()
   {
     // Call parent configure.
     parent::configure();
@@ -30,8 +30,7 @@ class ParameterableParamValueIntegerForm extends BaseParameterableParamValueInte
 
     // Set label for widget.
     $parameter = $this->getOption('parameter', null);
-    if ($parameter)
-    {
+    if ($parameter) {
       $this->getWidgetSchema()->setLabel('value', $parameter['Translation'][yaContext::getInstance()->getUser()->getCulture()]['title']);
     }
   }

@@ -14,22 +14,23 @@ class FxShopItemEditNodeForm extends yaBaseFxShopItemForm
    */
   public function configure()
   {
+    // Call the parent method.
     parent::configure();
 
     // Definition list of uses fields of the form.
     $this->useFields(array('id', 'title', 'annotation', 'detail', 'is_active', 'parent_id'));
 
-    // Redefine is_active field.
+    // Redefine field "is_active".
     $this->setWidget('is_active', new sfWidgetFormInputCheckbox());
     $this->setValidator('is_active', new sfValidatorBoolean());
 
-    // Redefine parent_id field.
+    // Redefine field "parent_id".
     $this->setWidget('parent_id', new sfWidgetFormInputHidden());
 
-    // Redefine annotation field.
+    // Redefine field "annotation".
     $this->setWidget('annotation', new jWidgetFormWysiBB());
 
-    // Redefine detail field.
+    // Redefine field "detail".
     $this->setWidget('detail', new jWidgetFormWysiBB());
   }
 }

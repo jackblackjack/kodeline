@@ -458,17 +458,21 @@ class Doctrine_Template_Parameterable extends Behavior_Template
     $parameterData = $query->fetchArray();
 
     // Throw exception if parameter is not found.
-    if (! $parameterData['type'])
-    {
-      throw new sfException(sprintf(
-        $this->getContext()->getI18N()->__('Параметер #%d компонента "%s" не найден!', null, 'behavior-parameterable'),
+    if (! $parameterData['type']) {
+      
+      throw new sfException(sprintf($this->getContext()
+        ->getI18N()->__('Параметер #%d компонента "%s" не найден!', null, 'behavior-parameterable'),
         $iParameterId, $invoker->getTable()->getComponentName())
       );
     }
 
     // Supports types only: RADIO_TYPE_NAME, CHECKBOX_TYPE_NAME, ENUM_TYPE_NAME
-    if ($parameterData['type'] !== PluginjParameterableSchema::RADIO_TYPE_NAME || $parameterData['type'] !== PluginjParameterableSchema::CHECKBOX_TYPE_NAME || $parameterData['type'] !== PluginjParameterableSchema::ENUM_TYPE_NAME) {
-      throw new sfException(sprintf($this->getContext()->getI18N()->__('Тип параметра #%s не поддерживается!', null, 'behavior-parameterable'), $parameterData['type']));
+    if ($parameterData['type'] !== PluginjParameterableSchema::RADIO_TYPE_NAME || 
+        $parameterData['type'] !== PluginjParameterableSchema::CHECKBOX_TYPE_NAME || 
+        $parameterData['type'] !== PluginjParameterableSchema::ENUM_TYPE_NAME) {
+      
+      throw new sfException(sprintf($this->getContext()
+        ->getI18N()->__('Тип параметра #%s не поддерживается!', null, 'behavior-parameterable'), $parameterData['type']));
     }
 
     // Prepare adding value.
@@ -476,13 +480,16 @@ class Doctrine_Template_Parameterable extends Behavior_Template
     $arValue = array_filter($arValue);
 
     if (! count($arValue)) {
-      throw new sfException($this->getContext()->getI18N()->__('Нельзя добавить пустое значение!', null, 'behavior-parameterable'));
+      
+      throw new sfException($this->getContext()
+        ->getI18N()->__('Нельзя добавить пустое значение!', null, 'behavior-parameterable'));
     }
 
     // Create collection of values.
     $valuesCollection = new Doctrine_Collection('jParameterableStringValue');
-    foreach ($arValue as $value)
-    {
+    
+    foreach ($arValue as $value) {
+
       $valueRecord = new jParameterableStringValue();
       $valueRecord->set('component_name', $invoker->getTable()->getComponentName());
       $valueRecord->set('object_id', $parameterData['belong']);
