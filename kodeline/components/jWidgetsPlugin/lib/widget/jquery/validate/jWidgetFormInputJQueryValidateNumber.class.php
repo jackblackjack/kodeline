@@ -107,7 +107,7 @@ EOF
     }
 
     // Return rule as json string.
-    return json_encode(array($widgetId => $arRules), JSON_UNESCAPED_SLASHES);
+    return json_encode(array($widgetId => $arRules));
   }
 
   /**

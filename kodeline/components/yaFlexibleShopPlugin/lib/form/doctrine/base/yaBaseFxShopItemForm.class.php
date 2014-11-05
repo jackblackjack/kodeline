@@ -42,8 +42,6 @@ class yaBaseFxShopItemForm extends PluginFxShopItemForm
    */
   protected function doUpdateObject($values)
   {
-    die(__METHOD__);
-    
     // Define column names of the table.
     $arFormFields = $this->getValidatorSchema()->getFields();
 
@@ -107,8 +105,6 @@ class yaBaseFxShopItemForm extends PluginFxShopItemForm
    */
   protected function doSave($con = null)
   {
-    die(__METHOD__);
-
     if (null === $con) {
       $con = $this->getConnection();
     }
@@ -155,8 +151,6 @@ class yaBaseFxShopItemForm extends PluginFxShopItemForm
    */
   public function saveEmbeddedForms($con = null, $forms = null)
   {   
-    die(__METHOD__);
-
     if (null === $con)
     {
       $con = $this->getConnection();

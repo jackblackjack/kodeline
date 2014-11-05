@@ -10,12 +10,40 @@
  * @author      chugarev@gmail.com
  * @version     $Id$
  */
-abstract class BaseParameterableParamValueIntegerForm extends PluginjParameterableIntegerValueForm
+abstract class BaseParameterableParamValueIntegerForm extends BaseParameterableParamValueForm
 {
   /**
    * {@inheritDoc}
    */
   public function configure()
+  { 
+    // Call parent configure.
+    parent::configure();
+   
+    // Redefine value field widget.
+    $this->setWidget('value', new jWidgetFormInputJQueryValidateNumber(array(
+      'is_decimal' => ($this->getOption('type') == PluginjParameterableSchema::DECIMAL_TYPE_NAME)
+    )));
+
+    // Set validator.
+    $this->setValidator('value', new sfValidatorString(array('required' => false)));
+
+    // Set label for widget "value".
+    if (null !== ($parameter_id = $this->getOption('id', null))) {
+      
+      // Fetch parameter data.
+      $parameter = $this->getOptions();
+
+      // Set label for parameter.
+      $this->getWidgetSchema()->setLabel('value', 
+        $parameter['Translation'][yaContext::getInstance()->getUser()->getCulture()]['title']);
+    }
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public function configure_old()
   {
     die('ok!');
     // Call the parent method.

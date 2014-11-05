@@ -52,15 +52,15 @@ class FxShopParameterableValuesForm extends yaForm
 
     // Build embeded forms for each parameter.
     foreach($parametersSchema as $parameter) {
-      //echo '<pre>'; var_dump($parameter->toArray()); die;
 
       // Define form class name for parameter.
-      $parameterFormClassName = 'ParameterableParamValue' . sfInflector::camelize($parameter['type']) . 'Form';
+      $fieldFormClassName = 'ParameterableParamValue' . sfInflector::camelize($parameter['type']) . 'Form';
 
-      //@todo: добавить обработку require.
-      $parameterFormClassName = new $parameterFormClassName(
+      // Create field form class name.
+      $fieldForm = new $fieldFormClassName(
         array(
-          'value'         => ($this->getOption('set_values', false) ? $object->fetchExtendedParameterValue($parameter['id'], $parameter['type']) : null),
+          'value'         => ($this->getOption('set_values', false) ? 
+                              $object->fetchExtendedParameterValue($parameter['id'], $parameter['type']) : null),
           'parameter_id'  => $parameter['id'],
           'component'     => $this->getOption('component'),
           'object_id'     => $this->getOption('object_id')
@@ -72,7 +72,7 @@ class FxShopParameterableValuesForm extends yaForm
       //$parameterFormClassName->getWidgetSchema()->setFormFormatterName('embeddedForm');
 
       // Embed current form by parameterable form value.
-      $this->embedForm($parameter['name'], $parameterFormClassName);
+      $this->embedForm($parameter['name'], $fieldForm);
     }
   }
 
@@ -108,10 +108,7 @@ class FxShopParameterableValuesForm extends yaForm
             ->getI18N()->__('Параметер не указан для поля "%s"!', null, 'flexible-tree'), $fname));
         }
 
-        die('ok!');
         $arFormsValues[$objectForm->getObject()->getId()][$formValues['parameter_id']] = $formValues['value'];
-
-        var_dump($arFormsValues); die;
         //$arFormsValues[$this->getOption('component')][$objectForm->getObject()->getId()][$fname] = $form->getValues();
       }
     }
