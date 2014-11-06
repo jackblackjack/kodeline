@@ -1,8 +1,7 @@
 <?php
 /**
- * Базовая форма добавления значения 
- * расширенного (date) параметра 
- * для конкретного объекта.
+ * Base abstract class for 
+ * form with field with "Date" parameter value.
  * 
  * @package     jDoctrineActAsBehaviorPlugin
  * @subpackage  behaviorParameterable
@@ -17,10 +16,11 @@ abstract class BaseParameterableParamValueDateForm extends BaseParameterablePara
    */
   public function configure()
   {
+    // Call the parent method.
     parent::configure();
     
-    // Redefine title field.
-    $this->setWidget('value', new sfWidgetFormDate());
+    // Redefine field "title".
+    $this->setWidget('value', new jWidgetFormInputJQueryDatepicker());
     $this->setValidator('value', new sfValidatorDate(array('required' => false)));
   }
 }

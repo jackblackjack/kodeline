@@ -42,7 +42,8 @@ class ParameterableToolkit
       $arParametersId = array_keys($arParameters);
 
       // Fetch parameters schema by all parameters for save.
-      $arParametersSchema =  Doctrine_Core::getTable('jParameterableSchema')->createQuery()
+      $arParametersSchema =  Doctrine_Core::getTable('jParameterableSchema')
+                                ->createQuery()
                                 ->whereIn('id', $arParametersId)
                                 ->indexBy('id')
                                 ->fetchArray();
@@ -480,26 +481,35 @@ class ParameterableToolkit
    * 
    * @param Doctrine_Record $parameter Запись в таблице о параметре.
    * @param array $options Опции создания параметра.
-   * @param string $modelName Имя компонента (модели).
+   * @param string $componentName Имя компонента (модели).
    * @return array
    */
-  public static function postRadioExecute(Doctrine_Record $parameter, array $options, $modelName)
+  public static function postRadioExecute(Doctrine_Record $parameter, array $options, $sComponentName)
   {
-    if (! empty($options['items']))
-    {
+    // Create dummy record of the component.
+    $record = Doctrine::getTable($sComponentName)->getRecordInstance();
+
+    // Fetch component id in the parameterable scheme.
+    $iComponentId = $record->fetchComponentId($sComponentName);
+
+    if (! empty($options['items'])) {
+
       $arItems = array_filter($options['items']);
       if (! count($arItems)) continue;
 
       $itemsCollection = new Doctrine_Collection('jParameterableStringValue');
-      foreach ($arItems as $item)
-      {
+
+      foreach ($arItems as $item) {
+
         $itemRecord = new jParameterableStringValue();
-        $itemRecord->set('component_name', $modelName);
+        $itemRecord->set('component_id', $iComponentId);
         $itemRecord->set('object_id', $parameter['belong']);
         $itemRecord->set('parameter_id', $parameter['id']);
         $itemRecord->set('value', $item);
+
         $itemsCollection->add($itemRecord);
       }
+
       $itemsCollection->save();
     }
   }

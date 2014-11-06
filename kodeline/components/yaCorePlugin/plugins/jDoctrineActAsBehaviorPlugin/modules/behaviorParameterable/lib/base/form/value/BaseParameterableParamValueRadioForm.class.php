@@ -15,8 +15,11 @@ abstract class BaseParameterableParamValueRadioForm extends BaseParameterablePar
    * {@inheritDoc}
    */
   public function configure()
-  { 
+  {
+    // Call parent method.
     parent::configure();
+
+    //var_dump($this->getDefaults());
 
     /*
     // Check exists all options for query.
@@ -32,7 +35,7 @@ abstract class BaseParameterableParamValueRadioForm extends BaseParameterablePar
     // Define value field.
     $this->setWidget('value', new sfWidgetFormSelectRadio(
         array(
-          'choices'           => array()
+          'choices'           => array('Yes', 'No')
           /*
           'choices_query'     => Doctrine_Core::getTable('jParameterableStringValue')->createQuery()
                                   ->andWhere('component_id = ?', $this->getOption('component_id'))

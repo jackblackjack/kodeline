@@ -167,8 +167,9 @@ class Doctrine_Template_Parameterable extends Behavior_Template
    */
   public function fetchExtendedParameterValue($iParameter, $parameterType = null, $lang = null)
   {
-    if ($this->getInvoker()->isNew())
-    {
+    // If record is new - throw exception.
+    if ($this->getInvoker()->isNew()) {
+      
       throw new sfException(
         sprintf(sfContext::getInstance()
           ->getI18N()->__('Значения параметров "%s" не поддерживает расширение Parameterable!', null, 'flexible-tree'), 
@@ -176,12 +177,18 @@ class Doctrine_Template_Parameterable extends Behavior_Template
         )
       );
     }
+    // If records is exists.
     else {
+      
       // Fetch invoker component id.
-      $invokerComponentId = $this->fetchComponentId($this->getInvoker()->getTable()->getComponentName());
+      $invokerComponentId = $this->fetchComponentId(
+        $this->getInvoker()->getTable()->getComponentName());
 
       // Component name.
-      if ('enum' === $parameterType || 'liblink' === $parameterType || 'checkbox' === $parameterType) $parameterType = 'integer';
+      if ('enum' === $parameterType || 
+          'liblink' === $parameterType || 
+          'checkbox' === $parameterType ||
+          'radio' === $parameterType) $parameterType = 'integer';
       $componentValueName = 'jParameterable' . sfInflector::camelize($parameterType) . 'Value';
 
       // Fetch value of the parameter.

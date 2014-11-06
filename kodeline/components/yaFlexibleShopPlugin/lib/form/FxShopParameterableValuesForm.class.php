@@ -60,7 +60,7 @@ class FxShopParameterableValuesForm extends yaForm
       $fieldForm = new $fieldFormClassName(
         array(
           'value'         => ($this->getOption('set_values', false) ? 
-                              $object->fetchExtendedParameterValue($parameter['id'], $parameter['type']) : null),
+                                $object->fetchExtendedParameterValue($parameter['id'], $parameter['type']) : null),
           'parameter_id'  => $parameter['id'],
           'component'     => $this->getOption('component'),
           'object_id'     => $this->getOption('object_id')

@@ -116,7 +116,7 @@
   </div>
 <!--/div-->
 
-  <div style="align: center; position: relative; margin-top: 5px; float: left">
+  <!--div style="align: center; position: relative; margin-top: 5px; float: left">
   <?php if (isset($node)): ?>
     <?php if (false && $node['is_category']): ?>
     <a href="<?php echo url_for('@backend_product_category_edit?id=' . $node['id']) ?>" class="bt_red">
@@ -136,7 +136,7 @@
       <span class="bt_blue_lft"></span><strong>Добавить категорию</strong><span class="bt_blue_r"></span>
     </a>
   <?php endif ?>
-  </div>
+  </div-->
 
   <!--div class="pagination">
     <span class="disabled"><< prev</span><span class="current">1</span><a href="">2</a><a href="">3</a><a href="">4</a><a href="">5</a>…<a href="">10</a><a href="">11</a><a href="">12</a>...<a href="">100</a><a href="">101</a><a href="">next >></a>
