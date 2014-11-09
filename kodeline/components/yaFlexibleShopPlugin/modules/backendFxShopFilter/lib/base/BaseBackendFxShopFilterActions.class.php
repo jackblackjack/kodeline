@@ -421,35 +421,57 @@ class BaseBackendFxShopFilterActions extends BaseBackendElementActions
   }
 
   /**
-   * Подробный вывод всех элементов дерева.
+   * Returns all objects were has been fetching by filter result.
    * 
    * @param sfWebRequest $request Web request.
    */
   public function executeNodeDetail(sfWebRequest $request)
   {
-    try {
-      // Save class name.
-      $this->modelName = $this->objectClassName;
+    // Check id of the edited object.
+    if (null === ($this->filter_id = $request->getParameter('id', null))) {
+      
+      throw new sfException($this->getContext()
+        ->getI18N()->__('ID фильтра не был указан!', null, 'flexible-shop'));
+    }
 
-      // Check exists id of the node for view.
-      if (null !== ($this->id = $request->getParameter('id', null)))
+    // Create record of the component.
+    $record = Doctrine::getTable($this->objectClassName)->getRecordInstance();
+
+    // Fetch invoker component id.
+    $iComponentId = $record->fetchComponentId($this->objectClassName);
+
+    $iComponentId = 1;
+
+
+    // Fetch filter data with rules.
+    $this->filter = Doctrine::getTable($this->objectClassName)->createQuery('fxf')
+                      ->innerJoin('fxf.Rules as rules')
+                      ->innerJoin('rules.Type as type')
+                      ->innerJoin('rules.Parameter as parameter WITH parameter.component_id = 1')
+                      ->where('fxf.id = ?', $this->filter_id)
+                      ->fetchOne();
+      
+      // Throw exception if filter has not found.
+      if (! $this->filter) {
+        
+        throw new sfException(sprintf($this->getContext()
+          ->getI18N()->__('Фильтр с ID #%d не найден!', null, 'flexible-shop'), $this->filter_id));
+      }
+
+      // Load filter query builder helper by context.
+      $this->getContext()->getConfiguration()->loadHelpers(array('FilterBuilderQuery'));
+
+      die('alll ok!');
+
+      // Process query for fetch.
+      $fetchQuery = Doctrine_Query::create();
+      foreach($this->filter['Rules'] as $rule)
       {
-        // Fetch data of the node.
-        $this->node = Doctrine::getTable($this->objectClassName)->createQuery()->where('id = ?', $this->id)->fetchOne();
+        $fetchQuery = FilterBuilderQueryHelper::buildWhereQuery($fetchQuery, $rule['Parameter'], $rule, $rule['Parameter']['Component']);
+      }
 
-        // Fetch first level nodes of the tree.
-        $this->list = Doctrine::getTable($this->objectClassName)->getTree()->fetchBranch($this->id, array('depth' => 1));
-      }
-      else {
-        $this->list = Doctrine::getTable($this->objectClassName)->getTree()->fetchRoots();
-      }
-    }
-    // Catch any exceptions.
-    catch(Exception $exception)
-    {
-      $this->getUser()->setFlash('error', $exception->getMessage());
-      return sfView::ERROR;
-    }
+      $this->results = $fetchQuery->execute();
+
 
     return sfView::SUCCESS;
   }

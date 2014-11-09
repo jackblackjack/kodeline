@@ -1,5 +1,6 @@
 <?php
 /**
+ * @todo: переименовать этот плагин в klCmsSymfonyFilter
  * klCmsDomainPlugin configuration.
  * 
  * @package     kodeline-cms

@@ -13,7 +13,7 @@ backend_fxshop_ajax_get_valuefield:
 #------------------------------------------------------------------------------
 backend_fxshop_filter_nodes:
   url:    /fxshop/filters/
-  param:  { module: backendFxShopFilter, action: nodeDetail }
+  param:  { module: backendFxShopFilter, action: nodeRootList }
 
 backend_fxshop_filter_node:
   url:    /fxshop/filter/:id/
