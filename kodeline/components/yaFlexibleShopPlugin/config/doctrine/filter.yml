@@ -1,14 +1,14 @@
 # Фильтры для сохранения
 # правил фильтрации элементов компонентов.
 FxShopFilter:
-  actAs:
+#  actAs:
 #    Ignoreable: ~
 #    Rateable: ~
 #    Watchable: ~
 #    Sortable: ~
 #    Taggable: ~
-    Timestampable: ~
-    Watchdogable: ~
+#    Timestampable: ~
+#    Watchdogable: ~
   columns:
     id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
     label:          { type: string(255), notnull: false }
