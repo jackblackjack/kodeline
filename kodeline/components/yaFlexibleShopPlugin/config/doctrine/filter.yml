@@ -1,14 +1,16 @@
 # Фильтры для сохранения
 # правил фильтрации элементов компонентов.
 FxShopFilter:
-#  actAs:
-#    Ignoreable: ~
-#    Rateable: ~
-#    Watchable: ~
-#    Sortable: ~
-#    Taggable: ~
-#    Timestampable: ~
-#    Watchdogable: ~
+  actAs:
+    FlexibleTree:
+      hasManyRoots: true
+    Ignoreable: ~
+    Rateable: ~
+    Watchable: ~
+    Sortable: ~
+    Taggable: ~
+    Timestampable: ~
+    Watchdogable: ~
   columns:
     id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
     label:          { type: string(255), notnull: false }
@@ -17,7 +19,6 @@ FxShopFilter:
     detail:         { type: clob, notnull: false, default: null }
     note:           { type: clob, notnull: false, default: null }
     is_active:      { type: integer(1), notnull: true, default: 1 }
-    is_category:    { type: integer(1), notnull: true, default: 0 }
   relations:
     Rules:
       class: FxShopFilterRule
