@@ -29,12 +29,12 @@ FxShopFilter:
       foreignAlias: FxShopFilter
       onDelete: RESTRICT
       onUpdate: CASCADE
-    Components:
-      class: jBehaviorComponent
-      local: filter_id
-      foreign: component_id
-      refClass: FxShopFilterRule
-      foreignAlias: FxShopFilters
+#    Components:
+#      class: jBehaviorComponent
+#      local: id
+#      foreign: component_id
+#      refClass: FxShopFilterRule
+#      foreignAlias: FxShopFilters
     Parameters:
       class: jParameterableSchema
       local: filter_id
