@@ -7,13 +7,46 @@
  * @author     ##AUTHOR_NAME##
  * @version    SVN: $Id: sfDoctrineFormPluginTemplate.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
-class FxShopFilterNewRuleParamForm extends yaForm
+//class klFxShopFilterRuleForm extends BaseFxShopFilterRuleForm
+class FxShopFilterNewRuleForm extends yaForm
 {
   /**
    * {@inheritDoc}
    */
   public function configure()
-  { 
+  {
+    // Definition fields list for uses in the form.
+    /*
+    $this->useFields(array('id', 'filter_id', 'type_id', 'parameter_id', 'logic_in', 'is_order_desc'));
+
+    $this->setWidgets(array(
+      'id'             => new sfWidgetFormInputHidden(),
+      'filter_id'      => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('FxShopFilter'), 'add_empty' => false)),
+      'component_id'   => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Component'), 'add_empty' => false)),
+      'parameter_id'   => new sfWidgetFormDoctrineChoice(array('model' => $this->getRelatedModelName('Parameter'), 'add_empty' => false)),
+      'logic_in'       => new sfWidgetFormInputText(),
+      'is_order_desc'  => new sfWidgetFormInputText(),
+      'value_min'      => new sfWidgetFormTextarea(),
+      'value_max'      => new sfWidgetFormTextarea(),
+      'value_eq'       => new sfWidgetFormTextarea(),
+      'value_ne'       => new sfWidgetFormTextarea(),
+      'value_less'     => new sfWidgetFormTextarea(),
+      'value_greater'  => new sfWidgetFormTextarea(),
+      'value_contains' => new sfWidgetFormTextarea(),
+      'root_id'        => new sfWidgetFormInputText(),
+      'parent_id'      => new sfWidgetFormInputText(),
+      'path'           => new sfWidgetFormTextarea(),
+      'level'          => new sfWidgetFormInputText(),
+      'sibling'        => new sfWidgetFormInputText(),
+      'children'       => new sfWidgetFormInputText(),
+      'created_at'     => new sfWidgetFormDateTime(),
+      'updated_at'     => new sfWidgetFormDateTime(),
+      'created_by'     => new sfWidgetFormInputText(),
+      'updated_by'     => new sfWidgetFormInputText(),
+      'position'       => new sfWidgetFormInputText(),
+    ));
+    */
+
     // Define field "filter_id".
     $this->setWidget('filter_id', new sfWidgetFormInputHidden());
     $this->setValidator('filter_id', new sfValidatorInteger(array('required' => false)));
@@ -118,12 +151,13 @@ class FxShopFilterNewRuleParamForm extends yaForm
     $i18n = sfContext::getInstance()->getI18N();
 
     return array(
-      'min' => $i18n->__('больше либо равно чем', null, 'flexible-shop'),
-      'max' => $i18n->__('меньше либо равно чем', null, 'flexible-shop'),
-      'eq'  => $i18n->__('равно', null, 'flexible-shop'),
-      'ne'  => $i18n->__('не равно', null, 'flexible-shop'),
-      'le'  => $i18n->__('меньше чем', null, 'flexible-shop'),
-      'ge'  => $i18n->__('больше чем', null, 'flexible-shop')
+      'min'       => $i18n->__('больше либо равно чем', null, 'flexible-shop'),
+      'max'       => $i18n->__('меньше либо равно чем', null, 'flexible-shop'),
+      'eq'        => $i18n->__('равно', null, 'flexible-shop'),
+      'ne'        => $i18n->__('не равно', null, 'flexible-shop'),
+      'le'        => $i18n->__('меньше чем', null, 'flexible-shop'),
+      'ge'        => $i18n->__('больше чем', null, 'flexible-shop'),
+      'contains'  => $i18n->__('содержит', null, 'flexible-shop')
     );
   }
 }

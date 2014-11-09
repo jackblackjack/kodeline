@@ -109,8 +109,9 @@ class yaBaseFxShopFilterForm extends BaseFxShopFilterForm
       }
 
       // Set value to parent parameter for node, if table use template options hasManyRoots of the FlexibleTree behavior.
-      if ($this->getObject()->getTable()->hasTemplate('FlexibleTree') && $this->getObject()->getTable()->getTree()->getAttribute('hasManyRoots'))
-      {
+      if ($this->getObject()->getTable()->hasTemplate('FlexibleTree') 
+          && $this->getObject()->getTable()->getTree()->getAttribute('hasManyRoots')) {
+        
         $rootColumnName = $this->object->getTable()->getTree()->getAttribute('rootColumnName');
         $this->getObject()->set($rootColumnName, $parent->get($rootColumnName));
       }
@@ -130,15 +131,17 @@ class yaBaseFxShopFilterForm extends BaseFxShopFilterForm
   /**
    * {@inheritDoc}
    */
-  public function saveEmbeddedForms1($con = null, $forms = null)
+  public function saveEmbeddedForms($con = null, $forms = null)
   {
     // Log checking method in form object.
+    /*
     sfContext::getInstance()->getLogger()->info(
       sprintf("Method %s::%s %s", get_class($this->getObject()), $sCallbackName, ($bCallbackExists ? "is exists" : "is not exists"))
     );
+    */
 
     // Fetch list forms of rules.
-    $arRulesForms = $this->getEmbeddedForm('rules')->getEmbeddedForms();
+    //$arRulesForms = $this->getEmbeddedForm('rules')->getEmbeddedForms();
 
     $arFormValues = $this->getValues();
 
@@ -147,64 +150,19 @@ class yaBaseFxShopFilterForm extends BaseFxShopFilterForm
 
     $szRulesForms = count($arFormValues['rules']);
     for($i = 0; $i < $szRulesForms; $i++) {
+      
       $rule = new FxShopFilterRule();
-            $rule['filter_id'] = $this->getObject()->getId();
-            $rule['component_id'] = $arFormValues['rules'][$i]['component_id'];
-            $rule['parameter_id'] = $arFormValues['rules'][$i]['parameter_id'];
-            $rule['condition_name'] = $conditionName;
+      $rule['filter_id'] = $this->getObject()->getId();
+      $rule['type_id'] = $arFormValues['rules'][$i]['type_id'];
+      $rule['parameter_id'] = $arFormValues['rules'][$i]['parameter_id'];
+      $rule['logic_in'] = (int) ($arFormValues['rules'][$i]['logic_in']);
 
-            if (0 === $fcv)
-            {
-              $rule['is_and'] = (int) ('and' === $arFormValues['rules'][$i]['conditions'][$fc]['logic']);
-            }
-            else {
-              $rule['is_and'] = 0;
-            }
+      // Define value for field "...value".
+      $sColName = sprintf("value_%s", strtolower($arFormValues['rules'][$i]['compare']));
+      $rule[$sColName] = $arFormValues['rules'][$i]['value'];
 
-
-      $szConditions = count($arFormValues['rules'][$i]['conditions']);
-      for($fc = 0; $fc < $szConditions; $fc++)
-      {
-        if ( !is_array($arFormValues['rules'][$i]['conditions'][$fc]['value']))
-        {
-          $rule = new FxShopFilterRule();
-          $rule['filter_id'] = $this->getObject()->getId();
-          $rule['component_id'] = $arFormValues['rules'][$i]['component_id'];
-          $rule['parameter_id'] = $arFormValues['rules'][$i]['parameter_id'];
-          $rule['is_and'] = (int) ('and' === $arFormValues['rules'][$i]['conditions'][$fc]['logic']);
-
-          $fieldPostfix = $arFormValues['rules'][$i]['conditions'][$fc]['compare'];
-          $rule['value_' . $fieldPostfix] = $arFormValues['rules'][$i]['conditions'][$fc]['value'];
-
-          $rulesCollection->add($rule);
-        }
-        else {
-          $szValues = count($arFormValues['rules'][$i]['conditions'][$fc]['value']);
-          $conditionName = 'asdasd';
-
-          for($fcv = 0; $fcv < $szValues; $fcv++)
-          {
-            $rule = new FxShopFilterRule();
-            $rule['filter_id'] = $this->getObject()->getId();
-            $rule['component_id'] = $arFormValues['rules'][$i]['component_id'];
-            $rule['parameter_id'] = $arFormValues['rules'][$i]['parameter_id'];
-            $rule['condition_name'] = $conditionName;
-
-            if (0 === $fcv)
-            {
-              $rule['is_and'] = (int) ('and' === $arFormValues['rules'][$i]['conditions'][$fc]['logic']);
-            }
-            else {
-              $rule['is_and'] = 0;
-            }
-
-            $fieldPostfix = $arFormValues['rules'][$i]['conditions'][$fc]['compare'];
-            $rule['value_' . $fieldPostfix] = $arFormValues['rules'][$i]['conditions'][$fc]['value'][$fcv];
-
-            $rulesCollection->add($rule);
-          }
-        }
-      }
+      // Add rule to collection.
+      $rulesCollection->add($rule);
     }
 
     // Save all filter rules.
@@ -214,3 +172,4 @@ class yaBaseFxShopFilterForm extends BaseFxShopFilterForm
     //parent::saveEmbeddedForms($con, $forms);
   }
 }
+

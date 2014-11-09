@@ -9,7 +9,7 @@ FxShopFilterRule:
   columns:
     id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
     filter_id:      { type: integer, unsigned: true }
-    component_id:   { type: integer, unsigned: true }
+    type_id:        { type: integer, unsigned: true }
     parameter_id:   { type: integer, unsigned: true }
     logic_in:         { type: integer(1), notnull: true, default: 1 }
     is_order_desc:  { type: integer(1), notnull: true, default: 1 }
@@ -17,8 +17,8 @@ FxShopFilterRule:
     value_max:      { type: clob, notnull: false, default: null }
     value_eq:       { type: clob, notnull: false, default: null }
     value_ne:       { type: clob, notnull: false, default: null }
-    value_less:     { type: clob, notnull: false, default: null }
-    value_greater:  { type: clob, notnull: false, default: null }
+    value_le:       { type: clob, notnull: false, default: null }
+    value_ge:       { type: clob, notnull: false, default: null }
     value_contains: { type: clob, notnull: false, default: null }
   relations:
     Component:
