@@ -21,15 +21,15 @@ FxShopFilterRule:
     value_ge:       { type: clob, notnull: false, default: null }
     value_contains: { type: clob, notnull: false, default: null }
   relations:
-    Component:
-      class: jBehaviorComponent
-      type: one
-      local: component_id
-      foreign: id
-      foreignType: many
-      foreignAlias: FxShopFilterRules
-      onDelete: RESTRICT
-      onUpdate: CASCADE
+#    Component:
+#      class: jBehaviorComponent
+#      type: one
+#      local: component_id
+#      foreign: id
+#      foreignType: many
+#      foreignAlias: FxShopFilterRules
+#      onDelete: RESTRICT
+#      onUpdate: CASCADE
     Parameter:
       class: jParameterableSchema
       type: one
