@@ -3,22 +3,12 @@ FxShopFilter:
   actAs:
     FlexibleTree:
       hasManyRoots: true
-    Commentable: ~
-    Complaintable: ~
     Ignoreable: ~
     Rateable: ~
-    Restrictable: ~
-    Reviewable: ~
     Watchable: ~
     Sortable: ~
     Taggable: ~
-    Sluggable:
-      unique: true
-      fields: [title]
-      builder: [klSluggableBuilder, translit]
-      canUpdate: true
     Timestampable: ~
-    jFileAttachable: ~
     Watchdogable: ~
   columns:
     id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
@@ -28,11 +18,7 @@ FxShopFilter:
     detail:         { type: clob, notnull: false, default: null }
     note:           { type: clob, notnull: false, default: null }
     is_active:      { type: integer(1), notnull: true, default: 1 }
-#    is_params:      { type: integer(1), notnull: true, default: 1 }
     is_category:    { type: integer(1), notnull: true, default: 0 }
-#    is_limit:       { type: integer(1), notnull: true, default: 0 }
-#    begin_limit:    { type: integer(3), notnull: false, default: null }
-#    finish_limit:   { type: integer(3), notnull: false, default: null }
   relations:
     Rules:
       class: FxShopFilterRule
