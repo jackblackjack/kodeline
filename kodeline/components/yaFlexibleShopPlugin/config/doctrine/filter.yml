@@ -1,8 +1,7 @@
-# Фильтры для сохранения выборки параметров.
+# Фильтры для сохранения
+# правил фильтрации элементов компонентов.
 FxShopFilter:
   actAs:
-    FlexibleTree:
-      hasManyRoots: true
     Ignoreable: ~
     Rateable: ~
     Watchable: ~
