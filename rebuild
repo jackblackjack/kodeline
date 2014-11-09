@@ -19,7 +19,7 @@ if [ "${answer}" = "yes" -o "${answer}" = "y" ] ; then
 
   echo "Synchronize with repository (HEAD)..."
   ${GIT_CMD} fetch --all
-  ${GIT_CMD} --hard origin/master
+  ${GIT_CMD} reset --hard origin/master
 fi
 
 echo "Cleaning all libraries..."
