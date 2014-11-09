@@ -6,15 +6,20 @@ EXEC_DIR=$(cd $(dirname "$0"); pwd)
 # Definition path to php.
 PHP_CMD=`which php`
 RM_CMD=`which rm`
+GIT_CMD=`which git`
 
 ${PHP_CMD} ${EXEC_DIR}/symfony cc
 
 echo "Remove all files from lib and plugins?"
 read -p " Yes / No ?" answer
 if [ "${answer}" = "yes" -o "${answer}" = "y" ] ; then
-  
+
 	echo "Remove all contains in the /plugins/..."
 	${RM_CMD} -rf ${EXEC_DIR}/plugins/*
+
+  echo "Synchronize with repository (HEAD)..."
+  ${GIT_CMD} fetch --all
+  ${GIT_CMD} --hard origin/master
 fi
 
 echo "Cleaning all libraries..."
