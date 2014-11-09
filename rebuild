@@ -12,7 +12,8 @@ ${PHP_CMD} ${EXEC_DIR}/symfony cc
 echo "Remove all files from lib and plugins?"
 read -p " Yes / No ?" answer
 if [ "${answer}" = "yes" -o "${answer}" = "y" ] ; then
-	echo "Cleaning all libraries..."
+  
+	echo "Remove all contains in the /plugins/..."
 	${RM_CMD} -rf ${EXEC_DIR}/plugins/*
 fi
 
