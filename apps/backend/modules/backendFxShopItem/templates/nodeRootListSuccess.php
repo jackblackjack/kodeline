@@ -1,21 +1,19 @@
-<h2>Типы содержания сайта</h2>
-
 <div class="mws-panel grid_6">
 
   <div class="mws-panel-header">
-    <span><i class="icon-table"></i> Типы содержания сайта</span>
+    <span><i class="icon-table"></i> Типы содержания сайта (Всего: <?php echo $list->count() ?>)</span>
   </div>
 
   <div class="mws-panel-toolbar">
       <div class="btn-toolbar">
           <div class="btn-group">
               <a href="<?php echo url_for('@backend_product_category_new') ?>" class="btn"><i class="icol-add"></i> Новый тип</a>
-              <a href="#" class="btn"><i class="icol-cross"></i> Reject</a>
-              <a href="#" class="btn"><i class="icol-printer"></i> Print</a>
-              <a href="#" class="btn"><i class="icol-arrow-refresh"></i> Renew</a>
+              <a href="#" class="btn"><i class="icol-cross"></i> Удалить</a>
+              <a href="#" class="btn"><i class="icol-printer"></i> Выделить все</a>
+              <a href="#" class="btn"><i class="icol-arrow-refresh"></i> Еще</a>
               <a href="#" class="btn dropdown-toggle" data-toggle="dropdown"><span class="caret"></span></a>
               <ul class="dropdown-menu pull-right">
-                  <li><a href="#"><i class="icol-disconnect"></i> Disconnect From Server</a></li>
+                  <li><a href="#"><i class="icol-disconnect"></i> Создать фильтр</a></li>
                   <li class="divider"></li>
                   <li class="dropdown-submenu">
                       <a href="#">More Options</a>
@@ -29,6 +27,7 @@
       </div>
   </div>
 
+  <?php if (isset($list) && $list->count()): ?>
   <div class="mws-panel-body no-padding">
     <table class="mws-table">
       <thead>
@@ -114,6 +113,7 @@
       </tbody>
     </table>
   </div>
+  <?php endif ?>
 <!--/div-->
 
   <!--div style="align: center; position: relative; margin-top: 5px; float: left">
