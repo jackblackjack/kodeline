@@ -30,6 +30,15 @@ FxShopFilterRule:
 #      foreignAlias: FxShopFilterRules
 #      onDelete: RESTRICT
 #      onUpdate: CASCADE
+    Type:
+      class: FxShopItem
+      type: one
+      local: type_id
+      foreign: id
+      foreignType: many
+      foreignAlias: FxShopFilterRules
+      onDelete: RESTRICT
+      onUpdate: CASCADE
     Parameter:
       class: jParameterableSchema
       type: one

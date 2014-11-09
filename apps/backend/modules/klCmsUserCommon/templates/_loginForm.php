@@ -32,7 +32,7 @@
     </div>
 
     <div class="mws-form-row">
-      <input type="submit" value="Авторизоваться" class="btn btn-success mws-login-button">
+      <input type="submit" value="Войти" class="btn btn-success mws-login-button">
     </div>
   </form>
   <?php $routes = $sf_context->getRouting()->getRoutes() ?>
