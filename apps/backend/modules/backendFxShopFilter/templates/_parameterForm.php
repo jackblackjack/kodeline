@@ -1,46 +1,81 @@
-<?php echo $form['rules'][$parameter]->renderHiddenFields() ?>
-<table width="100%">
-  <tbody>
-    <tr>
-      <td colspan="4">
-        <?php echo $form['rules'][$parameter]['component_id']->renderLabel() ?>
-        <?php echo $form['rules'][$parameter]['component_id']->render() ?>
+<div class="mws-form-row">
+  <?php echo $form['rules'][$rule_ix]->renderHiddenFields() ?>
 
-        <?php if ($form['rules'][$parameter]['component_id']->hasError()): ?>
-        <span><?php echo $form['rules'][$parameter]['component_id']->renderError() ?></span>
+  <div class="mws-form-cols">
+    <div class="mws-form-col-2-8">
+      <?php echo $form['rules'][$rule_ix]['type_id']->renderLabel(null, array("class" => "mws-form-label")) ?>
+
+      <div class="mws-form-item">
+        <?php echo $form['rules'][$rule_ix]['type_id']->render() ?>
+
+        <?php if ($form['rules'][$rule_ix]['type_id']->hasError()): ?>
+        <span><?php echo $form['rules'][$rule_ix]['type_id']->renderError() ?></span>
         <?php endif ?>
+      </div>
+    </div>
 
+    <div class="mws-form-col-1-8">
+      <?php echo $form['rules'][$rule_ix]['parameter_id']->renderLabel(null, array("class" => "mws-form-label")) ?>
 
-        <?php echo $form['rules'][$parameter]['parameter_id']->renderLabel() ?>
-        <?php echo $form['rules'][$parameter]['parameter_id']->render() ?>
+      <div class="mws-form-item">
+        <?php echo $form['rules'][$rule_ix]['parameter_id']->render() ?>
+      </div>
 
-        <?php if ($form['rules'][$parameter]['parameter_id']->hasError()): ?>
-        <span><?php echo $form['rules'][$parameter]['parameter_id']->renderError() ?></span>
+      <?php if ($form['rules'][$rule_ix]['parameter_id']->hasError()): ?>
+      <span><?php echo $form['rules'][$rule_ix]['parameter_id']->renderError() ?></span>
+      <?php endif ?>
+    </div>
+
+    <div class="mws-form-col-1-8">
+      <?php echo $form['rules'][$rule_ix]['compare']->renderLabel(null, array("class" => "mws-form-label")) ?>
+
+      <div class="mws-form-item">    
+        <?php echo $form['rules'][$rule_ix]['compare']->render(array()) ?>
+
+        <?php if ($form['rules'][$rule_ix]['compare']->hasError()): ?>
+        <span><?php echo $form['rules'][$rule_ix]['compare']->renderError() ?></span>
         <?php endif ?>
-      </td>
-    </tr>
-    <?php $szRuleParams = count($form->getEmbeddedForm('rules')->getEmbeddedForm($parameter)->getEmbeddedForms()) ?>
-    <?php for ($i = 0; $i < $szRuleParams; $i++): ?>
-      <?php $szConditionsForms = count($form->getEmbeddedForm('rules')->getEmbeddedForm($parameter)->getEmbeddedForm('conditions')->getEmbeddedForms()); ?>
-      <?php for ($c = 0; $c < $szConditionsForms; $c++): ?>
-      <?php include_partial('parameterRuleForm', array('parameter' => $parameter, 'condition' => $c, 'form' => $form)) ?>
-      <?php endfor ?>
-    <?php endfor ?>
-    <tr>
-      <td>#</td>
-      <td colspan="3">добавить условие</td>
-    </tr>
-  </tbody>
-</table>
+      </div>
+    </div>
+
+    <div class="mws-form-col-2-8">
+      <?php echo $form['rules'][$rule_ix]['value']->renderLabel(null, array("class" => "mws-form-label")) ?>
+
+      <div class="mws-form-item" id="<?php echo $form['rules'][$rule_ix]['value']->renderId(); ?>_container">    
+        <?php echo $form['rules'][$rule_ix]['value']->render(array()) ?>
+
+        <?php if ($form['rules'][$rule_ix]['value']->hasError()): ?>
+        <span><?php echo $form['rules'][$rule_ix]['value']->renderError() ?></span>
+        <?php endif ?>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="mws-form-row">
+  <div class="btn-group">
+    <input type="button" class="btn btn-primary" id="btn-add-rule" value="Новое правило" />
+  </div>
+</div>
+
+
 <?php $hlpBroker->js->beginInlineJavascript(); ?>
 <!--script-->
-var idComponentSelect = '<?php echo $form['rules'][$parameter]['component_id']->renderId() ?>';
-var idParameterSelect = '<?php echo $form['rules'][$parameter]['parameter_id']->renderId() ?>';
+var idComponentSelect = '<?php echo $form['rules'][$rule_ix]['type_id']->renderId() ?>';
+var idParameterSelect = '<?php echo $form['rules'][$rule_ix]['parameter_id']->renderId() ?>';
 var urlGetParams = '<?php echo url_for2('backend_fxshop_json_get_parameters') ?>';
 var urlGetValField = '<?php echo url_for2('backend_fxshop_ajax_get_valuefield') ?>';
 
 /* префикс для имени поля */
-var paramFieldPrefix = '<?php echo str_replace('[parameter_id]', '[conditions]', $form['rules'][$parameter]['parameter_id']->renderName()) ?>';
+var paramFieldPrefix = '<?php echo str_replace('[parameter_id]', '[conditions]', $form['rules'][$rule_ix]['parameter_id']->renderName()) ?>';
+
+/**
+ * Bind click to add rule button
+ */
+jQuery('#btn-add-rule').bind("click", function() {
+  alert("PRIVET!");
+});
+
 
 /* bind to change component_id */
 jQuery('#' + idComponentSelect).bind("change", function() {

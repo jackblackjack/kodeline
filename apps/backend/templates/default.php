@@ -221,7 +221,7 @@
       <?php $hlpBroker->js->beginInlineJavascript(yaWebResponse::LOCATION_BODY) ?>
         function initPage() {
           jQuery(document).ready(function() {       
-            jQuery('.ask').jConfirmAction({ question: "Вы уверены?", yesAnswer: "Да", cancelAnswer: "Отмена" });
+            /*jQuery('.ask').jConfirmAction({ question: "Вы уверены?", yesAnswer: "Да", cancelAnswer: "Отмена" });*/
           });
         }
       <?php $hlpBroker->js->endInlineJavascript() ?>

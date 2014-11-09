@@ -12,7 +12,8 @@
 class ParameterableToolkit
 {
   /**
-   * Name of the component for use for save complex (booleans) values.
+   * Name of the component for use
+   * for save complex (booleans) values.
    * 
    * @var string
    * @constant
@@ -321,27 +322,38 @@ class ParameterableToolkit
    * 
    * @param Doctrine_Record $parameter Запись в таблице о параметре.
    * @param array $options Опции создания параметра.
-   * @param string $modelName Имя компонента (модели).
+   * @param string $sComponentName Имя компонента (модели).
    * @return array
    */
-  public static function postEnumExecute(Doctrine_Record $parameter, array $options, $modelName)
+  public static function postEnumExecute(Doctrine_Record $parameter, array $options, $sComponentName)
   {
-    if (! empty($options['items']))
-    {
+    if (! empty($options['items'])) {
+
       $arItems = array_filter($options['items']);
       if (! count($arItems)) continue;
 
-      $itemsCollection = new Doctrine_Collection('jParameterableStringValue');
-      foreach ($arItems as $item)
-      {
-        $itemRecord = new jParameterableStringValue();
-        $itemRecord->set('component_name', $modelName);
-        $itemRecord->set('object_id', $parameter['belong']);
-        $itemRecord->set('parameter_id', $parameter['id']);
-        $itemRecord->set('value', $item);
-        $itemsCollection->add($itemRecord);
+      // Create dummy record of the component.
+      $record = Doctrine::getTable($sComponentName)->getRecordInstance();
+
+      // Fetch component id in the parameterable scheme.
+      $iComponentId = $record->fetchComponentId($sComponentName);
+
+      // Create collection of strings.
+      $collection = new Doctrine_Collection('jParameterableStringValue');
+
+      foreach ($arItems as $item) {
+        
+        $record = new jParameterableStringValue();
+        $record->set('component_id', $iComponentId);
+        $record->set('object_id', $parameter['belong']);
+        $record->set('parameter_id', $parameter['id']);
+        $record->set('value', $item);
+
+        $collection->add($record);
       }
-      $itemsCollection->save();
+
+      // Save the collection.
+      $collection->save();
     }
   }
 
@@ -421,8 +433,8 @@ class ParameterableToolkit
   public static function postTimeExecute(Doctrine_Record $parameter, array $options, $modelName)
   {
     // Set minimum parameter limit.
-    if (! empty($options['min']))
-    {
+    if (! empty($options['min'])) {
+
       $minParamLimit = new jParameterableOption();
       $minParamLimit->set('parameter_id', $parameter['id']);
       $minParamLimit->set('name', 'min');
@@ -431,8 +443,8 @@ class ParameterableToolkit
     }
 
     // Set maximum parameter limit.
-    if (! empty($options['max']))
-    {
+    if (! empty($options['max'])) {
+      
       $maxParamLimit = new jParameterableOption();
       $maxParamLimit->set('parameter_id', $parameter['id']);
       $maxParamLimit->set('name', 'max');

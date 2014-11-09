@@ -46,9 +46,10 @@ class ParameterableParamValueEnumForm extends BaseParameterableParamValueEnumFor
     */
 
     // Define url for get element.
+    $component = $this->getOption('Component');
     $getRequestUrl = sfContext::getInstance()->getRouting()->generate('parameterable_component_parameter_value_get',
                       array(
-                        'component_name'  => $this->getOption('Component')['name'],
+                        'component_name'  => $component['name'],
                         'parameter_id'    => $this->getOption('id'),
                         'belong_by'       => $this->getOption('belong')
                       ), true);
@@ -57,7 +58,7 @@ class ParameterableParamValueEnumForm extends BaseParameterableParamValueEnumFor
     // Define url for add new element.
     $postRequestUrl = sfContext::getInstance()->getRouting()->generate('parameterable_component_parameter_value_add',
                       array(
-                        'component_name'  => $this->getOption('Component')['name'],
+                        'component_name'  => $component['name'],
                         'parameter_id'    => $this->getOption('id'),
                         'belong_by'       => $this->getOption('belong')
                       ), true);

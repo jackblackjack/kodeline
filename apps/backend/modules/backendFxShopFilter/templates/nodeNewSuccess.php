@@ -1,78 +1,100 @@
 <?php use_stylesheets_for_form($form) ?>
 <?php use_javascripts_for_form($form) ?>
 
-<h2>Создание нового фильтра</h2>
+<div class="grid_8">
+  <div class="mws-panel">
+    <div class="mws-panel-header">
+      <span><i class="icon-loading-2"></i> Новый фильтр</span>
+    </div>
 
-<div class="form">
-  <?php echo $form->renderFormTag(null, array('method' => 'POST')) ?>         
-    <?php echo $form->renderHiddenFields() ?>
-    <fieldset>
-      <dl>
-        <dt><label for="<?php echo $form['is_active']->renderId() ?>"><?php echo $form['is_active']->renderLabel() ?>:</label></dt>
-        <dd><?php echo $form['is_active']->render() ?></dd>
-      </dl>
+    <div class="mws-panel-body no-padding">
+      <?php echo $form->renderFormTag(null, array('method' => 'POST', "class" => "mws-form")) ?>         
+        <?php echo $form->renderHiddenFields() ?>
 
-      <dl>
-        <dt><label for="<?php echo $form['parent_id']->renderId() ?>"><?php echo $form['parent_id']->renderLabel() ?>:</label></dt>
-        <dd>
-          <?php echo $form['parent_id']->render() ?>
+        <fieldset class="mws-form-inline">
+          <legend>Свойства фильтра</legend>
 
-          <?php if ($form['parent_id']->hasError()): ?>
-          <span><?php echo $form['parent_id']->renderError() ?></span>
-          <?php endif ?>
-        </dd>
-      </dl>
+          <div class="grid_2">
+            <div class="mws-form-row">
+              <label class="mws-form-label" for="<?php echo $form['is_active']->renderId() ?>">
+                <?php echo $form['is_active']->renderLabel() ?>:
+              </label>
 
-      <dl>
-        <dt><label for="<?php echo $form['title']->renderId() ?>"><?php echo $form['title']->renderLabel() ?>:</label></dt>
-        <dd>
-          <?php echo $form['title']->render() ?>
+              <div class="mws-form-item">
+                <ul class="mws-form-list inline">
+                  <li>
+                    <div class="ibutton-container" style="width: 53px;">
+                      <?php echo $form['is_active']->render(array("class" => "large")) ?>
+                    </div>
+                  </li>
+                </ul>
+              </div>
 
-          <?php if ($form['title']->hasError()): ?>
-          <span><?php echo $form['title']->renderError() ?></span>
-          <?php endif ?>
-        </dd>
-      </dl>
+              <?php if ($form['is_active']->hasError()): ?>
+              <span><?php echo $form['is_active']->renderError() ?></span>
+              <?php endif ?>
+            </div>
+          </div>
+          
+          <div class="grid_6">
+            <div class="mws-form-row">
+              <label for="<?php echo $form['title']->renderId() ?>" class="mws-form-label">
+                <?php echo $form['title']->renderLabel() ?>:
+              </label>
+              <div class="mws-form-item">
+                <?php echo $form['title']->render(array("class" => "large", "placeholder" => "Название фильтра")) ?>
 
-      <dl>
-        <dt><label for="<?php echo $form['annotation']->renderId() ?>"><?php echo $form['annotation']->renderLabel() ?>:</label></dt>
-        <dd>
-          <?php echo $form['annotation']->render() ?>
+                <?php if ($form['title']->hasError()): ?>
+                <span><?php echo $form['title']->renderError() ?></span>
+                <?php endif ?>
+              </div>
+            </div>
+          </div>
 
-          <?php if ($form['annotation']->hasError()): ?>
-          <span><?php echo $form['annotation']->renderError() ?></span>
-          <?php endif ?>
-        </dd>
-      </dl>
+          <div class="grid_4 mws-form-block">
+            <div class="mws-form-row">
+              <label for="<?php echo $form['annotation']->renderId() ?>" class="mws-form-label">
+                <?php echo $form['annotation']->renderLabel() ?>:
+              </label>
+              <div class="mws-form-item">
+                <?php echo $form['annotation']->render(array("class" => "large autosize", "placeholder" => "Краткое описание фильтра")) ?>
+                <?php if ($form['annotation']->hasError()): ?>
+                <span><?php echo $form['annotation']->renderError() ?></span>
+                <?php endif ?>
+              </div>
+            </div>
+          </div>
 
-      <dl>
-        <dt><label for="<?php echo $form['detail']->renderId() ?>"><?php echo $form['detail']->renderLabel() ?>:</label></dt>
-        <dd>
-          <?php echo $form['detail']->render() ?>
+          <div class="grid_4 mws-form-block">
+            <div class="mws-form-row">
+              <label for="<?php echo $form['detail']->renderId() ?>" class="mws-form-label">
+                <?php echo $form['detail']->renderLabel() ?>:
+              </label>
+              <div class="mws-form-item">
+                <?php echo $form['detail']->render(array("class" => "large", "placeholder" => "Расширенное описание фильтра")) ?>
 
-          <?php if ($form['detail']->hasError()): ?>
-          <span><?php echo $form['detail']->renderError() ?></span>
-          <?php endif ?>
-        </dd>
-      </dl>
+                <?php if ($form['detail']->hasError()): ?>
+                <span><?php echo $form['detail']->renderError() ?></span>
+                <?php endif ?>
+              </div>
+            </div>
+          </div>
+        </fieldset>
 
-      <h2>Выберите условия фильтрации</h2>
-      <table id="rounded-corner">
-        <tbody>
-          <tr>
-            <td>
-              <?php $szParameters = count($form->getEmbeddedForm('rules')->getEmbeddedForms()) ?>
-              <?php for ($i = 0; $i < $szParameters; $i++): ?>
-                <?php include_partial('parameterForm', array('parameter' => $i, 'form' => $form)) ?>
-              <?php endfor ?>
-            </tr>
-          </tr>
-        </tbody>
-      </table>
+        <fieldset class="mws-form-inline">
+          <legend>Правила фильтрации</legend>
 
-      <dl class="submit">
-        <input type="submit" value="Добавить фильтр" />
-      </dl>                    
-    </fieldset>
-  </form>
-</div>
+          <?php $szRules = count($form->getEmbeddedForm('rules')->getEmbeddedForms()) ?>
+          <?php for ($i = 0; $i < $szRules; $i++): ?>
+            <?php include_partial('parameterForm', array('rule_ix' => $i, 'form' => $form)) ?>
+          <?php endfor ?>
+        </fieldset>
+
+        <div class="mws-button-row">
+          <input type="submit" class="btn btn-danger" value="Создать фильтр" />
+        </div>
+      </div>
+    </form>
+  </div>
+</div>  
+                                                                                                                                                                                                                                              

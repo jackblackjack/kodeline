@@ -32,7 +32,7 @@ class BaseBackendFxShopFilterActions extends BaseBackendElementActions
   protected $formClassEdit = 'FxShopFilterEditNodeForm';
 
   /**
-   * Добавление фильтра.
+   * Add new filter for content types.
    * 
    * @param sfWebRequest $request Web request.
    */
@@ -41,21 +41,23 @@ class BaseBackendFxShopFilterActions extends BaseBackendElementActions
     // Check parent_id for new the node.
     $this->parent_id = $request->getParameter('parent_id', null);
 
-    // Create model class.
+    // Create new object instance.
     //$this->object = Doctrine::getTable($this->objectClassName)->getRecordInstance();
     $this->object = new $this->objectClassName();
 
-    // If parent id is setted - set to form and fetch parent object.
-    if (0 < (int) $this->parent_id)
-    {
+    // If parent id is setted 
+    //- set to form and fetch parent object.
+    if (0 < (int) $this->parent_id) {
+      
       // Fetch parent object.
-      $this->parent = Doctrine::getTable($this->objectClassName)->createQuery()->where('id = ?', $this->parent_id)->fetchOne();
+      $this->parent = Doctrine::getTable($this->objectClassName)
+                        ->createQuery()->where('id = ?', $this->parent_id)->fetchOne();
 
-      // Check parent node exists.
-      if (! $this->parent)
-      {
+      // Check if parent node exists.
+      if (! $this->parent) {
+        
         throw new sfException(sprintf($this->getContext()->getI18N()
-          ->__('Фильтр #%d не найден!', null, 'flexible-tree'), $this->parent_id));
+          ->__('Не найден родительский фильтр (%d).', null, 'flexible-tree'), $this->parent_id));
       }
 
       // Set default value of parent_id for form.
@@ -65,125 +67,122 @@ class BaseBackendFxShopFilterActions extends BaseBackendElementActions
     // Initiate form object.
     $this->form = new $this->formClassNew($this->object);
 
-    // Check requested method.
-    if ($request->isMethod(sfRequest::POST) && $request->hasParameter($this->form->getName()))
-    {
-      // Bind request parameters for form.
-      $this->form->bind($request->getParameter($this->form->getName()), $request->getFiles($this->form->getName()));
+    // Check if requested method not the "POST".
+    if (! $request->isMethod(sfRequest::POST) || ! $request->hasParameter($this->form->getName())) {
+      return sfView::SUCCESS;
+    }
 
-      // Validation form.
-      if ($this->form->isValid())
+    // Bind form parameters.
+    $this->form->bind(
+      $request->getParameter($this->form->getName()),
+      $request->getFiles($this->form->getName())
+    );
+
+    // Check if form values is pass validation.
+    if ($this->form->isValid()) {
+
+      if ($this->form instanceof sfFormObject) {
+        
+        // Save form.
+        $this->form->save();
+
+        // Fetch saved object form.
+        $this->object = $this->form->getObject();
+
+        // Try to call getMessageAfterNew method in the object.
+        if (method_exists($this->object, 'getMessageAfterNew')) {
+          
+          $this->getUser()->setFlash('success', 
+            call_user_func(array($this->object, 'getMessageAfterNew'), $this->object));
+        }
+
+        // Try to call getUrlAfterNew method in the object.
+        if (method_exists($this->object, 'getUrlAfterNew')) {
+          $this->redirect(call_user_func(array($this->object, 'getUrlAfterNew')));
+        }
+
+        // Default redirect.
+        $this->redirect('@homepage');
+      }
+
+      die('Standart save');
+
+      //echo '<pre>'; var_dump($this->form->getValues()); die('</pre>');
+
+      // Define form values.
+      $arFormValues = $this->form->getValues();
+
+      // Initiate new object instance.
+      $this->object = new $this->objectClassName();
+
+      // Fetch parent tree for node if table has tamplate option hasManyRoots of the FlexibleTree.
+      if ($this->object->getTable()->hasTemplate('FlexibleTree') && $this->object->getTable()->getTree()->getAttribute('hasManyRoots'))
       {
-        if ($this->form instanceof sfFormObject)
+        $rootColumnName = $this->object->getTable()->getTree()->getAttribute('rootColumnName');
+
+        if ($this->parent)
         {
-          try {
-            $this->form->save();
-          }
-          // Catch any exceptions.
-          catch(Exception $exception)
-          {
-            $this->getUser()->setFlash('error', $exception->getMessage());
-            return sfView::ERROR;
-          }
-
-          // Fetch saved object form.
-          $this->object = $this->form->getObject();
-
-          // Message after saving.
-          if (method_exists($this->object, 'getMessageAfterNew')) {
-            $this->getUser()->setFlash('success', call_user_func(array($this->object, 'getMessageAfterNew'), $this->object));
-          }
-
-          // Redirect after saving.
-          if (method_exists($this->object, 'getUrlAfterNew')) {
-            $this->redirect(call_user_func(array($this->object, 'getUrlAfterNew')));
-          }
-
-          // Default redirect.
-          $this->redirect('@homepage');
-
-          return sfView::SUCCESS;
+          $this->object[$rootColumnName] = $this->parent[$rootColumnName];
         }
+      }
 
-        die('Standart save');
+      // Define column names of the table.
+      $arFormFields = $this->form->getValidatorSchema()->getFields();
+      $arColumns = $this->object->getTable()->getColumns();
+      $arColumnKeys = array_keys($arColumns);
+      $szColumnKeys = count($arColumnKeys);
 
-        //echo '<pre>'; var_dump($this->form->getValues()); die('</pre>');
-
-        // Define form values.
-        $arFormValues = $this->form->getValues();
-
-        // Initiate new object instance.
-        $this->object = new $this->objectClassName();
-
-        // Fetch parent tree for node if table has tamplate option hasManyRoots of the FlexibleTree.
-        if ($this->object->getTable()->hasTemplate('FlexibleTree') && $this->object->getTable()->getTree()->getAttribute('hasManyRoots'))
+      try {
+        // Fill values for fields of the this->object.
+        for ($i = 0; $i < $szColumnKeys; $i++)
         {
-          $rootColumnName = $this->object->getTable()->getTree()->getAttribute('rootColumnName');
+          // Column is identifier - skip it.
+          if ($this->object->getTable()->isIdentifier($arColumnKeys[$i])) continue;
 
-          if ($this->parent)
+          // Define callback method for field of this->object.
+          $fillCallbackName = 'processing' . sfInflector::camelize($arColumnKeys[$i]);
+          $defaultCallbackName = 'default' . sfInflector::camelize($arColumnKeys[$i]);
+          $bFillCallbackExists = method_exists($this->object, $fillCallbackName);
+          $bDefaultCallbackExists = method_exists($this->object, $fillCallbackName);
+
+          // Processing common values.
+          if (isset($arFormValues[$arColumnKeys[$i]]))
           {
-            $this->object[$rootColumnName] = $this->parent[$rootColumnName];
-          }
-        }
-
-        // Define column names of the table.
-        $arFormFields = $this->form->getValidatorSchema()->getFields();
-        $arColumns = $this->object->getTable()->getColumns();
-        $arColumnKeys = array_keys($arColumns);
-        $szColumnKeys = count($arColumnKeys);
-
-        try {
-          // Fill values for fields of the this->object.
-          for ($i = 0; $i < $szColumnKeys; $i++)
-          {
-            // Column is identifier - skip it.
-            if ($this->object->getTable()->isIdentifier($arColumnKeys[$i])) continue;
-
-            // Define callback method for field of this->object.
-            $fillCallbackName = 'processing' . sfInflector::camelize($arColumnKeys[$i]);
-            $defaultCallbackName = 'default' . sfInflector::camelize($arColumnKeys[$i]);
-            $bFillCallbackExists = method_exists($this->object, $fillCallbackName);
-            $bDefaultCallbackExists = method_exists($this->object, $fillCallbackName);
-
-            // Processing common values.
-            if (isset($arFormValues[$arColumnKeys[$i]]))
+            // Check this->object callback method for processing value.
+            if ($bFillCallbackExists)
             {
-              // Check this->object callback method for processing value.
-              if ($bFillCallbackExists)
-              {
-                $this->object[$arColumnKeys[$i]] = call_user_func_array(array($this->object, $fillCallbackName), array($arFormValues[$arColumnKeys[$i]], $this->form));
+              $this->object[$arColumnKeys[$i]] = call_user_func_array(array($this->object, $fillCallbackName), array($arFormValues[$arColumnKeys[$i]], $this->form));
+            }
+            else {
+              if ($arFormFields[$arColumnKeys[$i]] instanceof sfValidatorBoolean && 'integer' == $arColumns[$arColumnKeys[$i]]['type']) {
+                $this->object[$arColumnKeys[$i]] = (int) $arFormValues[$arColumnKeys[$i]];  
               }
               else {
-                if ($arFormFields[$arColumnKeys[$i]] instanceof sfValidatorBoolean && 'integer' == $arColumns[$arColumnKeys[$i]]['type']) {
-                  $this->object[$arColumnKeys[$i]] = (int) $arFormValues[$arColumnKeys[$i]];  
-                }
-                else {
-                  $this->object[$arColumnKeys[$i]] = $arFormValues[$arColumnKeys[$i]];
-                }
+                $this->object[$arColumnKeys[$i]] = $arFormValues[$arColumnKeys[$i]];
               }
             }
-            // If form value is not exists but method exists.
-            elseif (! isset($arFormValues[$arColumnKeys[$i]]) && $bDefaultCallbackExists) {
-              $this->object[$arColumnKeys[$i]] = call_user_func(array($this->object, $defaultCallbackName), $this->form);
-            }
           }
-
-          // Create child node.
-          if ($this->parent)
-          {
-            $this->parent->getNode()->addChild($this->object);
-          }
-          // Create root node.
-          else {
-            $this->object->getTable()->getTree()->createRoot($this->object);
+          // If form value is not exists but method exists.
+          elseif (! isset($arFormValues[$arColumnKeys[$i]]) && $bDefaultCallbackExists) {
+            $this->object[$arColumnKeys[$i]] = call_user_func(array($this->object, $defaultCallbackName), $this->form);
           }
         }
-        // Catch any exceptions.
-        catch(Exception $exception)
+
+        // Create child node.
+        if ($this->parent)
         {
+          $this->parent->getNode()->addChild($this->object);
+        }
+        // Create root node.
+        else {
+          $this->object->getTable()->getTree()->createRoot($this->object);
+        }
+      }
+      // Catch any exceptions.
+      catch(Exception $exception)
+      {
           $this->getUser()->setFlash('error', $exception->getMessage());
           return sfView::ERROR;
-        }
       }
     }
 

@@ -21,6 +21,6 @@ abstract class BaseParameterableParamValueTimestampForm extends BaseParameterabl
     
     // Redefine title field.
     $this->setWidget('value', new sfWidgetFormDateTime());
-    $this->setValidator('value', new sfValidatorNumber(array('required' => false)));
+    $this->setValidator('value', new sfValidatorDateTime(array('required' => false, 'with_time' => true)));
   }
 }

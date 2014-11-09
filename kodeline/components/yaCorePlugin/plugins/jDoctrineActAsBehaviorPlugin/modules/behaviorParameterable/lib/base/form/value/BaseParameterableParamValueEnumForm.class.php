@@ -42,10 +42,11 @@ abstract class BaseParameterableParamValueEnumForm extends BaseParameterablePara
     */
 
     // Define selectbox widget.
+    $component = $this->getOption('Component');
     $this->setWidget('value', new sfWidgetFormSelect(
         array(
           'multiple'          => (bool) $this->getOption('is_many', false),
-          'choices'           => $this->getChoices($this->getOption('Component')['name'], $this->getOption('parameter_id'), $this->getOption('object_id', null))
+          'choices'           => $this->getChoices($component['id'], $this->getOption('parameter_id'), $this->getOption('object_id', null))
         ), 
         array()
       )
@@ -76,9 +77,8 @@ abstract class BaseParameterableParamValueEnumForm extends BaseParameterablePara
    * @param integer $iObject
    * @return array
    */
-  protected function getChoices($sComponent, $iParameter, $iObject = null)
+  protected function getChoices($iComponent, $iParameter, $iObject = null)
   {
-    die(__METHOD__);
     /*
     var_dump($sComponent); var_dump($iParameter); var_dump($iObject); die;
     echo Doctrine_Core::getTable('jParameterableStringValue')
@@ -92,7 +92,7 @@ abstract class BaseParameterableParamValueEnumForm extends BaseParameterablePara
     $arPredefinedChoices = Doctrine_Core::getTable('jParameterableStringValue')
                             ->createQuery('jpsv')->select('jpsv.id, jpsvtr.value')->indexBy('jpsv.id')
                             ->leftJoin('jpsv.Translation as jpsvtr')
-                            ->where('jpsv.component_name = ?', $sComponent)
+                            ->where('jpsv.component_id = ?', $iComponent)
                             ->andWhere('jpsv.parameter_id = ?', $iParameter)
                             ->orderBy('jpsv.position DESC')
                             ->fetchArray();

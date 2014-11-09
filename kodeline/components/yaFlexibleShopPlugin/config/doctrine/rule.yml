@@ -1,0 +1,110 @@
+# Правила фильтрации.
+FxShopFilterRule:
+  actAs:
+    FlexibleTree:
+      hasManyRoots: true
+    Timestampable: ~
+    Watchdogable: ~
+    Sortable: ~
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    filter_id:      { type: integer, unsigned: true }
+    component_id:   { type: integer, unsigned: true }
+    parameter_id:   { type: integer, unsigned: true }
+    logic_in:         { type: integer(1), notnull: true, default: 1 }
+    is_order_desc:  { type: integer(1), notnull: true, default: 1 }
+    value_min:      { type: clob, notnull: false, default: null }
+    value_max:      { type: clob, notnull: false, default: null }
+    value_eq:       { type: clob, notnull: false, default: null }
+    value_ne:       { type: clob, notnull: false, default: null }
+    value_less:     { type: clob, notnull: false, default: null }
+    value_greater:  { type: clob, notnull: false, default: null }
+    value_contains: { type: clob, notnull: false, default: null }
+  relations:
+    Component:
+      class: jBehaviorComponent
+      type: one
+      local: component_id
+      foreign: id
+      foreignType: many
+      foreignAlias: FxShopFilterRules
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+    Parameter:
+      class: jParameterableSchema
+      type: one
+      local: parameter_id
+      foreign: id
+      foreignType: many
+      foreignAlias: FxShopFilterRules
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+
+# Группы правил фильтраций.
+FxShopFilterRuleGroup:
+  actAs:
+    Timestampable: ~
+    Watchdogable: ~
+    Sortable: ~
+  columns:
+    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+    group_id:       { type: integer, unsigned: true }
+    filter_id:      { type: integer, unsigned: true }
+    logic_in:       { type: integer(1), notnull: true, default: 1 }
+  relations:
+    Filter:
+      class: FxShopFilter
+      type: one
+      local: filter_id
+      foreign: id
+      foreignType: many
+      foreignAlias: Orders
+      onDelete: RESTRICT
+      onUpdate: CASCADE
+
+# Группировка выборок фильтров (HAVING).
+#FxShopFilterHaving:
+#  columns:
+#    id:             { type: integer(5), primary: true, autoincrement: true, unsigned: true }
+#    filter_id:      { type: integer, unsigned: true }
+#    component_id:   { type: integer, unsigned: true }
+#    parameter_id:   { type: integer, unsigned: true }
+#    condition_name: { type: string(255), notnull: false }
+#    limit_begin:    { type: integer(3), notnull: false, default: null }
+#    limit_finish:   { type: integer(3), notnull: false, default: null }
+#    is_and:         { type: integer(1), notnull: true, default: 1 }
+#    value_min:      { type: clob, notnull: false, default: null }
+#    value_max:      { type: clob, notnull: false, default: null }
+#    value_eq:       { type: clob, notnull: false, default: null }
+#    value_ne:       { type: clob, notnull: false, default: null }
+#    value_less:     { type: clob, notnull: false, default: null }
+#    value_greater:  { type: clob, notnull: false, default: null }
+#  relations:
+#    Filter:
+#      class: FxShopFilter
+#      type: one
+#      local: filter_id
+#      foreign: id
+#      foreignType: many
+#      foreignAlias: Orders
+#      onDelete: RESTRICT
+#      onUpdate: CASCADE
+#    Component:
+#      class: jBehaviorComponent
+#      type: one
+#      local: component_id
+#      foreign: id
+#      foreignType: many
+#      foreignAlias: FxShopFilterOrders
+#      onDelete: RESTRICT
+#      onUpdate: CASCADE
+#    Parameter:
+#      class: jParameterableSchema
+#      type: one
+#      local: parameter_id
+#      foreign: id
+#      foreignType: many
+#      foreignAlias: FxShopFilterOrders
+#      onDelete: RESTRICT
+#      onUpdate: CASCADE
+#

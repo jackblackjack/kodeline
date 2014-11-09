@@ -351,7 +351,7 @@ EOF
     unset($options['value']);
 
     // Convert array to compatible javascript json configuration.
-    return '{' . implode(',', array_map(function($k, $v) { return sprintf('"%s":%s', $k, self::jsonEscape($v)); }, array_keys($options), array_values($options))) . '}';
+    return '{' . implode(',', array_map(function($k, $v) { return sprintf('"%s":%s', $k, jWidgetFormJQuerySelect2::jsonEscape($v)); }, array_keys($options), array_values($options))) . '}';
   }
 
   /**
@@ -364,7 +364,7 @@ EOF
   {
     // Recursive call if preparing value its array.
     if (is_array($value)) { 
-      return '{' . implode(',', array_map(function($k, $v) { return sprintf('"%s":%s', $k, self::jsonEscape($v)); }, array_keys($value), array_values($value))) . '}';
+      return '{' . implode(',', array_map(function($k, $v) { return sprintf('"%s":%s', $k, jWidgetFormJQuerySelect2::jsonEscape($v)); }, array_keys($value), array_values($value))) . '}';
     }
 
     // Boolean php-values to boolean javascript-values.
@@ -376,7 +376,7 @@ EOF
     }
 
     // Return escaped string value.
-    return sprintf('"%s"', self::fixDoubleEscape(htmlspecialchars((string) $value, ENT_QUOTES, self::getCharset())));   
+    return sprintf('"%s"', jWidgetFormJQuerySelect2::fixDoubleEscape(htmlspecialchars((string) $value, ENT_QUOTES, jWidgetFormJQuerySelect2::getCharset())));   
   }
 
   /**

@@ -14,19 +14,20 @@ class FxShopFilterNewRulesForm extends yaForm
    */
   public function configure()
   {
-    // Generate list of forms for choose parameters of filter.
+    // Define quantity of the forms for setting parameters values.
     $szParams = $this->getOption('quantity_params', 1);
     $arParams = $this->getDefaults();
     
-    for($i = 0; $i < $szParams; $i++)
-    {
-      if (isset($arParams[$i]) && is_array($arParams[$i]))
-      {
-        $this->embedForm($i, new FxShopFilterNewRuleParamForm($arParams[$i]));
+    // Embed form by the each parameter.
+    for($i = 0; $i < $szParams; $i++) {
+
+      // If parameter has value - embed form with parameters for configure.
+      if (isset($arParams[$i]) && is_array($arParams[$i])) {
+        $this->embedForm($i, new FxShopFilterNewRuleParamForm($arParams[$i]), array('in_logic_as_hidden' => (0 == $i)));
       }
-      else
-      {
-        $this->embedForm($i, new FxShopFilterNewRuleParamForm());
+      // If parameter has not value - embed form without parameters.
+      else {
+        $this->embedForm($i, new FxShopFilterNewRuleParamForm(null, array('in_logic_as_hidden' => (0 == $i))));
       }
     }
   }

@@ -1,6 +1,6 @@
 <?php
 /**
- * PluginProduct form.
+ * Form for 
  *
  * @package    ##PROJECT_NAME##
  * @subpackage form
@@ -14,14 +14,18 @@ class FxShopFilterNewNodeForm extends BaseFxShopEditFilterForm
    */
   public function configure()
   { 
-    // Definition list of uses fields of the form.
+    // Definition fields list for uses in the form.
     $this->useFields(array('id', 'title', 'annotation', 'detail', 'is_active', 'parent_id'));
 
-    // Redefine is_active field.
+    // Redefine field "title".
+    $this->setWidget('title', new sfWidgetFormInputText());
+    $this->setValidator('title', new sfValidatorString());
+
+    // Redefine field "is_active".
     $this->setWidget('is_active', new sfWidgetFormInputCheckbox());
     $this->setValidator('is_active', new sfValidatorBoolean());
 
-    // Redefine parent_id field.
+    // Redefine field "parent_id".
     $this->widgetSchema['parent_id'] = new jWidgetFormJQuerySelect2(
       array(
         'placeholder'     => 'Родительский фильтр',
@@ -30,8 +34,9 @@ class FxShopFilterNewNodeForm extends BaseFxShopEditFilterForm
       ), 
       array()
     );
+    $this->setValidator('parent_id', new sfValidatorPass());
 
-    // Definition list of filter rules form.
+    // Embed form to create the rules of the filter.
     $szRules = $this->getOption('quantity_params', 1);
     $arRules = ($this->hasDefault('quantity_params') ? $this->getDefault('quantity_params') : array());
     $this->embedForm('rules', new FxShopFilterNewRulesForm($arRules, array('quantity_params' => $szRules)));
