@@ -8,7 +8,7 @@
  * @version    SVN: $Id: sfDoctrineFormPluginTemplate.php 23810 2009-11-12 11:07:44Z Kris.Wallsmith $
  */
 //class klFxShopFilterRuleForm extends BaseFxShopFilterRuleForm
-class FxShopFilterNewRuleForm extends yaForm
+class FxShopFilterNewRuleParamForm extends yaForm
 {
   /**
    * {@inheritDoc}

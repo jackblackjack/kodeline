@@ -36,6 +36,24 @@ class FxShopFilterNewNodeForm extends BaseFxShopEditFilterForm
     );
     $this->setValidator('parent_id', new sfValidatorPass());
 
+    // Set labels.
+    $this->getWidgetSchema()->setLabels(array(
+      'is_active'   => 'Активен',
+      'title'       => 'Название',
+      'annotation'  => 'Краткое описание',
+      'detail'      => 'Расширенное описание',
+      'value'       => 'Значение'
+    ));
+
+    // Set widgets helps.
+    $this->getWidgetSchema()->setHelps(array(
+      'is_active'   => 'Активен',
+      'title'       => 'Название фильтра',
+      'annotation'  => 'Краткое описание',
+      'detail'      => 'Расширенное описание',
+      'value'       => 'Значение'
+    ));
+
     // Embed form to create the rules of the filter.
     $szRules = $this->getOption('quantity_params', 1);
     $arRules = ($this->hasDefault('quantity_params') ? $this->getDefault('quantity_params') : array());

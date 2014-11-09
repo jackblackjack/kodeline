@@ -1,8 +1,8 @@
 # Правила фильтрации.
 FxShopFilterRule:
   actAs:
-    FlexibleTree:
-      hasManyRoots: true
+#    FlexibleTree:
+#      hasManyRoots: true
     Timestampable: ~
     Watchdogable: ~
     Sortable: ~
