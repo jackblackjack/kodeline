@@ -2,11 +2,11 @@
 # правил фильтрации элементов компонентов.
 FxShopFilter:
   actAs:
-    Ignoreable: ~
-    Rateable: ~
-    Watchable: ~
-    Sortable: ~
-    Taggable: ~
+#    Ignoreable: ~
+#    Rateable: ~
+#    Watchable: ~
+#    Sortable: ~
+#    Taggable: ~
     Timestampable: ~
     Watchdogable: ~
   columns:
