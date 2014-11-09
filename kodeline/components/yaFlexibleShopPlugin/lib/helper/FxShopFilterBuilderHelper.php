@@ -8,6 +8,6 @@
  * @author      chugarev@gmail.com
  * @version     $Id$
  */
-class FilterBuilderQueryHelper extends BaseFilterBuilderQueryHelper
+class FxShopFilterBuilderHelper extends BaseFxShopFilterBuilderHelper
 {
 }

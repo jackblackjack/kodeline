@@ -11,6 +11,17 @@
  */
 abstract class BaseFilterBuilderQueryHelper
 {
+  public static function buildQuery(Doctrine_Query $query, Doctrine_Collection $rules)
+  {
+    die("build");
+/*
+    foreach($this->filter['Rules'] as $rule) {
+      $fetchQuery = FilterBuilderQueryHelper::buildWhereQuery($fetchQuery, $rule['Parameter'], $rule, $rule['Parameter']['Component']);
+    }
+*/
+
+  }
+
   /**
    * Build query by parameter definition.
    */

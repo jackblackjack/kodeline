@@ -450,28 +450,22 @@ class BaseBackendFxShopFilterActions extends BaseBackendElementActions
                       ->innerJoin('rules.Parameter as parameter WITH parameter.component_id = 1')
                       ->where('fxf.id = ?', $this->filter_id)
                       ->fetchOne();
+
+//    echo '<pre>'; var_dump($this->filter->toArray()); die;
       
-      // Throw exception if filter has not found.
-      if (! $this->filter) {
+    // Throw exception if filter has not found.
+    if (! $this->filter) {
         
-        throw new sfException(sprintf($this->getContext()
-          ->getI18N()->__('Фильтр с ID #%d не найден!', null, 'flexible-shop'), $this->filter_id));
-      }
+      throw new sfException(sprintf($this->getContext()
+        ->getI18N()->__('Фильтр с ID #%d не найден!', null, 'flexible-shop'), $this->filter_id));
+    }
 
-      // Load filter query builder helper by context.
-      $this->getContext()->getConfiguration()->loadHelpers(array('FilterBuilderQuery'));
+    // Load filter query builder helper by context.
+    $this->getContext()->getConfiguration()->loadHelpers(array('FilterBuilderQuery'));
 
-      die('alll ok!');
-
-      // Process query for fetch.
-      $fetchQuery = Doctrine_Query::create();
-      foreach($this->filter['Rules'] as $rule)
-      {
-        $fetchQuery = FilterBuilderQueryHelper::buildWhereQuery($fetchQuery, $rule['Parameter'], $rule, $rule['Parameter']['Component']);
-      }
-
-      $this->results = $fetchQuery->execute();
-
+    // Process query for fetch.
+    $fetchQuery = FxShopFilterBuilder::buildQuery(Doctrine_Query::create(), $this->filter['Rules']);
+    $this->results = $fetchQuery->execute();  
 
     return sfView::SUCCESS;
   }
